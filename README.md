@@ -1,2 +1,2 @@
 # amazon-cloud-formation-couchbase
-Amazon Cloud Formation Templates (CFT) to install Couchbase
+Amazon Cloud Formation (CFn) Templates to install Couchbase
