@@ -1,2 +1,3 @@
 # amazon-cloud-formation-couchbase
-Amazon Cloud Formation (CFn) Templates to install Couchbase
+
+These are Amazon Cloud Formation (CFn) templates that install Couchbase Enterprise.
