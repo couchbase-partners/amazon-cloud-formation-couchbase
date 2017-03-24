@@ -1,6 +1,6 @@
 # amazon-cloud-formation-couchbase
 
-These are Amazon Cloud Formation (CFn) templates that install Couchbase Enterprise.  You can run these from the AWS CLI or using the web console.
+This is an Amazon Cloud Formation (CFn) templates that installs Couchbase Enterprise.  You can run it from the AWS CLI or using the web console.
 
 # Deploy with the AWS CLI
 
