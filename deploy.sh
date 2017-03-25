@@ -19,7 +19,8 @@ then
 fi
 
 echo "Validating template..."
-aws cloudformation validate-template --template-body $TEMPLATE_BODY 1>/dev/null
+aws cloudformation validate-template --template-body $TEMPLATE_BODY
+exit
 
 aws cloudformation create-stack \
 --template-body $TEMPLATE_BODY \
