@@ -6,9 +6,9 @@ REGION=`aws configure get region`
 
 COUCHBASE_USERNAME="couchbase"
 COUCHBASE_PASSWORD="foo1234"
+KEY="couchbase-$REGION"
 
 echo "Getting SSH key..."
-KEY=couchbase-$REGION
 if [ -e ~/.ssh/$KEY.pem ]
 then
   echo "Going to use the existing key."
