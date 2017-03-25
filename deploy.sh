@@ -1,6 +1,6 @@
 #!/bin/sh
 
-TEMPLATE_BODY=`cat ./couchbase.json`
+TEMPLATE_BODY=`cat ./cfn-couchbase.json`
 STACK_NAME=$1
 REGION=`aws configure get region`
 
@@ -11,7 +11,7 @@ INSTANCE_TYPE="m4.large"
 aws cloudformation validate-template --template-body $templatebody
 
 aws cloudformation create-stack \
---template-body "$(cat ./cfn-dse.json)" \
+--template-body "$(cat ./cfn-couchbase.json)" \
 --stack-name $stackname \
 --region $region \
 --parameters \
