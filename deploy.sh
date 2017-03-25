@@ -9,12 +9,13 @@ COUCHBASE_PASSWORD="foo1234"
 KEY="couchbase-$REGION"
 
 echo "Getting SSH key..."
-if [ ! -e ~/.ssh/$KEY.pem ]
+KEY_FILENAME="~/.ssh/$KEY.pem"
+if [ ! -e $KEY_FILENAME ]
 then
   echo "The key does not exist.  Generating a new key."
-  aws ec2 create-key-pair --region $REGION --key-name $KEY --query 'KeyMaterial' --output text > ~/.ssh/$KEY.pem
-  chmod 600 ~/.ssh/$KEY.pem
-  echo "Key saved to ~/.ssh/$KEY.pem"
+  aws ec2 create-key-pair --region $REGION --key-name $KEY --query 'KeyMaterial' --output text > $KEY_FILENAME
+  chmod 600 $KEY_FILENAME
+  echo "Key saved to $KEY_FILENAME"
 fi
 
 echo "Validating template..."
