@@ -8,12 +8,12 @@ VPC=`aws ec2 describe-vpcs --filter Name="isDefault",Values="true" --output text
 NODE_COUNT="5"
 INSTANCE_TYPE="m4.large"
 
-aws cloudformation validate-template --template-body $templatebody
+aws cloudformation validate-template --template-body $TEMPLATE_BODY
 
 aws cloudformation create-stack \
---template-body "$(cat ./cloud-formation-couchbase.json)" \
---stack-name $stackname \
---region $region \
+--template-body $TEMPLATE_BODY \
+--stack-name $STACK_NAME \
+--region $REGION \
 --parameters \
 ParameterKey=VPC,ParameterValue=$VPC \
 ParameterKey=NodeCount,ParameterValue=$NODE_COUNT \
