@@ -4,9 +4,9 @@ TEMPLATE_BODY=`cat ./cloud-formation-couchbase.json`
 STACK_NAME=$1
 REGION=`aws configure get region`
 
-VPC=`aws ec2 describe-vpcs --filter Name="isDefault",Values="true" --output text | cut -f7`
-NODE_COUNT="5"
-INSTANCE_TYPE="m4.large"
+KEYNAME=""
+COUCHBASE_USERNAME="couchbase"
+COUCHBASE_PASSWORD="foo123!"
 
 aws cloudformation validate-template --template-body $TEMPLATE_BODY
 
@@ -15,6 +15,6 @@ aws cloudformation create-stack \
 --stack-name $STACK_NAME \
 --region $REGION \
 --parameters \
-ParameterKey=VPC,ParameterValue=$VPC \
-ParameterKey=NodeCount,ParameterValue=$NODE_COUNT \
-ParameterKey=InstanceType,ParameterValue=$INSTANCE_TYPE
+ParameterKey=KeyName,ParameterValue=$KEYNAME \
+ParameterKey=Admin,ParameterValue=$COUCHBASE_USERNAME \
+ParameterKey=Password,ParameterValue=$COUCHBASE_PASSWORD \
