@@ -7,22 +7,15 @@ REGION=`aws configure get region`
 COUCHBASE_USERNAME="couchbase"
 COUCHBASE_PASSWORD="foo1234"
 
-echo "Getting keypair..."
-if [ -e ~/.ssh/couchbase-keypair-$REGION.pem ] && [ -z "$KEY" ]
+echo "Getting SSH key..."
+KEY=couchbase-$REGION
+if [ -e ~/.ssh/$KEY.pem ]
 then
-  echo "Default key exists"
-  KEY=couchbase-keypair-$REGION
-elif [ -z "$KEY" ]
-then
-  echo "No key-pair passed, generating key-pair..."
-  aws ec2 create-key-pair --region $REGION --key-name couchbase-keypair-$REGION --query 'KeyMaterial' --output text > ~/.ssh/couchbase-keypair-$REGION.pem
-  if [ $? -gt 0 ]
-  then
-    echo "Key generation error. Exiting..."
-    exit(1)
-  fi
-  chmod 600 ~/.ssh/couchbase-keypair-$REGION.pem
-  KEY=couchbase-keypair-$REGION
+  echo "Going to use the existing key."
+else
+  echo "The key does not exist.  Generating a new key."
+  aws ec2 create-key-pair --region $REGION --key-name $KEY --query 'KeyMaterial' --output text > ~/.ssh/$KEY.pem
+  chmod 600 ~/.ssh/$KEY.pem
   echo "Key saved to ~/.ssh/$KEY.pem"
 fi
 
@@ -30,8 +23,7 @@ echo "Validating template..."
 aws cloudformation validate-template --template-body $TEMPLATE_BODY 1>/dev/null
 if [ $? -gt 0 ]
 then
-  echo "Template validation error. Exiting..."
-  exit(1)
+  echo "The template is invalid.  Exiting."
 fi
 
 aws cloudformation create-stack \
