@@ -19,6 +19,7 @@ then
   if [ $? -gt 0 ]
   then
     echo "Key generation error. Exiting..."
+    exit(1)
   fi
   chmod 600 ~/.ssh/couchbase-keypair-$REGION.pem
   KEY=couchbase-keypair-$REGION
@@ -30,6 +31,7 @@ aws cloudformation validate-template --template-body $TEMPLATE_BODY 1>/dev/null
 if [ $? -gt 0 ]
 then
   echo "Template validation error. Exiting..."
+  exit(1)
 fi
 
 aws cloudformation create-stack \
