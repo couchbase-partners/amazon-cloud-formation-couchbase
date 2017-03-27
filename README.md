@@ -6,7 +6,7 @@ This is an Amazon Cloud Formation (CFn) templates that installs Couchbase Enterp
 
 ## Environment Setup
 
-You will need an AWS account with permission to access a variety of services including Cloud Formation, EC2, EBS and IAM.
+You will need an AWS account with permission to access a variety of services including Cloud Formation, EC2 and EBS.
 
 Now install and configure the AWS CLI.  Follow the instructions Amazon provides [here](http://docs.aws.amazon.com/cli/latest/userguide/installing.html).  Basically all you need to do is:
 
