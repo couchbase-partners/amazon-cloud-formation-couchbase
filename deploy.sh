@@ -1,6 +1,6 @@
 #!/bin/sh
 
-TEMPLATE_BODY="file://cloud-formation-couchbase.json"
+TEMPLATE_BODY="file://cloud-formation-couchbase.template"
 STACK_NAME=$1
 REGION=`aws configure get region`
 
