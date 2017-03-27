@@ -22,6 +22,7 @@ fi
 #aws cloudformation validate-template --template-body ${TEMPLATE_BODY}
 
 aws cloudformation create-stack \
+--capabilities CAPABILITY_IAM \
 --template-body ${TEMPLATE_BODY} \
 --stack-name ${STACK_NAME} \
 --region ${REGION} \
