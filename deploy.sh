@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 TEMPLATE_BODY="file://cloud-formation-couchbase.template"
 STACK_NAME=$1
@@ -7,9 +7,9 @@ REGION=`aws configure get region`
 COUCHBASE_USERNAME="couchbase"
 COUCHBASE_PASSWORD="foo1234"
 KEY="couchbase-${REGION}"
+RemoteAccessCIDR="0.0.0.0/0"
 
-echo "Getting SSH key..."
-KEY_FILENAME="~/.ssh/${KEY}.pem"
+KEY_FILENAME=~/.ssh/${KEY}.pem
 if [ ! -e ${KEY_FILENAME} ]
 then
   echo "The key does not exist.  Generating a new key."
@@ -18,9 +18,8 @@ then
   echo "Key saved to ${KEY_FILENAME}"
 fi
 
-echo "Validating template..."
-aws cloudformation validate-template --template-body ${TEMPLATE_BODY}
-exit
+#echo "Validating template..."
+#aws cloudformation validate-template --template-body ${TEMPLATE_BODY}
 
 aws cloudformation create-stack \
 --template-body ${TEMPLATE_BODY} \
@@ -29,4 +28,5 @@ aws cloudformation create-stack \
 --parameters \
 ParameterKey=Admin,ParameterValue=${COUCHBASE_USERNAME} \
 ParameterKey=Password,ParameterValue=${COUCHBASE_PASSWORD} \
-ParameterKey=KeyName,ParameterValue=${KEY}
+ParameterKey=KeyName,ParameterValue=${KEY} \
+ParameterKey=RemoteAccessCIDR,ParameterValue=${RemoteAccessCIDR}
