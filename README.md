@@ -31,9 +31,9 @@ When complete you can access the Couchbase web administrator tool on port 8091 o
 
 ## Deleting a Stack
 
-To delete your deployment you can either run the command below or use the GUI in the web console [here](https://console.aws.amazon.com/cloudformation/home).
+To delete your deployment you can either run the wrapper command below or use the GUI in the web console [here](https://console.aws.amazon.com/cloudformation/home).
 
-    aws cloudformation delete-stack --stack-name <STACK_NAME>
+    ./delete.sh <STACK_NAME>
 
 ## Next Steps
 
