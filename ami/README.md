@@ -1,6 +1,8 @@
-Scripts to create couchbase amazon ec2 AMI's.
+# Build AMI
 
-# Prerequisites
+This README describes how we build the AMI that the templates use. Users should not need to do this.
+
+## Prerequisites
 
 You'll need....
 
@@ -51,10 +53,10 @@ Then, use step 0, which should launch an new EC2 instance.
 
     make SSH_KEY=steveyen-key2 step0
 
-use step 1 could update the seed AMI for you. 
+use step 1 could update the seed AMI for you.
 
     make SSH_KEY=steveyen-key2 step1
-    
+
 Alternatively, you could config it manully, or jump to step 2
 
 If that takes longer than usual (because EC2 cloud is impacted), then repeat the following command untill you finally see some ec2-xxxxxx.compute-1.amazonaws.com addresses in the output...
@@ -65,8 +67,8 @@ You'll want to see output lines that look like...
 
     INSTANCE	i-936991f0	ami-7341831a	ec2-107-22-35-176.compute-1.amazonaws.com	ip-10-93-70-157.ec2.internal	running	steveyen-key2	0		m1.xlarge	2011-10-26T22:59:43+0000	us-east-1c	aki-825ea7eb			monitoring-disabled	107.22.35.176	10.93.70.157			ebs					paravirtual	xen		sg-dddbcdb4	default
 
-Note: should update EC2 instance here before preoceeding with further installation. 
-    
+Note: should update EC2 instance here before preoceeding with further installation.
+
     make SSH_KEY=john-key2 instance-clean
     make SSH_KEY=john-key2 instance-update
 
