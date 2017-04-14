@@ -460,25 +460,6 @@
         }
       }
     },
-    "AutoScaledInstanceLoopSecurityGroup": {
-      "Type": "AWS::EC2::SecurityGroup",
-      "Properties": {
-        "GroupDescription": "Enable all communications within Auto Scaled instances",
-        "VpcId": {
-          "Ref": "VPC"
-        },
-        "SecurityGroupIngress": [
-          {
-            "IpProtocol": "-1",
-            "FromPort": "1",
-            "ToPort": "65535",
-            "SourceSecurityGroupId": {
-              "Ref": "AutoScaledInstanceSecurityGroup"
-            }
-          }
-        ]
-      }
-    },
     "CouchbaseServerGroup": {
       "Type": "AWS::AutoScaling::AutoScalingGroup",
       "Properties": {
