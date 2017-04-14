@@ -714,6 +714,8 @@
         "LaunchConfigurationName": {
           "Ref": "CouchbaseServerLaunchConfig"
         },
+        "MinSize": "1",
+        "MaxSize": "100",
         "DesiredCapacity": {
           "Ref": "InstanceCount"
         },
