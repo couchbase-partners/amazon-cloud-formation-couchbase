@@ -4,11 +4,11 @@ TEMPLATE_BODY="file://cloud-formation-couchbase.template"
 STACK_NAME=$1
 REGION=`aws configure get region`
 
-COUCHBASE_USERNAME="couchbase"
-COUCHBASE_PASSWORD="foo123!"
+USERNAME="couchbase"
+PASSWORD="foo123!"
 KEY_NAME="couchbase-${REGION}"
 
-KEY_FILENAME=~/.ssh/${KEY}.pem
+KEY_FILENAME=~/.ssh/${KEY_NAME}.pem
 if [ ! -e ${KEY_FILENAME} ]
 then
   echo "The key does not exist.  Generating a new key."
@@ -26,6 +26,6 @@ aws cloudformation create-stack \
 --stack-name ${STACK_NAME} \
 --region ${REGION} \
 --parameters \
-ParameterKey=Admin,ParameterValue=${COUCHBASE_USERNAME} \
-ParameterKey=Password,ParameterValue=${COUCHBASE_PASSWORD} \
-ParameterKey=KeyName,ParameterValue=${KEY_NAMEs}
+ParameterKey=Username,ParameterValue=${USERNAME} \
+ParameterKey=Password,ParameterValue=${PASSWORD} \
+ParameterKey=KeyName,ParameterValue=${KEY_NAME}
