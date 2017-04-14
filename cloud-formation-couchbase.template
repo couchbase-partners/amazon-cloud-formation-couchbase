@@ -1,25 +1,7 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "AWS Marketplace Couchbase Stack --AWSMP::581093f4-cdc5-440f-a27b-22e59141d95d::dba88473-bc80-4579-b88e-2fb4231e8e97",
+  "Description": "AWS Deployment for Couchbase Enterprise",
   "Parameters": {
-    "VPCCIDR": {
-      "Description": "CIDR Block for the VPC you are creating.",
-      "Type": "String",
-      "Default": "10.0.0.0/16",
-      "AllowedPattern": "[a-zA-Z0-9]+\\..+"
-    },
-    "PublicSubCIDR": {
-      "Description": "CIDR Block for the Public DMZ Subnet located in the new VPC.",
-      "Type": "String",
-      "Default": "10.0.2.0/24",
-      "AllowedPattern": "[a-zA-Z0-9]+\\..+"
-    },
-    "PrivSubCIDR": {
-      "Description": "CIDR Block for Private Subnet where Couchbase will be deployed.",
-      "Type": "String",
-      "Default": "10.0.1.0/24",
-      "AllowedPattern": "[a-zA-Z0-9]+\\..+"
-    },
     "Admin": {
       "Description": "Name of Couchbase Admin user.",
       "Type": "String",
@@ -32,14 +14,6 @@
       "MinLength": "7",
       "AllowedPattern": "^[a-zA-Z0-9]{6,}"
     },
-    "RemoteAccessCIDR": {
-      "Description": "IP CIDR from which you are likely to SSH into the CouchbaseNodes instance. WARNING: 0.0.0.0/0 will allow access from anywhere.",
-      "Type": "String",
-      "MinLength": "9",
-      "MaxLength": "18",
-      "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
-      "ConstraintDescription": "must be a valid CIDR range of the form x.x.x.x/x."
-    },
     "KeyName": {
       "Type": "AWS::EC2::KeyPair::KeyName",
       "Description": "Name of an existing EC2 KeyPair for login. CouchbaseNodes instance will launch with this KeyPair."
@@ -47,29 +21,19 @@
     "CouchbaseInstanceType": {
       "Description": "Amazon EC2 instance type for Couchbase Nodes.",
       "Type": "String",
-      "Default": "i2.xlarge",
-      "AllowedValues": [
-        "r3.large",
-        "r3.xlarge",
-        "r3.2xlarge",
-        "r3.4xlarge",
-        "r3.8xlarge",
-        "i2.xlarge",
-        "i2.2xlarge",
-        "i2.4xlarge",
-        "i2.8xlarge"
-      ]
+      "Default": "i2.xlarge"
     },
     "CouchbaseServerCount": {
-      "Description": "Number of Couchbase Nodes (Min=3 Max=99)",
+      "Description": "Number of Couchbase Nodes",
       "Type": "Number",
       "Default": "3",
-      "MinValue": "3",
+      "MinValue": "1",
       "MaxValue": "99"
     },
     "AvailabilityZone": {
       "Description": "Pick an AvailabilityZone for Couchbase Subnet",
-      "Type": "AWS::EC2::AvailabilityZone::Name"
+      "Type": "AWS::EC2::AvailabilityZone::Name",
+      "Default": "us-east-1a"
     }
   },
   "Metadata": {
@@ -235,9 +199,7 @@
     "VPC": {
       "Type": "AWS::EC2::VPC",
       "Properties": {
-        "CidrBlock": {
-          "Ref": "VPCCIDR"
-        },
+        "CidrBlock": "10.0.0.0/16",
         "EnableDnsHostnames": "true",
         "EnableDnsSupport": "true",
         "Tags": [
@@ -279,9 +241,7 @@
         "VpcId": {
           "Ref": "VPC"
         },
-        "CidrBlock": {
-          "Ref": "PrivSubCIDR"
-        },
+        "CidrBlock": "10.0.1.0/24",
         "Tags": [
           {
             "Key": "Application",
@@ -303,9 +263,7 @@
         "VpcId": {
           "Ref": "VPC"
         },
-        "CidrBlock": {
-          "Ref": "PublicSubCIDR"
-        },
+        "CidrBlock": "10.0.2.0/24",
         "Tags": [
           {
             "Key": "Application",
@@ -333,9 +291,7 @@
             "IpProtocol": "tcp",
             "FromPort": "22",
             "ToPort": "22",
-            "CidrIp": {
-              "Ref": "RemoteAccessCIDR"
-            }
+            "CidrIp": "0.0.0.0/0"
           },
           {
             "IpProtocol": "udp",
@@ -347,17 +303,13 @@
             "IpProtocol": "tcp",
             "FromPort": "1",
             "ToPort": "65535",
-            "CidrIp": {
-              "Ref": "PrivSubCIDR"
-            }
+            "CidrIp": "10.0.1.0/24",
           },
           {
             "IpProtocol": "tcp",
             "FromPort": "1",
             "ToPort": "65535",
-            "CidrIp": {
-              "Ref": "PublicSubCIDR"
-            }
+            "CidrIp": "10.0.2.0/24"
           },
           {
             "IpProtocol": "tcp",
@@ -670,81 +622,61 @@
             "IpProtocol": "tcp",
             "FromPort": "22",
             "ToPort": "22",
-            "CidrIp": {
-              "Ref": "RemoteAccessCIDR"
-            }
+            "CidrIp": "0.0.0.0/0"
           },
           {
             "IpProtocol": "tcp",
             "FromPort": "8091",
             "ToPort": "8094",
-            "CidrIp": {
-              "Ref": "RemoteAccessCIDR"
-            }
+            "CidrIp": "0.0.0.0/0"
           },
           {
             "IpProtocol": "tcp",
             "FromPort": "11207",
             "ToPort": "11215",
-            "CidrIp": {
-              "Ref": "RemoteAccessCIDR"
-            }
+            "CidrIp": "0.0.0.0/0"
           },
           {
             "IpProtocol": "tcp",
             "FromPort": "18901",
             "ToPort": "18904",
-            "CidrIp": {
-              "Ref": "RemoteAccessCIDR"
-            }
+            "CidrIp": "0.0.0.0/0"
           },
           {
             "IpProtocol": "tcp",
             "FromPort": "4369",
             "ToPort": "4369",
-            "CidrIp": {
-              "Ref": "RemoteAccessCIDR"
-            }
+            "CidrIp": "0.0.0.0/0"
           },
           {
             "IpProtocol": "tcp",
             "FromPort": "9100",
             "ToPort": "9105",
-            "CidrIp": {
-              "Ref": "RemoteAccessCIDR"
-            }
+            "CidrIp": "0.0.0.0/0"
           },
           {
             "IpProtocol": "tcp",
             "FromPort": "9998",
             "ToPort": "9999",
-            "CidrIp": {
-              "Ref": "RemoteAccessCIDR"
-            }
+            "CidrIp": "0.0.0.0/0"
           },
           {
             "IpProtocol": "tcp",
             "FromPort": "21100",
             "ToPort": "21100",
-            "CidrIp": {
-              "Ref": "RemoteAccessCIDR"
-            }
+            "CidrIp": "0.0.0.0/0"
           },
           {
             "IpProtocol": "tcp",
             "FromPort": "21101",
             "ToPort": "21101",
-            "CidrIp": {
-              "Ref": "RemoteAccessCIDR"
-            }
+            "CidrIp": "0.0.0.0/0"
           },
           {
             "IpProtocol": "tcp",
             "FromPort": "21299",
             "ToPort": "21299",
-            "CidrIp": {
-              "Ref": "RemoteAccessCIDR"
-            }
+            "CidrIp": "0.0.0.0/0"
           }
         ],
         "SecurityGroupEgress": {

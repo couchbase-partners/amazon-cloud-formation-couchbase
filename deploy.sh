@@ -7,7 +7,6 @@ REGION=`aws configure get region`
 COUCHBASE_USERNAME="couchbase"
 COUCHBASE_PASSWORD="foo1234"
 KEY="couchbase-${REGION}"
-RemoteAccessCIDR="0.0.0.0/0"
 
 KEY_FILENAME=~/.ssh/${KEY}.pem
 if [ ! -e ${KEY_FILENAME} ]
@@ -29,6 +28,4 @@ aws cloudformation create-stack \
 --parameters \
 ParameterKey=Admin,ParameterValue=${COUCHBASE_USERNAME} \
 ParameterKey=Password,ParameterValue=${COUCHBASE_PASSWORD} \
-ParameterKey=KeyName,ParameterValue=${KEY} \
-ParameterKey=RemoteAccessCIDR,ParameterValue=${RemoteAccessCIDR} \
-ParameterKey=AvailabilityZone,ParameterValue=us-east-1a
+ParameterKey=KeyName,ParameterValue=${KEY}
