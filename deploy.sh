@@ -17,9 +17,6 @@ then
   echo "Key saved to ${KEY_FILENAME}"
 fi
 
-#echo "Validating template..."
-#aws cloudformation validate-template --template-body ${TEMPLATE_BODY}
-
 aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM \
 --template-body ${TEMPLATE_BODY} \
