@@ -15,6 +15,9 @@ usage() {
 		-h print usage
 		-u admin
 		-p password
+		-d datanode count
+		-i indexnode count
+		-q querynode count
 EOF
 	exit 1
 }
@@ -24,7 +27,7 @@ EOF
 # ------------------------------------------------------------------
 
 
-while getopts ":h:u:p:" o; do
+while getopts ":h:u:p:d:q:i:" o; do
     case "${o}" in
         h) usage && exit 0
 			;;
@@ -32,6 +35,15 @@ while getopts ":h:u:p:" o; do
 			;;
 		u) ADMIN=${OPTARG}
 			;;
+   		d) #Couchbase datanode count
+      		DATA_NODE=${OPTARG}
+      		;;
+    	q)  
+      		QUERY_NODE=${OPTARG}
+      		;;
+    	i) 
+    		INDEX_NODE=${OPTARG}
+      		;;	
        	*)
             usage
             ;;
@@ -180,53 +192,24 @@ fi
 #       Only master node should rest of the script
 # ------------------------------------------------------------------
 
+echo "USER_NAME", $ADMIN >> /home/ec2-user/instances.txt
+echo "PASSWORD", $PASSWORD >> /home/ec2-user/instances.txt
+echo "DATA_NODE", $DATA_NODE >>   /home/ec2-user/instances.txt
+echo "INDEX_NODE", $INDEX_NODE >> /home/ec2-user/instances.txt
+echo "QUERY_NODE", $QUERY_NODE >> /home/ec2-user/instances.txt
 
 for id in ${INSTANCES_IN_ASG}
 do
 	MYROLE=${INSTANCE2ROLE[${id}]}
 	if [ "${MYROLE}" == "master" ]; then
-		curl -v -X POST http://$MASTER_DNS:8091/pools/default -d memoryQuota=300 -d indexMemoryQuota=300
-		curl -v http://$MASTER_DNS:8091/node/controller/setupServices -d services=kv%2Cn1ql%2Cindex
-		curl -v http://$MASTER_DNS:8091/settings/web -d port=8091 -d username=${ADMIN} -d password=${PASSWORD}
-		sleep 60
-		#curl -v -u ${ADMIN}:${PASSWORD} -X POST http://$MASTER_DNS:8091/sampleBuckets/install -d '["travel-sample"]'		
+
+		echo "master", $MASTER_DNS >> /home/ec2-user/instances.txt	
 	else
 		WORKER_DNS=${INSTANCE2DNS[${id}]}
-		WORKER_IP=${INSTANCE2IP[${id}]}
-		PARAMETER="hostname=${WORKER_IP}&user=${ADMIN}&password=${PASSWORD}"
-		curl -v http://$WORKER_DNS:8091/node/controller/setupServices -d services=kv%2Cn1ql%2Cindex
-                curl -v http://$WORKER_DNS:8091/settings/web -d port=8091 -d username=${ADMIN} -d password=${PASSWORD}
-        curl -u ${ADMIN}:${PASSWORD}  http://$WORKER_DNS:8091/pools/default
-        curl -u ${ADMIN}:${PASSWORD}  http://$MASTER_DNS:8091/pools/default 
-        curl -u ${ADMIN}:${PASSWORD}  http://$WORKER_DNS:8091/pools/default/buckets/  
-        curl -u ${ADMIN}:${PASSWORD}  http://$MASTER_DNS:8091/pools/default/buckets/      
-        sleep 120        
-        COMMAND=$(echo curl -u ${ADMIN}:${PASSWORD} "http://${MASTER_DNS}:8091/controller/addNode" -d ${PARAMETER})
-        echo ${COMMAND}
-        ${COMMAND}
+		echo "slave", $WORKER_DNS >> /home/ec2-user/instances.txt
 	fi
 done
 
-
-# ------------------------------------------------------------------
-#       Rebalance Couchbase nodes
-# ------------------------------------------------------------------
-
-
-KNOWN_NODES=
-for id in ${INSTANCES_IN_ASG}
-do
-	MYIP=${INSTANCE2IP[${id}]}
-	KNOWN_NODES="ns_1@"$(echo ${MYIP}),${KNOWN_NODES}
-done
-
-sleep 120
-COMMAND=$(echo curl -v -u ${ADMIN}:${PASSWORD} -X POST "http://$MASTER_DNS:8091/controller/rebalance" -d  "knownNodes=${KNOWN_NODES}")
-echo ${COMMAND}
-sleep 60
-${COMMAND}
-curl -u ${ADMIN}:${PASSWORD} "http://$MASTER_DNS:8091/pools/default/rebalanceProgress"
-curl -u ${ADMIN}:${PASSWORD} "http://$MASTER_DNS:8091/pools/default/tasks"
-
-
-
+chmod 777 /home/ec2-user/instances.txt
+python cluster.py
+rm -rf /home/ec2-user/instances.txt
