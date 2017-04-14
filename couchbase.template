@@ -99,13 +99,7 @@
       "Properties": {
         "CidrBlock": "10.0.0.0/16",
         "EnableDnsHostnames": "true",
-        "EnableDnsSupport": "true",
-        "Tags": [
-          {
-            "Key": "Application",
-            "Value": "Couchbase"
-          }
-        ]
+        "EnableDnsSupport": "true"
       }
     },
     "InternetGateway": {
@@ -129,16 +123,6 @@
           "Ref": "VPC"
         },
         "CidrBlock": "10.0.1.0/24",
-        "Tags": [
-          {
-            "Key": "Application",
-            "Value": "Couchbase"
-          },
-          {
-            "Key": "Network",
-            "Value": "Private (Couchbase)"
-          }
-        ],
         "AvailabilityZone": {
           "Ref": "AvailabilityZone"
         }
@@ -151,16 +135,6 @@
           "Ref": "VPC"
         },
         "CidrBlock": "10.0.2.0/24",
-        "Tags": [
-          {
-            "Key": "Application",
-            "Value": "NAT and CouchbaseNodes (Couchbase)"
-          },
-          {
-            "Key": "Network",
-            "Value": "Public"
-          }
-        ],
         "AvailabilityZone": {
           "Ref": "AvailabilityZone"
         }
@@ -290,13 +264,7 @@
             "Ref": "CouchbaseNodesSecurityGroup"
           }
         ],
-        "SourceDestCheck": "true",
-        "Tags": [
-          {
-            "Key": "Network",
-            "Value": "Public (Couchbase)"
-          }
-        ]
+        "SourceDestCheck": "true"
       }
     },
     "AssociateCouchbaseNode1EIP": {
@@ -318,13 +286,7 @@
       "Properties": {
         "VpcId": {
           "Ref": "VPC"
-        },
-        "Tags": [
-          {
-            "Key": "Application",
-            "Value": "Couchbase"
-          }
-        ]
+        }
       }
     },
     "DMZRouteTable": {
@@ -624,12 +586,7 @@
               "GroupMaxSize"
             ]
           }
-        ],
-        "PlacementGroup": {
-          "Properties": {
-            "Strategy": "cluster"
-          }
-        }
+        ]
       },
       "CreationPolicy": {
         "ResourceSignal": {
