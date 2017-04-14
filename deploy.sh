@@ -30,4 +30,5 @@ aws cloudformation create-stack \
 ParameterKey=Admin,ParameterValue=${COUCHBASE_USERNAME} \
 ParameterKey=Password,ParameterValue=${COUCHBASE_PASSWORD} \
 ParameterKey=KeyName,ParameterValue=${KEY} \
-ParameterKey=RemoteAccessCIDR,ParameterValue=${RemoteAccessCIDR}
+ParameterKey=RemoteAccessCIDR,ParameterValue=${RemoteAccessCIDR} \
+ParameterKey=AvailabilityZone,ParameterValue=us-east-1a

@@ -69,9 +69,7 @@
     },
     "AvailabilityZone": {
       "Description": "Pick an AvailabilityZone for Couchbase Subnet",
-      "MinLength": "5",
-      "Type": "AWS::EC2::AvailabilityZone::Name",
-      "Default": "us-west-2b"
+      "Type": "AWS::EC2::AvailabilityZone::Name"
     }
   },
   "Metadata": {
