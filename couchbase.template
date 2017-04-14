@@ -798,23 +798,5 @@
     }
   },
   "Outputs": {
-    "VPCID": {
-      "Description": "VPC-ID of the newly created VPC",
-      "Value": {
-        "Ref": "VPC"
-      }
-    },
-    "PublicSubnet": {
-      "Description": "Subnet-ID of the Public or DMZ Subnet",
-      "Value": {
-        "Ref": "PublicSubnet"
-      }
-    },
-    "PrivateSubnet": {
-      "Description": "Subnet-ID of the Private Subnet where Couchbase Cluster will be deployed",
-      "Value": {
-        "Ref": "CouchbaseSubnet"
-      }
-    }
   }
 }
