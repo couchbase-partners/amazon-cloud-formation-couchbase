@@ -23,9 +23,7 @@
     "InstanceCount": {
       "Description": "Number of Couchbase Nodes",
       "Type": "Number",
-      "Default": "3",
-      "MinValue": "1",
-      "MaxValue": "99"
+      "Default": "5"
     },
     "AvailabilityZone": {
       "Description": "Pick an AvailabilityZone for Couchbase Subnet",
