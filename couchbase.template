@@ -54,44 +54,6 @@
     }
   },
   "Mappings": {
-    "DomainNameMapping": {
-      "eu-central-1": {
-        "NAME": "eu-central-1.compute.internal"
-      },
-      "sa-east-1": {
-        "NAME": "sa-east-1.compute.internal"
-      },
-      "ap-northeast-1": {
-        "NAME": "ap-northeast-1.compute.internal"
-      },
-      "ap-northeast-2": {
-        "NAME": "ap-northeast-2.compute.internal"
-      },
-      "eu-west-1": {
-        "NAME": "eu-west-1.compute.internal"
-      },
-      "us-east-1": {
-        "NAME": "ec2.internal"
-      },
-      "us-east-2": {
-        "NAME": "us-east-2.compute.internal"
-      },
-      "us-west-1": {
-        "NAME": "us-west-1.compute.internal"
-      },
-      "us-west-2": {
-        "NAME": "us-west-2.compute.internal"
-      },
-      "ap-southeast-2": {
-        "NAME": "ap-southeast-2.compute.internal"
-      },
-      "ap-southeast-1": {
-        "NAME": "ap-southeast-1.compute.internal"
-      },
-      "ap-south-1": {
-        "NAME": "ap-south-1.compute.internal"
-      }
-    },
     "CouchbaseNodeAMI": {
       "eu-west-1": {
         "AMI": "ami-62aa9c04"
@@ -132,35 +94,6 @@
     }
   },
   "Resources": {
-    "CouchbaseDHCP": {
-      "Type": "AWS::EC2::DHCPOptions",
-      "Properties": {
-        "DomainName": {
-          "Fn::FindInMap": [
-            "DomainNameMapping",
-            {
-              "Ref": "AWS::Region"
-            },
-            "NAME"
-          ]
-        },
-        "DomainNameServers": [
-          "AmazonProvidedDNS"
-        ],
-        "Tags": [
-          {
-            "Key": "Name",
-            "Value": "CouchbaseDHCP"
-          }
-        ]
-      }
-    },
-    "DBPlacementGroup": {
-      "Properties": {
-        "Strategy": "cluster"
-      },
-      "Type": "AWS::EC2::PlacementGroup"
-    },
     "VPC": {
       "Type": "AWS::EC2::VPC",
       "Properties": {
@@ -173,17 +106,6 @@
             "Value": "Couchbase"
           }
         ]
-      }
-    },
-    "CouchbaseVPCDHCPOptionsAssociation": {
-      "Type": "AWS::EC2::VPCDHCPOptionsAssociation",
-      "Properties": {
-        "VpcId": {
-          "Ref": "VPC"
-        },
-        "DhcpOptionsId": {
-          "Ref": "CouchbaseDHCP"
-        }
       }
     },
     "InternetGateway": {
@@ -704,7 +626,9 @@
           }
         ],
         "PlacementGroup": {
-          "Ref": "DBPlacementGroup"
+          "Properties": {
+            "Strategy": "cluster"
+          }
         }
       },
       "CreationPolicy": {
