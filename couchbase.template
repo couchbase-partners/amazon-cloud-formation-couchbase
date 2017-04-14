@@ -3,12 +3,12 @@
   "Description": "AWS Deployment for Couchbase Enterprise",
   "Parameters": {
     "Username": {
-      "Description": "Username for Couchbase adminstrator",
+      "Description": "Username for Couchbase administrator",
       "Type": "String"
     },
     "Password": {
       "NoEcho": "true",
-      "Description": "Password for Couchbase adminstrator",
+      "Description": "Password for Couchbase administrator",
       "Type": "String"
     },
     "KeyName": {
