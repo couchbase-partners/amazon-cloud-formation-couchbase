@@ -15,12 +15,12 @@
       "Type": "AWS::EC2::KeyPair::KeyName",
       "Description": "Name of an existing EC2 KeyPair"
     },
-    "CouchbaseInstanceType": {
+    "InstanceType": {
       "Description": "Amazon EC2 instance type for Couchbase Nodes.",
       "Type": "String",
       "Default": "i2.xlarge"
     },
-    "CouchbaseServerCount": {
+    "InstanceCount": {
       "Description": "Number of Couchbase Nodes",
       "Type": "Number",
       "Default": "3",
@@ -45,8 +45,8 @@
           },
           "Parameters": [
             "KeyPair",
-            "CouchbaseInstanceType",
-            "CouchbaseServerCount"
+            "InstanceType",
+            "InstanceCount"
           ]
         },
         {
@@ -716,14 +716,8 @@
         "LaunchConfigurationName": {
           "Ref": "CouchbaseServerLaunchConfig"
         },
-        "MinSize": {
-          "Ref": "CouchbaseServerCount"
-        },
-        "MaxSize": {
-          "Ref": "CouchbaseServerCount"
-        },
         "DesiredCapacity": {
-          "Ref": "CouchbaseServerCount"
+          "Ref": "InstanceCount"
         },
         "VPCZoneIdentifier": [
           {
@@ -784,7 +778,7 @@
           }
         ],
         "InstanceType": {
-          "Ref": "CouchbaseInstanceType"
+          "Ref": "InstanceType"
         },
         "UserData": {
           "Fn::Base64": {
