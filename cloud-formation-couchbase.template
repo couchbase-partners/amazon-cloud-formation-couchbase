@@ -2,21 +2,18 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "AWS Deployment for Couchbase Enterprise",
   "Parameters": {
-    "Admin": {
-      "Description": "Name of Couchbase Admin user.",
-      "Type": "String",
-      "Default": "Administrator"
+    "Username": {
+      "Description": "Username for Couchbase adminstrator",
+      "Type": "String"
     },
     "Password": {
       "NoEcho": "true",
-      "Description": "Password for Admin user.",
-      "Type": "String",
-      "MinLength": "7",
-      "AllowedPattern": "^[a-zA-Z0-9]{6,}"
+      "Description": "Password for Couchbase adminstrator",
+      "Type": "String"
     },
     "KeyName": {
       "Type": "AWS::EC2::KeyPair::KeyName",
-      "Description": "Name of an existing EC2 KeyPair for login. CouchbaseNodes instance will launch with this KeyPair."
+      "Description": "Name of an existing EC2 KeyPair"
     },
     "CouchbaseInstanceType": {
       "Description": "Amazon EC2 instance type for Couchbase Nodes.",
@@ -60,7 +57,7 @@
             "default": ""
           },
           "Parameters": [
-            "Admin",
+            "Username",
             "Password"
           ]
         }
@@ -801,7 +798,7 @@
                 "/bin/sh Couchbaseinit.sh ",
                 " -u ",
                 {
-                  "Ref": "Admin"
+                  "Ref": "Username"
                 },
                 " -p ",
                 "'",

@@ -5,14 +5,14 @@ STACK_NAME=$1
 REGION=`aws configure get region`
 
 COUCHBASE_USERNAME="couchbase"
-COUCHBASE_PASSWORD="foo1234"
-KEY="couchbase-${REGION}"
+COUCHBASE_PASSWORD="foo123!"
+KEY_NAME="couchbase-${REGION}"
 
 KEY_FILENAME=~/.ssh/${KEY}.pem
 if [ ! -e ${KEY_FILENAME} ]
 then
   echo "The key does not exist.  Generating a new key."
-  aws ec2 create-key-pair --region ${REGION} --key-name ${KEY} --query 'KeyMaterial' --output text > ${KEY_FILENAME}
+  aws ec2 create-key-pair --region ${REGION} --key-name ${KEY_NAME} --query 'KeyMaterial' --output text > ${KEY_FILENAME}
   chmod 600 ${KEY_FILENAME}
   echo "Key saved to ${KEY_FILENAME}"
 fi
@@ -28,4 +28,4 @@ aws cloudformation create-stack \
 --parameters \
 ParameterKey=Admin,ParameterValue=${COUCHBASE_USERNAME} \
 ParameterKey=Password,ParameterValue=${COUCHBASE_PASSWORD} \
-ParameterKey=KeyName,ParameterValue=${KEY}
+ParameterKey=KeyName,ParameterValue=${KEY_NAMEs}
