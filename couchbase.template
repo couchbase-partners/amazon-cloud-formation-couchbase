@@ -102,20 +102,6 @@
         "EnableDnsSupport": "true"
       }
     },
-    "InternetGateway": {
-      "Type": "AWS::EC2::InternetGateway"
-    },
-    "AttachGateway": {
-      "Type": "AWS::EC2::VPCGatewayAttachment",
-      "Properties": {
-        "VpcId": {
-          "Ref": "VPC"
-        },
-        "InternetGatewayId": {
-          "Ref": "InternetGateway"
-        }
-      }
-    },
     "CouchbaseSubnet": {
       "Type": "AWS::EC2::Subnet",
       "Properties": {
@@ -218,24 +204,6 @@
       "Properties": {
         "VpcId": {
           "Ref": "VPC"
-        },
-        "Tags": [
-          {
-            "Key": "Application",
-            "Value": "NAT"
-          }
-        ]
-      }
-    },
-    "PublicRoute": {
-      "Type": "AWS::EC2::Route",
-      "Properties": {
-        "RouteTableId": {
-          "Ref": "DMZRouteTable"
-        },
-        "DestinationCidrBlock": "0.0.0.0/0",
-        "GatewayId": {
-          "Ref": "InternetGateway"
         }
       }
     },
@@ -244,13 +212,7 @@
       "Properties": {
         "VpcId": {
           "Ref": "VPC"
-        },
-        "Tags": [
-          {
-            "Key": "Network",
-            "Value": "Public"
-          }
-        ]
+        }
       }
     },
     "CouchbaseSubnetRouteTableAssociation": {
