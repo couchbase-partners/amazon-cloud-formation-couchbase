@@ -7,16 +7,16 @@
       "Type": "String"
     },
     "Password": {
-      "NoEcho": "true",
       "Description": "Password for Couchbase administrator",
-      "Type": "String"
+      "Type": "String",
+      "NoEcho": "true"
     },
     "KeyName": {
       "Type": "AWS::EC2::KeyPair::KeyName",
       "Description": "Name of an existing EC2 KeyPair"
     },
     "InstanceType": {
-      "Description": "Amazon EC2 instance type for Couchbase Nodes.",
+      "Description": "Instance type for Couchbase Nodes",
       "Type": "String",
       "Default": "i2.xlarge"
     },
@@ -26,7 +26,7 @@
       "Default": "5"
     },
     "AvailabilityZone": {
-      "Description": "Pick an AvailabilityZone for Couchbase Subnet",
+      "Description": "AvailabilityZone for Couchbase Subnet (this should be inferred from region)",
       "Type": "AWS::EC2::AvailabilityZone::Name",
       "Default": "us-east-1a"
     }
@@ -36,27 +36,17 @@
       "ParameterGroups": [
         {
           "Label": {
-            "default": "Couchbase AWS Infrastructure"
-          },
-          "Description": {
-            "default": ""
-          },
-          "Parameters": [
-            "KeyPair",
-            "InstanceType",
-            "InstanceCount"
-          ]
-        },
-        {
-          "Label": {
-            "default": "Couchbase Authentication"
+            "default": "Couchbase Configuration"
           },
           "Description": {
             "default": ""
           },
           "Parameters": [
             "Username",
-            "Password"
+            "Password",
+            "KeyName",
+            "InstanceType",
+            "InstanceCount"
           ]
         }
       ],
