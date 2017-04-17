@@ -2,8 +2,6 @@
 
 echo "Running install.sh"
 
-wget http://packages.couchbase.com/releases/4.6.1/couchbase-server-enterprise_4.6.1-ubuntu14.04_amd64.deb
-
 # Using these instructions
 # https://developer.couchbase.com/documentation/server/4.6/install/ubuntu-debian-install.html
 dpkg -i couchbase-server-enterprise_4.6.1-ubuntu14.04_amd64.deb

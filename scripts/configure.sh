@@ -4,12 +4,12 @@ echo "Running configure.sh"
 
 adminUsername=$1
 adminPassword=$2
-nodeIndex=$3
 
 echo "Using the settings:"
 echo adminUsername \'$adminUsername\'
 echo adminPassword \'$adminPassword\'
-echo nodeIndex \'$nodeIndex\'
+
+# need to figure out what nodeIndex is
 
 cd /opt/couchbase/bin/
 nodePrivateDNS=`host vm$nodeIndex | awk '{print $1}'`

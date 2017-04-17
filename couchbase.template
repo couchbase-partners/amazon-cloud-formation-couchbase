@@ -92,16 +92,15 @@
           "Fn::Base64": {
             "Fn::Join": [ "",
               [
-                "#!/bin/bash -xe\n",
+                "#!/bin/bash\n",
                 "cd /home/ec2-user\n",
-                "/bin/sh Couchbaseinit.sh ",
-                " -u ", { "Ref": "Username" },
-                " -p ", "'", { "Ref": "Password" }, "'",
-                " -d 0",
-                " -i 0",
-                " -q 0",
-                " -m 0",
-                "\n",
+                "wget http://packages.couchbase.com/releases/4.6.1/couchbase-server-enterprise_4.6.1-ubuntu14.04_amd64.deb\n",
+                "wget https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/node.sh\n",
+                "wget https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/format.sh\n",
+                "wget https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/install.sh\n",
+                "wget https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/configure.sh\n",
+                "chmod +x *.sh\n",
+                "./node.sh ", { "Ref": "Username" }, " '", { "Ref": "Password" }, "'\n"
               ]
             ]
           }

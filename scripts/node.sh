@@ -8,7 +8,6 @@ adminPassword=$2
 echo "Using the settings:"
 echo adminUsername \'$adminUsername\'
 echo adminPassword \'$adminPassword\'
-echo nodeIndex \'$nodeIndex\'
 
 #./format.sh
 #./install.sh
