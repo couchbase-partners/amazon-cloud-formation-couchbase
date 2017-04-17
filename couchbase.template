@@ -118,7 +118,27 @@
         "GroupDescription" : "Enable SSH and Couchbase Ports",
         "SecurityGroupIngress": [
           { "IpProtocol": "tcp", "FromPort": "22", "ToPort": "22", "CidrIp": "0.0.0.0/0" },
-          { "IpProtocol": "tcp", "FromPort": "8091", "ToPort": "8091", "CidrIp": "0.0.0.0/0" }
+          { "IpProtocol": "tcp", "FromPort": "8091", "ToPort": "8091", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "8092", "ToPort": "8092", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "8093", "ToPort": "8093", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "8094", "ToPort": "8094", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "9100", "ToPort": "9100", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "9101", "ToPort": "9101", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "9102", "ToPort": "9102", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "9103", "ToPort": "9103", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "9104", "ToPort": "9104", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "9105", "ToPort": "9105", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "9998", "ToPort": "9998", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "11207", "ToPort": "11207", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "11209", "ToPort": "11209", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "11210", "ToPort": "11210", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "11211", "ToPort": "11211", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "11214", "ToPort": "11214", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "11215", "ToPort": "11215", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "18091", "ToPort": "18091", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "18092", "ToPort": "18092", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "18093", "ToPort": "18093", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "4369", "ToPort": "4369", "CidrIp": "0.0.0.0/0" }
         ]
       }
     },
