@@ -162,13 +162,7 @@
                     "ec2:StartInstances",
                     "ec2:CreateSecurityGroup",
                     "ec2:CreatePlacementGroup",
-                    "ec2:CreateSnapshot"
-                  ],
-                  "Resource": "*"
-                },
-                {
-                  "Effect": "Allow",
-                  "Action": [
+                    "ec2:CreateSnapshot",
                     "cloudformation:DescribeStack",
                     "cloudformation:ValidateTemplate",
                     "cloudformation:DescribeStackEvents",
@@ -177,7 +171,7 @@
                     "cloudformation:DescribeStacks",
                     "autoscaling:DescribeAutoScalingGroups"
                   ],
-                  "Resource": [ "*" ]
+                  "Resource": "*"
                 }
               ]
             }
