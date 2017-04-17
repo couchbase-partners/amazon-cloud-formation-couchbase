@@ -138,7 +138,6 @@
             }
           ]
         },
-        "Path": "/",
         "Policies": [
           {
             "PolicyName": "Couchbase",
@@ -177,7 +176,6 @@
     "CouchbaseInstanceProfile": {
       "Type": "AWS::IAM::InstanceProfile",
       "Properties": {
-        "Path": "/",
         "Roles": [ { "Ref": "CouchbaseInstanceRole" } ]
       }
     }
