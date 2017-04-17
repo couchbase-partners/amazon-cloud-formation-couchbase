@@ -101,11 +101,6 @@
                 " -q 0",
                 " -m 0",
                 "\n",
-                "/opt/aws/bin/cfn-signal -e $? ",
-                " --region ", { "Ref": "AWS::Region" },
-                " --stack ", { "Ref": "AWS::StackName" },
-                " --resource CouchbaseAutoScalingGroup ",
-                "\n"
               ]
             ]
           }
