@@ -66,8 +66,8 @@
       "Properties": {
         "AvailabilityZones": { "Fn::GetAZs": "" },
         "LaunchConfigurationName": { "Ref": "CouchbaseLaunchConfiguration" },
-        "MinSize": "1",
-        "MaxSize": "100",
+        "MinSize": { "Ref": "InstanceCount" },
+        "MaxSize": { "Ref": "InstanceCount" },
         "DesiredCapacity": { "Ref": "InstanceCount" }
       }
     },
