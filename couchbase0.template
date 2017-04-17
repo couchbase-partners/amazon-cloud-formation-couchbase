@@ -24,6 +24,11 @@
       "Description": "Number of Couchbase Nodes",
       "Type": "Number",
       "Default": "5"
+    },
+    "AvailabilityZone": {
+      "Description": "AvailabilityZone for Couchbase Subnet (this should be inferred from region)",
+      "Type": "AWS::EC2::AvailabilityZone::Name",
+      "Default": "us-east-1a"
     }
   },
   "Metadata": {
@@ -89,62 +94,6 @@
     }
   },
   "Resources": {
-    "CouchbaseAutoScalingGroup": {
-      "Type": "AWS::AutoScaling::AutoScalingGroup",
-      "Properties": {
-        "AvailabilityZones": { "Fn::GetAZs": "" },
-        "LaunchConfigurationName": { "Ref": "CouchbaseLaunchConfiguration" },
-        "MinSize": "1",
-        "MaxSize": "100",
-        "DesiredCapacity": { "Ref": "InstanceCount" },
-      },
-      "UpdatePolicy": {
-        "AutoScalingRollingUpdate": {
-          "MinInstancesInService": "1",
-          "MaxBatchSize": "1",
-          "PauseTime": "PT15M",
-          "WaitOnResourceSignals": "true"
-        }
-      }
-    },
-    "CouchbaseLaunchConfiguration": {
-      "Type": "AWS::AutoScaling::LaunchConfiguration",
-      "Properties": {
-        "ImageId": { "Fn::FindInMap": [ "CouchbaseAMI", { "Ref": "AWS::Region" }, "AMI" ] },
-        "InstanceType": { "Ref": "InstanceType" },
-        "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
-        "KeyName": { "Ref": "KeyName" },
-        "IamInstanceProfile": { "Ref": "CouchbaseInstanceProfile" },
-        "UserData": {
-          "Fn::Base64": {
-            "Fn::Join": [
-              "",
-              [
-                "#!/bin/bash -xe\n",
-                "cd /home/ec2-user\n",
-                "/bin/sh Couchbaseinit.sh ",
-                " -u ", { "Ref": "Username" },
-                " -p ", "'", { "Ref": "Password" }, "'",
-                " -d 0",
-                " -i 0",
-                " -q 0",
-                " -m 0",
-                "\n",
-                "/opt/aws/bin/cfn-signal -e $? ",
-                "  --stack ", { "Ref": "AWS::StackName" },
-                "  --resource CouchbaseAutoScalingGroup ",
-                "  --region ", { "Ref": "AWS::Region" },
-                "\n"
-              ]
-            ]
-          }
-        }
-      }
-    },
-
-
-
-
     "VPC": {
       "Type": "AWS::EC2::VPC",
       "Properties": {
@@ -248,6 +197,120 @@
             "Ref": "CouchbaseInstanceRole"
           }
         ]
+      }
+    },
+    "CouchbaseAutoScalingGroup": {
+      "Type": "AWS::AutoScaling::AutoScalingGroup",
+      "Properties": {
+        "AvailabilityZones": {
+          "Fn::GetAZs": ""
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Couchbase Servers",
+            "PropagateAtLaunch": "true"
+          }
+        ],
+        "LaunchConfigurationName": {
+          "Ref": "CouchbaseLaunchConfiguration"
+        },
+        "MinSize": "1",
+        "MaxSize": "100",
+        "DesiredCapacity": {
+          "Ref": "InstanceCount"
+        },
+        "MetricsCollection": [
+          {
+            "Granularity": "1Minute",
+            "Metrics": [
+              "GroupMinSize",
+              "GroupMaxSize"
+            ]
+          }
+        ]
+      },
+      "CreationPolicy": {
+        "ResourceSignal": {
+          "Timeout": "PT3600M",
+          "Count": "1"
+        }
+      },
+      "UpdatePolicy": {
+        "AutoScalingRollingUpdate": {
+          "MinInstancesInService": "1",
+          "MaxBatchSize": "1",
+          "PauseTime": "PT15M",
+          "WaitOnResourceSignals": "true"
+        }
+      }
+    },
+    "CouchbaseLaunchConfiguration": {
+      "Type": "AWS::AutoScaling::LaunchConfiguration",
+      "Properties": {
+        "AssociatePublicIpAddress": "true",
+        "EbsOptimized": "false",
+        "KeyName": {
+          "Ref": "KeyName"
+        },
+        "ImageId": {
+          "Fn::FindInMap": [
+            "CouchbaseAMI",
+            {
+              "Ref": "AWS::Region"
+            },
+            "AMI"
+          ]
+        },
+        "IamInstanceProfile": {
+          "Ref": "CouchbaseInstanceProfile"
+        },
+        "SecurityGroups": [
+          {
+            "Ref": "CouchbaseSecurityGroup"
+          }
+        ],
+        "InstanceType": {
+          "Ref": "InstanceType"
+        },
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [
+              "",
+              [
+                "#!/bin/bash -xe\n",
+                "cd /home/ec2-user\n",
+                "/bin/sh Couchbaseinit.sh ",
+                " -u ",
+                {
+                  "Ref": "Username"
+                },
+                " -p ",
+                "'",
+                {
+                  "Ref": "Password"
+                },
+                "'",
+                " -d 0",
+                " -i 0",
+                " -q 0",
+                " -m 0",
+                "\n",
+                "/opt/aws/bin/cfn-signal -e $? ",
+                "         --stack ",
+                {
+                  "Ref": "AWS::StackName"
+                },
+                "         --resource CouchbaseAutoScalingGroup ",
+                "         --region ",
+                {
+                  "Ref": "AWS::Region"
+                },
+                "\n"
+              ]
+            ]
+          }
+        }
       }
     }
   },
