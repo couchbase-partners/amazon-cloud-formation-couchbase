@@ -181,7 +181,5 @@
         "Roles": [ { "Ref": "CouchbaseInstanceRole" } ]
       }
     }
-  },
-  "Outputs": {
   }
 }
