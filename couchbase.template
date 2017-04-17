@@ -30,12 +30,8 @@
     "AWS::CloudFormation::Interface": {
       "ParameterGroups": [
         {
-          "Label": {
-            "default": "Couchbase Configuration"
-          },
-          "Description": {
-            "default": ""
-          },
+          "Label": { "default": "Couchbase Configuration" },
+          "Description": { "default": "" },
           "Parameters": [
             "Username",
             "Password",
@@ -50,42 +46,18 @@
   },
   "Mappings": {
     "CouchbaseAMI": {
-      "eu-west-1": {
-        "AMI": "ami-62aa9c04"
-      },
-      "ap-southeast-1": {
-        "AMI": "ami-ed4bf98e"
-      },
-      "ap-southeast-2": {
-        "AMI": "ami-2f85884c"
-      },
-      "ap-south-1": {
-        "AMI": "ami-4efe8e21"
-      },
-      "eu-central-1": {
-        "AMI": "ami-5eb56331"
-      },
-      "ap-northeast-1": {
-        "AMI": "ami-ad90ccca"
-      },
-      "ap-northeast-2": {
-        "AMI": "ami-6fcd1e01"
-      },
-      "us-east-1": {
-        "AMI": "ami-58c56f4e"
-      },
-      "us-east-2": {
-        "AMI": "ami-a72004c2"
-      },
-      "sa-east-1": {
-        "AMI": "ami-9b2c4cf7"
-      },
-      "us-west-1": {
-        "AMI": "ami-47643c27"
-      },
-      "us-west-2": {
-        "AMI": "ami-5fd35b3f"
-      }
+      "eu-west-1": { "AMI": "ami-62aa9c04" },
+      "ap-southeast-1": { "AMI": "ami-ed4bf98e" },
+      "ap-southeast-2": { "AMI": "ami-2f85884c" },
+      "ap-south-1": { "AMI": "ami-4efe8e21" },
+      "eu-central-1": { "AMI": "ami-5eb56331" },
+      "ap-northeast-1": { "AMI": "ami-ad90ccca" },
+      "ap-northeast-2": { "AMI": "ami-6fcd1e01" },
+      "us-east-1": { "AMI": "ami-58c56f4e" },
+      "us-east-2": { "AMI": "ami-a72004c2" },
+      "sa-east-1": { "AMI": "ami-9b2c4cf7" },
+      "us-west-1": { "AMI": "ami-47643c27" },
+      "us-west-2": { "AMI": "ami-5fd35b3f" }
     }
   },
   "Resources": {
@@ -141,38 +113,13 @@
         }
       }
     },
-
-
-
-
-    "VPC": {
-      "Type": "AWS::EC2::VPC",
-      "Properties": {
-        "CidrBlock": "10.0.0.0/16",
-        "EnableDnsHostnames": "true",
-        "EnableDnsSupport": "true"
-      }
-    },
     "CouchbaseSecurityGroup": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
-        "GroupDescription" : "CouchbaseSecurityGroup",
-        "VpcId": {
-          "Ref": "VPC"
-        },
+        "GroupDescription" : "Enable SSH and Couchbase Ports",
         "SecurityGroupIngress": [
-          {
-            "IpProtocol": "tcp",
-            "FromPort": "22",
-            "ToPort": "22",
-            "CidrIp": "0.0.0.0/0"
-          },
-          {
-            "IpProtocol": "tcp",
-            "FromPort": "8091",
-            "ToPort": "8094",
-            "CidrIp": "0.0.0.0/0"
-          }
+          { "IpProtocol": "tcp", "FromPort": "22", "ToPort": "22", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "8091", "ToPort": "8094", "CidrIp": "0.0.0.0/0" }
         ]
       }
     },
@@ -184,14 +131,8 @@
           "Statement": [
             {
               "Effect": "Allow",
-              "Principal": {
-                "Service": [
-                  "ec2.amazonaws.com"
-                ]
-              },
-              "Action": [
-                "sts:AssumeRole"
-              ]
+              "Principal": { "Service": [ "ec2.amazonaws.com" ] },
+              "Action": [ "sts:AssumeRole" ]
             }
           ]
         },
@@ -229,9 +170,7 @@
                     "cloudformation:DescribeStacks",
                     "autoscaling:DescribeAutoScalingGroups"
                   ],
-                  "Resource": [
-                    "*"
-                  ]
+                  "Resource": [ "*" ]
                 }
               ]
             }
@@ -243,11 +182,7 @@
       "Type": "AWS::IAM::InstanceProfile",
       "Properties": {
         "Path": "/",
-        "Roles": [
-          {
-            "Ref": "CouchbaseInstanceRole"
-          }
-        ]
+        "Roles": [ { "Ref": "CouchbaseInstanceRole" } ]
       }
     }
   },
