@@ -24,6 +24,15 @@
       "Description": "Number of Couchbase Nodes",
       "Type": "Number",
       "Default": "5"
+    },
+    "RemoteAccessCIDR": {
+      "Description": "CIDR for SSH and Couchbase administrator access",
+      "Type": "String",
+      "MinLength": "9",
+      "MaxLength": "18",
+      "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+      "ConstraintDescription": "must be a valid CIDR range of the form x.x.x.x/x.",
+      "Default" : "0.0.0.0/0"
     }
   },
   "Metadata": {
@@ -104,8 +113,9 @@
       "Properties": {
         "GroupDescription" : "Enable SSH and Couchbase Ports",
         "SecurityGroupIngress": [
-          { "IpProtocol": "tcp", "FromPort": "22", "ToPort": "22", "CidrIp": "0.0.0.0/0" },
-          { "IpProtocol": "tcp", "FromPort": "8091", "ToPort": "8094", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": "22", "ToPort": "22", "CidrIp": { "Ref": "RemoteAccessCIDR" } },
+          { "IpProtocol": "tcp", "FromPort": "8091", "ToPort": "8091", "CidrIp": { "Ref": "RemoteAccessCIDR" } },
+          { "IpProtocol": "tcp", "FromPort": "8092", "ToPort": "8094", "CidrIp": "0.0.0.0/0" },
           { "IpProtocol": "tcp", "FromPort": "9100", "ToPort": "9105", "CidrIp": "0.0.0.0/0" },
           { "IpProtocol": "tcp", "FromPort": "9998", "ToPort": "9998", "CidrIp": "0.0.0.0/0" },
           { "IpProtocol": "tcp", "FromPort": "11207", "ToPort": "11215", "CidrIp": "0.0.0.0/0" },
