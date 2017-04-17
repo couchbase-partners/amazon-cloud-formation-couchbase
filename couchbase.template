@@ -111,7 +111,7 @@
           { "IpProtocol": "tcp", "FromPort": "11207", "ToPort": "11215", "CidrIp": "0.0.0.0/0" },
           { "IpProtocol": "tcp", "FromPort": "18091", "ToPort": "18093", "CidrIp": "0.0.0.0/0" },
           { "IpProtocol": "tcp", "FromPort": "4369", "ToPort": "4369", "CidrIp": "0.0.0.0/0" },
-          { "IpProtocol": "icmp", "FromPort": "21100", "ToPort": "21299", "CidrIp": "0.0.0.0/0" }
+          { "IpProtocol": "tcp", "FromPort": "21100", "ToPort": "21299", "CidrIp": "0.0.0.0/0" }
         ]
       }
     },
