@@ -125,7 +125,8 @@
           { "IpProtocol": "tcp", "FromPort": "18091", "ToPort": "18091", "CidrIp": "0.0.0.0/0" },
           { "IpProtocol": "tcp", "FromPort": "18092", "ToPort": "18092", "CidrIp": "0.0.0.0/0" },
           { "IpProtocol": "tcp", "FromPort": "18093", "ToPort": "18093", "CidrIp": "0.0.0.0/0" },
-          { "IpProtocol": "tcp", "FromPort": "4369", "ToPort": "4369", "CidrIp": "0.0.0.0/0" }
+          { "IpProtocol": "tcp", "FromPort": "4369", "ToPort": "4369", "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "icmp", "FromPort": "-1", "ToPort": "-1", "CidrIp": "0.0.0.0/0" }
         ]
       }
     },
