@@ -102,9 +102,9 @@
                 " -m 0",
                 "\n",
                 "/opt/aws/bin/cfn-signal -e $? ",
-                "  --stack ", { "Ref": "AWS::StackName" },
-                "  --resource CouchbaseAutoScalingGroup ",
-                "  --region ", { "Ref": "AWS::Region" },
+                " --region ", { "Ref": "AWS::Region" },
+                " --stack ", { "Ref": "AWS::StackName" },
+                " --resource CouchbaseAutoScalingGroup ",
                 "\n"
               ]
             ]
@@ -118,7 +118,7 @@
         "GroupDescription" : "Enable SSH and Couchbase Ports",
         "SecurityGroupIngress": [
           { "IpProtocol": "tcp", "FromPort": "22", "ToPort": "22", "CidrIp": "0.0.0.0/0" },
-          { "IpProtocol": "tcp", "FromPort": "8091", "ToPort": "8094", "CidrIp": "0.0.0.0/0" }
+          { "IpProtocol": "tcp", "FromPort": "8091", "ToPort": "8091", "CidrIp": "0.0.0.0/0" }
         ]
       }
     },
@@ -138,7 +138,7 @@
         "Path": "/",
         "Policies": [
           {
-            "PolicyName": "couchbasenode",
+            "PolicyName": "Couchbase",
             "PolicyDocument": {
               "Version": "2012-10-17",
               "Statement": [
