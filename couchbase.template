@@ -105,6 +105,7 @@
     "CouchbaseSecurityGroup": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
+        "GroupDescription" : "CouchbaseSecurityGroup",
         "VpcId": {
           "Ref": "VPC"
         },
