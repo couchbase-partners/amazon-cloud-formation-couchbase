@@ -55,20 +55,8 @@
   },
   "Mappings": {
     "CouchbaseAMI": {
-      "ap-northeast-1": { "AMI": "ami-d85e7fbf" },
-      "ap-northeast-2": { "AMI": "" },
-      "ap-southeast-1": { "AMI": "ami-0a19a669" },
-      "ap-south-1": { "AMI": "" },
-      "eu-central-1": { "AMI": "ami-25a97a4a" },
-      "eu-west-1": { "AMI": "ami-09447c6f" },
-      "sa-east-1": { "AMI": "ami-8df695e1" },
       "us-east-1": { "AMI": "ami-772aa961" },
-      "us-east-2": { "AMI": "" },
-      "us-west-1": { "AMI": "ami-1da8f27d" },
-      "us-west-2": { "AMI": "ami-7c22b41c" },
-      "cn-north-1": { "AMI": "ami-68cd1b05" },
-      "us-gov-west-1": { "AMI": "ami-24008545" },
-      "ap-southeast-2": { "AMI": "ami-807876e3" }
+      "us-west-1": { "AMI": "ami-1da8f27d" }
     }
   },
   "Resources": {
