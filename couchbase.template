@@ -100,7 +100,7 @@
                 "wget https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/install.sh\n",
                 "wget https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/configure.sh\n",
                 "chmod +x *.sh\n",
-                "./node.sh ", { "Ref": "Username" }, " '", { "Ref": "Password" }, "'\n"
+                "#./node.sh ", { "Ref": "Username" }, " '", { "Ref": "Password" }, "'\n"
               ]
             ]
           }
