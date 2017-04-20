@@ -10,6 +10,26 @@ echo adminUsername \'$adminUsername\'
 echo adminPassword \'$adminPassword\'
 
 # need to figure out what nodeIndex is
+wget -q https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 -O /tmp/jq
+chmod 755 /tmp/jq
+JQ_COMMAND=/tmp/jq
+
+REGION=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
+  | ${JQ_COMMAND} '.region'  \
+  | sed 's/^"\(.*\)"$/\1/' )
+
+INSTANCEID=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
+  | ${JQ_COMMAND} '.instanceId' \
+  | sed 's/^"\(.*\)"$/\1/' )
+
+AUTOSCALING_GROUP=$(aws ec2 describe-instances --instance-ids ${AWS_INSTANCEID} --region ${REGION} \
+  | ${JQ_COMMAND} '.Reservations[0]|.Instances[0]|.Tags[] | select( .Key == "aws:autoscaling:groupName") | .Value' \
+  | sed 's/^"\(.*\)"$/\1/' )
+
+INSTANCES_IN_ASG=$(aws autoscaling describe-auto-scaling-groups --region ${REGION} --query 'AutoScalingGroups[*].Instances[*].InstanceId' --auto-scaling-group-name ${MY_AUTOSCALING_GROUP} \
+  | grep "i-" | sed 's/ //g' | sed 's/"//g' |sed 's/,//g' | sort)
+
+echo ${INSTANCES_IN_ASG[0]}
 
 cd /opt/couchbase/bin/
 nodePrivateDNS=`curl http://169.254.169.254/latest/meta-data/local-hostname`
