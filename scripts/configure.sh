@@ -9,7 +9,8 @@ echo "Using the settings:"
 echo adminUsername \'$adminUsername\'
 echo adminPassword \'$adminPassword\'
 
-# need to figure out what nodeIndex is
+# This is all to figure out what our rally point is.  There might be a much better way to do this.
+
 wget -q https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 -O /tmp/jq
 chmod 755 /tmp/jq
 JQ_COMMAND=/tmp/jq
@@ -29,13 +30,20 @@ AUTOSCALING_GROUP=$(aws ec2 describe-instances --instance-ids ${AWS_INSTANCEID} 
 INSTANCES_IN_ASG=$(aws autoscaling describe-auto-scaling-groups --region ${REGION} --query 'AutoScalingGroups[*].Instances[*].InstanceId' --auto-scaling-group-name ${MY_AUTOSCALING_GROUP} \
   | grep "i-" | sed 's/ //g' | sed 's/"//g' |sed 's/,//g' | sort)
 
-echo ${INSTANCES_IN_ASG[0]}
+RALLY_INSTANCE_ID=`echo ${INSTANCES_IN_ASG} | cut -d " " -f1`
 
-cd /opt/couchbase/bin/
+RALLY_PRIVATE_DNS=$(aws ec2 describe-instances --instance-ids ${RALLY_INSTANCE_ID} \
+       --region ${REGION} \
+       --query  'Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[0].PrivateDnsName' \
+       --output text)
+
 nodePrivateDNS=`curl http://169.254.169.254/latest/meta-data/local-hostname`
 
-chown -R couchbase /datadisks
-chgrp -R couchbase /datadisks
+cd /opt/couchbase/bin/
+
+# Still need to deal with data disks
+#chown -R couchbase /datadisks
+#chgrp -R couchbase /datadisks
 
 echo "Running couchbase-cli node-init"
 ./couchbase-cli node-init \
@@ -46,7 +54,7 @@ echo "Running couchbase-cli node-init"
 --user=$adminUsername \
 --pass=$adminPassword
 
-if [[ $nodeIndex == "0" ]]
+if [[ $RALLY_PRIVATE_DNS == $nodePrivateDNS ]]
 then
   totalRAM=$(grep MemTotal /proc/meminfo | awk '{print $2}')
   dataRAM=$((50 * $totalRAM / 100000))
@@ -65,9 +73,8 @@ else
   output=""
   while [[ $output != "Server $nodePrivateDNS:8091 added" && ! $output =~ "Node is already part of cluster." ]]
   do
-    vm0PrivateDNS=`host vm0 | awk '{print $1}'`
     output=`./couchbase-cli server-add \
-    --cluster=$vm0PrivateDNS \
+    --cluster=$RALLY_PRIVATE_DNS \
     --user=$adminUsername \
     --pass=$adminPassword \
     --server-add=$nodePrivateDNS \
@@ -83,7 +90,7 @@ else
   while [[ ! $output =~ "SUCCESS" ]]
   do
     output=`./couchbase-cli rebalance \
-    --cluster=$vm0PrivateDNS \
+    --cluster=$RALLY_PRIVATE_DNS \
     --user=$adminUsername \
     --pass=$adminPassword`
     echo rebalance output \'$output\'
