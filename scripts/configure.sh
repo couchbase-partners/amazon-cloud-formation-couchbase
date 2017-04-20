@@ -12,7 +12,7 @@ echo adminPassword \'$adminPassword\'
 # need to figure out what nodeIndex is
 
 cd /opt/couchbase/bin/
-nodePrivateDNS=`host vm$nodeIndex | awk '{print $1}'`
+nodePrivateDNS=`curl http://169.254.169.254/latest/meta-data/local-hostname`
 
 chown -R couchbase /datadisks
 chgrp -R couchbase /datadisks
