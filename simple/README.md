@@ -23,8 +23,10 @@ Then you'll want to clone this repo.  You can do that with the command:
 
 ## Creating a Stack
 
-The AWS word for a deployment is a stack.  You can create a new stack using this template by running the command:
+The AWS word for a deployment is a stack.  You can create a new stack using this template by running the commands:
 
+    cd amazon-cloud-formation-couchbase
+    cd simple
     ./deploy.sh <STACK_NAME>
 
 When complete you can access the Couchbase web administrator tool on port 8091 of any node.
