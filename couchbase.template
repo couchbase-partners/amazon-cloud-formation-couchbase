@@ -136,22 +136,7 @@
                 {
                   "Effect": "Allow",
                   "Action": [
-                    "ec2:Describe*",
-                    "ec2:AttachNetworkInterface",
-                    "ec2:AttachVolume",
-                    "ec2:CreateTags",
-                    "ec2:CreateVolume",
-                    "ec2:RunInstances",
-                    "ec2:StartInstances",
-                    "ec2:CreateSecurityGroup",
-                    "ec2:CreatePlacementGroup",
-                    "ec2:CreateSnapshot",
-                    "cloudformation:DescribeStack",
-                    "cloudformation:ValidateTemplate",
-                    "cloudformation:DescribeStackEvents",
-                    "cloudformation:DescribeStackResource",
-                    "cloudformation:DescribeStackResources",
-                    "cloudformation:DescribeStacks",
+                    "ec2:DescribeInstances",
                     "autoscaling:DescribeAutoScalingGroups"
                   ],
                   "Resource": "*"
