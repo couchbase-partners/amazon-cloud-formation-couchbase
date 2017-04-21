@@ -77,7 +77,6 @@
         "InstanceType": { "Ref": "InstanceType" },
         "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
         "KeyName": { "Ref": "KeyName" },
-        "IamInstanceProfile": { "Ref": "CouchbaseInstanceProfile" },
         "UserData": {
           "Fn::Base64": {
             "Fn::Join": [ "",
@@ -112,45 +111,6 @@
           { "IpProtocol": "tcp", "FromPort": "4369", "ToPort": "4369", "CidrIp": "0.0.0.0/0" },
           { "IpProtocol": "tcp", "FromPort": "21100", "ToPort": "21299", "CidrIp": "0.0.0.0/0" }
         ]
-      }
-    },
-    "CouchbaseInstanceRole": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": { "Service": [ "ec2.amazonaws.com" ] },
-              "Action": [ "sts:AssumeRole" ]
-            }
-          ]
-        },
-        "Policies": [
-          {
-            "PolicyName": "Couchbase",
-            "PolicyDocument": {
-              "Version": "2012-10-17",
-              "Statement": [
-                {
-                  "Effect": "Allow",
-                  "Action": [
-                    "ec2:DescribeInstances",
-                    "autoscaling:DescribeAutoScalingGroups"
-                  ],
-                  "Resource": "*"
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    "CouchbaseInstanceProfile": {
-      "Type": "AWS::IAM::InstanceProfile",
-      "Properties": {
-        "Roles": [ { "Ref": "CouchbaseInstanceRole" } ]
       }
     }
   }
