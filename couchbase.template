@@ -35,24 +35,6 @@
       "Default" : "0.0.0.0/0"
     }
   },
-  "Metadata": {
-    "AWS::CloudFormation::Interface": {
-      "ParameterGroups": [
-        {
-          "Label": { "default": "Couchbase Configuration" },
-          "Description": { "default": "" },
-          "Parameters": [
-            "Username",
-            "Password",
-            "KeyName",
-            "InstanceType",
-            "InstanceCount"
-          ]
-        }
-      ],
-      "ParameterLabels": {}
-    }
-  },
   "Mappings": {
     "CouchbaseAMI": {
       "us-east-1": { "AMI": "ami-c58c1dd3" },
