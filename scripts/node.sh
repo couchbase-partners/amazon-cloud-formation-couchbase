@@ -11,4 +11,4 @@ echo adminPassword \'$adminPassword\'
 
 #./format.sh
 #./install.sh
-#./configure.sh $adminUsername $adminPassword $nodeIndex
+#./configure.sh $adminUsername $adminPassword

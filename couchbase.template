@@ -82,7 +82,8 @@
             "Fn::Join": [ "",
               [
                 "#!/bin/bash\n",
-                "cd /home/ec2-user\n",
+                "wget -q https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 -O jq\n",
+                "chmod +x jq\n",
                 "wget http://packages.couchbase.com/releases/4.6.1/couchbase-server-enterprise_4.6.1-ubuntu14.04_amd64.deb\n",
                 "wget https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/node.sh\n",
                 "wget https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/format.sh\n",
