@@ -37,9 +37,9 @@ nodePrivateDNS=`curl http://169.254.169.254/latest/meta-data/local-hostname`
 
 cd /opt/couchbase/bin/
 
-# Still need to deal with data disks
-#chown -R couchbase /datadisks
-#chgrp -R couchbase /datadisks
+mkdir -p /datadisks/disk1
+chown -R couchbase /datadisks/disk1
+chgrp -R couchbase /datadisks/disk1
 
 echo "Running couchbase-cli node-init"
 ./couchbase-cli node-init \
