@@ -15,11 +15,11 @@ REGION=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/documen
   | jq '.region'  \
   | sed 's/^"\(.*\)"$/\1/' )
 
-INSTANCEID=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
+INSTANCE_ID=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
   | jq '.instanceId' \
   | sed 's/^"\(.*\)"$/\1/' )
 
-AUTOSCALING_GROUP=$(aws ec2 describe-instances --instance-ids ${AWS_INSTANCEID} --region ${REGION} \
+AUTOSCALING_GROUP=$(aws ec2 describe-instances --instance-ids ${INSTANCE_ID} --region ${REGION} \
   | jq '.Reservations[0]|.Instances[0]|.Tags[] | select( .Key == "aws:autoscaling:groupName") | .Value' \
   | sed 's/^"\(.*\)"$/\1/' )
 
