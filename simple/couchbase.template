@@ -67,7 +67,7 @@
                 "cd /tmp\n",
                 "wget -q https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 -O jq\n",
                 "chmod +x jq\n",
-                "wget http://packages.couchbase.com/releases/4.6.1/couchbase-server-enterprise_4.6.1-ubuntu14.04_amd64.deb\n",
+                "wget https://packages.couchbase.com/releases/4.6.1/couchbase-server-enterprise-4.6.1-centos7.x86_64.rpm\n",
                 "wget https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/node.sh\n",
                 "wget https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/format.sh\n",
                 "wget https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/install.sh\n",
