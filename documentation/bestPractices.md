@@ -51,7 +51,11 @@ Placement groups provide 10G network, which is preferable.  However, they make t
 
 ### Security
 
+security groups - fix sg to open in the sg
+
 A number of steps are necessary to secure a Couchbase cluster:
 * Configure authentication for the administrator tool
 * Enable SSL for traffic between nodes
 * Enable authentication for connections to the database as well.
+
+add link
