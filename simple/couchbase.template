@@ -18,7 +18,7 @@
     "InstanceType": {
       "Description": "Instance type for Couchbase Nodes",
       "Type": "String",
-      "Default": "i2.xlarge"
+      "Default": "m4.xlarge"
     },
     "InstanceCount": {
       "Description": "Number of Couchbase Nodes",
