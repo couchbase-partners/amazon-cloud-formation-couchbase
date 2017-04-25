@@ -43,7 +43,7 @@ io1 is the most performant, but can be expensive.  For most applications, gp2 pr
 
 Amazon provides a number of network options, including public IPs, VPN gateways and Direct Connect.  We recommend using public IPs for most applications.  They perform very well, are extremely cost effective and are resilient to failure.
 
-EIP... try accessing cluster over PIP.  If not, need EIP per node because those will resolve public and private.
+EIP... try accessing cluster over PIP.  If not, need EIP per node because those will resolve public and private.  EIP if want to stop/start
 
 Pass public DNS to couchbase
 

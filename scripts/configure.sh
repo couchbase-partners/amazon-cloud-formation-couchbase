@@ -62,17 +62,17 @@ done
 
 if [[ $rallyPrivateDNS == $nodePrivateDNS ]]
 then
-  #totalRAM=$(grep MemTotal /proc/meminfo | awk '{print $2}')
-  #dataRAM=$((50 * $totalRAM / 100000))
-  #indexRAM=$((25 * $totalRAM / 100000))
-  #--cluster-ramsize=$dataRAM \
-  #--cluster-index-ramsize=$indexRAM \
+  totalRAM=$(grep MemTotal /proc/meminfo | awk '{print $2}')
+  dataRAM=$((50 * $totalRAM / 100000))
+  indexRAM=$((25 * $totalRAM / 100000))
 
   echo "Running couchbase-cli cluster-init"
   ./couchbase-cli cluster-init \
     --cluster=$nodePrivateDNS \
     --cluster-username=$adminUsername \
-    --cluster-password=$adminPassword
+    --cluster-password=$adminPassword \
+    --cluster-ramsize=$dataRAM \
+    --cluster-index-ramsize=$indexRAM \
     --services=data,index,query,fts
 else
   echo "Running couchbase-cli server-add"
