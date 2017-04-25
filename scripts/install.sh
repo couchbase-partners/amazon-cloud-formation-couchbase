@@ -12,8 +12,7 @@ rpm --install couchbase-server-enterprise-4.6.1-centos6.x86_64.rpm
 
 # Please look at http://bit.ly/1ZAcLjD as for how to PERMANENTLY alter this setting.
 
-echo "
-#!/bin/bash
+echo "#!/bin/bash
 ### BEGIN INIT INFO
 # Provides:          disable-thp
 # Required-Start:    $local_fs
@@ -25,19 +24,8 @@ echo "
 # Description:       disables Transparent Huge Pages (THP) on boot
 ### END INIT INFO
 
-case $1 in
-start)
-if [ -d /sys/kernel/mm/transparent_hugepage ]; then
 echo 'never' > /sys/kernel/mm/transparent_hugepage/enabled
 echo 'never' > /sys/kernel/mm/transparent_hugepage/defrag
-elif [ -d /sys/kernel/mm/redhat_transparent_hugepage ]; then
-echo 'never' > /sys/kernel/mm/redhat_transparent_hugepage/enabled
-echo 'never' > /sys/kernel/mm/redhat_transparent_hugepage/defrag
-else
-return 0
-fi
-;;
-esac
 " > /etc/init.d/disable-thp
 chmod 755 /etc/init.d/disable-thp
 service disable-thp start
@@ -50,4 +38,6 @@ chkconfig disable-thp on
 # Please look at http://bit.ly/1k2CtNn as for how to PERMANENTLY alter this setting.
 
 sysctl vm.swappiness=0
-echo "vm.swappiness = 0" >> /etc/sysctl.conf
+echo "
+# Required for Couchbase
+vm.swappiness = 0" >> /etc/sysctl.conf
