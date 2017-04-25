@@ -38,13 +38,18 @@ nodePrivateDNS=`curl http://169.254.169.254/latest/meta-data/local-hostname`
 cd /opt/couchbase/bin/
 
 echo "Running couchbase-cli node-init"
-./couchbase-cli node-init \
---cluster=$nodePrivateDNS \
---node-init-hostname=$nodePrivateDNS \
---node-init-data-path=/datadisks/disk1/data \
---node-init-index-path=/datadisks/disk1/index \
---user=$adminUsername \
---pass=$adminPassword
+while [[ $output =~ "SUCCESS" ]]
+do
+  output=./couchbase-cli node-init \
+  --cluster=$nodePrivateDNS \
+  --node-init-hostname=$nodePrivateDNS \
+  --node-init-data-path=/datadisks/disk1/data \
+  --node-init-index-path=/datadisks/disk1/index \
+  --user=$adminUsername \
+  --pass=$adminPassword
+  echo node-init output \'$output\'
+  sleep 10
+done
 
 if [[ $RALLY_PRIVATE_DNS == $nodePrivateDNS ]]
 then
