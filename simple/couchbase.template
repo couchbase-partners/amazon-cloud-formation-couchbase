@@ -25,6 +25,12 @@
       "Type": "Number",
       "Default": 5
     },
+    "DiskSize": {
+      "Description": "Size in GB of the EBS gp2 volume on each Couchbase node",
+      "Type": "Number",
+      "Default": 100
+
+    },
     "RemoteAccessCIDR": {
       "Description": "CIDR for SSH and Couchbase administrator access",
       "Type": "String",
@@ -61,6 +67,16 @@
         "KeyName": { "Ref": "KeyName" },
         "EbsOptimized": true,
         "IamInstanceProfile": { "Ref": "CouchbaseInstanceProfile" },
+        "BlockDeviceMappings":
+        [
+          {
+            "DeviceName" : "/dev/sdk",
+            "Ebs" : {
+              "VolumeSize": { "Ref": "DiskSize" },
+              "VolumeType": "gp2"
+            }
+          }
+        ],
         "UserData": {
           "Fn::Base64": {
             "Fn::Join": [ "",
