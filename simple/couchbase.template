@@ -59,49 +59,7 @@
         "InstanceType": { "Ref": "InstanceType" },
         "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
         "KeyName": { "Ref": "KeyName" },
-        "IamInstanceProfile": {
-          "Type": "AWS::IAM::InstanceProfile",
-          "Properties": {
-            "Roles": [
-              {
-                "Type": "AWS::IAM::Role",
-                "Properties": {
-                  "AssumeRolePolicyDocument": {
-                    "Version": "2012-10-17",
-                    "Statement": [{
-                      "Effect": "Allow",
-                      "Principal": {
-                        "Service": [
-                          "ec2.amazonaws.com"
-                        ]
-                      },
-                      "Action": ["sts:AssumeRole"]
-                      }
-                    ]
-                  },
-                  "Policies": [
-                    {
-                      "PolicyName": "couchbasenode",
-                      "PolicyDocument": {
-                        "Version": "2012-10-17",
-                        "Statement": [
-                          {
-                            "Effect": "Allow",
-                            "Action": [
-                              "ec2:DescribeInstances",
-                              "autoscaling:DescribeAutoScalingGroups"
-                            ],
-                            "Resource": "*"
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
+        "IamInstanceProfile": { "Ref": "CouchbaseInstanceProfile" },
         "UserData": {
           "Fn::Base64": {
             "Fn::Join": [ "",
@@ -121,6 +79,43 @@
             ]
           }
         }
+      }
+    },
+    "CouchbaseInstanceProfile": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {"Roles": [{"Ref": "CouchbaseRole"}]}
+    },
+    "CouchbaseRole": {
+			"Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {"Service": ["ec2.amazonaws.com"]},
+              "Action": ["sts:AssumeRole"]
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": "couchbasenode",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "ec2:DescribeInstances",
+                    "autoscaling:DescribeAutoScalingGroups"
+                  ],
+                  "Resource": "*"
+                }
+              ]
+            }
+          }
+        ]
       }
     },
     "CouchbaseSecurityGroup": {
