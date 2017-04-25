@@ -5,35 +5,43 @@ echo "Running configure.sh"
 adminUsername=$1
 adminPassword=$2
 
-echo "Using the settings:"
-echo adminUsername \'$adminUsername\'
-echo adminPassword \'$adminPassword\'
-
 # This is all to figure out what our rally point is.  There might be a much better way to do this.
 
-REGION=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
+region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
   | jq '.region'  \
   | sed 's/^"\(.*\)"$/\1/' )
 
-INSTANCE_ID=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
+instanceID=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
   | jq '.instanceId' \
   | sed 's/^"\(.*\)"$/\1/' )
 
-AUTOSCALING_GROUP=$(aws ec2 describe-instances --instance-ids ${INSTANCE_ID} --region ${REGION} \
+autoscalingGroup=$(aws ec2 describe-instances \
+  --region ${region} \
+  --instance-ids ${instanceID} \
   | jq '.Reservations[0]|.Instances[0]|.Tags[] | select( .Key == "aws:autoscaling:groupName") | .Value' \
   | sed 's/^"\(.*\)"$/\1/' )
 
-INSTANCES_IN_ASG=$(aws autoscaling describe-auto-scaling-groups --region ${REGION} --query 'AutoScalingGroups[*].Instances[*].InstanceId' --auto-scaling-group-name ${MY_AUTOSCALING_GROUP} \
+autoscalingGroupInstanceIDs=$(aws autoscaling describe-auto-scaling-groups \
+  --region ${region} \
+  --query 'AutoScalingGroups[*].Instances[*].InstanceId' \
+  --auto-scaling-group-name ${autoscalingGroup} \
   | grep "i-" | sed 's/ //g' | sed 's/"//g' |sed 's/,//g' | sort)
 
-RALLY_INSTANCE_ID=`echo ${INSTANCES_IN_ASG} | cut -d " " -f1`
+rallyInstanceID=`echo ${autoscalingGroupInstanceIDs} | cut -d " " -f1`
 
-RALLY_PRIVATE_DNS=$(aws ec2 describe-instances --instance-ids ${RALLY_INSTANCE_ID} \
-       --region ${REGION} \
-       --query  'Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[0].PrivateDnsName' \
-       --output text)
+rallyPrivateDNS=$(aws ec2 describe-instances \
+  --region ${region} \
+  --query  'Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[0].PrivateDnsName' \
+  --instance-ids ${rallyInstanceID} \
+  --output text)
 
 nodePrivateDNS=`curl http://169.254.169.254/latest/meta-data/local-hostname`
+
+echo "Using the settings:"
+echo adminUsername \'$adminUsername\'
+echo adminPassword \'$adminPassword\'
+echo rallyPrivateDNS \'$rallyPrivateDNS\'
+echo nodePrivateDNS \'$nodePrivateDNS\'
 
 cd /opt/couchbase/bin/
 
@@ -51,7 +59,7 @@ do
   sleep 10
 done
 
-if [[ $RALLY_PRIVATE_DNS == $nodePrivateDNS ]]
+if [[ $rallyPrivateDNS == $nodePrivateDNS ]]
 then
   totalRAM=$(grep MemTotal /proc/meminfo | awk '{print $2}')
   dataRAM=$((50 * $totalRAM / 100000))
@@ -71,7 +79,7 @@ else
   while [[ $output != "Server $nodePrivateDNS:8091 added" && ! $output =~ "Node is already part of cluster." ]]
   do
     output=`./couchbase-cli server-add \
-    --cluster=$RALLY_PRIVATE_DNS \
+    --cluster=$rallyPrivateDNS \
     --user=$adminUsername \
     --pass=$adminPassword \
     --server-add=$nodePrivateDNS \
@@ -87,7 +95,7 @@ else
   while [[ ! $output =~ "SUCCESS" ]]
   do
     output=`./couchbase-cli rebalance \
-    --cluster=$RALLY_PRIVATE_DNS \
+    --cluster=$rallyPrivateDNS \
     --user=$adminUsername \
     --pass=$adminPassword`
     echo rebalance output \'$output\'
