@@ -12,8 +12,8 @@
       "NoEcho": "true"
     },
     "KeyName": {
-      "Type": "AWS::EC2::KeyPair::KeyName",
-      "Description": "Name of an existing EC2 KeyPair"
+      "Description": "Name of an existing EC2 KeyPair",
+      "Type": "AWS::EC2::KeyPair::KeyName"
     },
     "InstanceType": {
       "Description": "Instance type for Couchbase Nodes",
@@ -100,7 +100,7 @@
         },
         "Policies": [
           {
-            "PolicyName": "couchbasenode",
+            "PolicyName": "CouchbasePolicy",
             "PolicyDocument": {
               "Version": "2012-10-17",
               "Statement": [
