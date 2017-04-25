@@ -11,8 +11,4 @@ echo adminPassword \'$adminPassword\'
 
 ./install.sh
 ./format.sh
-
-# We seem to need a little time for the node to come up
-sleep 10
-
 ./configure.sh $adminUsername $adminPassword
