@@ -11,4 +11,4 @@ echo adminPassword \'$adminPassword\'
 
 ./install.sh
 ./format.sh
-#./configure.sh $adminUsername $adminPassword
+./configure.sh $adminUsername $adminPassword
