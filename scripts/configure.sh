@@ -46,6 +46,7 @@ echo nodePrivateDNS \'$nodePrivateDNS\'
 cd /opt/couchbase/bin/
 
 echo "Running couchbase-cli node-init"
+output=""
 while [[ $output =~ "SUCCESS" ]]
 do
   output=./couchbase-cli node-init \
@@ -65,9 +66,10 @@ then
   dataRAM=$((50 * $totalRAM / 100000))
   indexRAM=$((15 * $totalRAM / 100000))
 
+  echo "Running couchbase-cli cluster-init"
+  output=""
   while [[ $output =~ "SUCCESS" ]]
   do
-    echo "Running couchbase-cli cluster-init"
     ./couchbase-cli cluster-init \
     --cluster=$nodePrivateDNS \
     --cluster-ramsize=$dataRAM \
