@@ -73,7 +73,7 @@ then
     --cluster=$nodePrivateDNS \
     --cluster-username=$adminUsername \
     --cluster-password=$adminPassword
-    #--services=data,index,query,fts
+    --services=data,index,query,fts
 else
   echo "Running couchbase-cli server-add"
   output=""
@@ -85,7 +85,7 @@ else
       --pass=$adminPassword \
       --server-add=$nodePrivateDNS \
       --server-add-username=$adminUsername \
-      --server-add-password=$adminPassword \
+      --server-add-password=$adminPassword
       --services=data,index,query,fts`
     echo server-add output \'$output\'
     sleep 10
