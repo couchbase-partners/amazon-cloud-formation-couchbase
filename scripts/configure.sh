@@ -49,13 +49,13 @@ echo "Running couchbase-cli node-init"
 output=""
 while [[ ! $output =~ "SUCCESS" ]]
 do
-  output=./couchbase-cli node-init \
+  output=`./couchbase-cli node-init \
   --cluster=$nodePrivateDNS \
   --node-init-hostname=$nodePrivateDNS \
   --node-init-data-path=/datadisks/disk1/data \
   --node-init-index-path=/datadisks/disk1/index \
   --user=$adminUsername \
-  --pass=$adminPassword
+  --pass=$adminPassword`
   echo node-init output \'$output\'
   sleep 10
 done
@@ -70,13 +70,13 @@ then
   output=""
   while [[ ! $output =~ "SUCCESS" ]]
   do
-    ./couchbase-cli cluster-init \
+    output=`./couchbase-cli cluster-init \
     --cluster=$nodePrivateDNS \
     --cluster-ramsize=$dataRAM \
     --cluster-index-ramsize=$indexRAM \
     --cluster-username=$adminUsername \
     --cluster-password=$adminPassword \
-    --services=data,index,query,fts
+    --services=data,index,query,fts`
     echo cluster-init output \'$output\'
     sleep 10
   done
