@@ -65,14 +65,19 @@ then
   dataRAM=$((50 * $totalRAM / 100000))
   indexRAM=$((15 * $totalRAM / 100000))
 
-  echo "Running couchbase-cli cluster-init"
-  ./couchbase-cli cluster-init \
-  --cluster=$nodePrivateDNS \
-  --cluster-ramsize=$dataRAM \
-  --cluster-index-ramsize=$indexRAM \
-  --cluster-username=$adminUsername \
-  --cluster-password=$adminPassword \
-  --services=data,index,query,fts
+  while [[ $output =~ "SUCCESS" ]]
+  do
+    echo "Running couchbase-cli cluster-init"
+    ./couchbase-cli cluster-init \
+    --cluster=$nodePrivateDNS \
+    --cluster-ramsize=$dataRAM \
+    --cluster-index-ramsize=$indexRAM \
+    --cluster-username=$adminUsername \
+    --cluster-password=$adminPassword \
+    --services=data,index,query,fts
+    echo cluster-init output \'$output\'
+    sleep 10
+  done
 else
   echo "Running couchbase-cli server-add"
   output=""
