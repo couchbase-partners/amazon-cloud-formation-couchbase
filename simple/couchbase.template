@@ -58,6 +58,64 @@
         "ImageId": { "Fn::FindInMap": [ "CouchbaseAMI", { "Ref": "AWS::Region" }, "AMI" ] },
         "InstanceType": { "Ref": "InstanceType" },
         "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
+        "IamInstanceProfile": {
+          "Type": "AWS::IAM::InstanceProfile",
+          "Properties": {
+            "Roles": [
+              {
+                "Type": "AWS::IAM::Role",
+                "Properties": {
+                  "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [{
+                      "Effect": "Allow",
+                      "Principal": {
+                        "Service": [
+                          "ec2.amazonaws.com"
+                        ]
+                      },
+                      "Action": ["sts:AssumeRole"]
+                      }
+                    ]
+                  },
+                  "Policies": [
+                    {
+                      "PolicyName": "couchbasenode",
+                      "PolicyDocument": {
+                        "Version": "2012-10-17",
+                        "Statement": [
+                          {
+                            "Effect": "Allow",
+                            "Action": [
+                              "ec2:Describe*",
+                							"ec2:AttachNetworkInterface",
+                							"ec2:AttachVolume",
+                							"ec2:CreateTags",
+                							"ec2:CreateVolume",
+                							"ec2:RunInstances",
+                							"ec2:StartInstances",
+                							"ec2:CreateSecurityGroup",
+                							"ec2:CreatePlacementGroup",
+                							"ec2:CreateSnapshot",
+                              "cloudformation:DescribeStack",
+                              "cloudformation:ValidateTemplate",
+                              "cloudformation:DescribeStackEvents",
+                              "cloudformation:DescribeStackResource",
+                              "cloudformation:DescribeStackResources",
+                              "cloudformation:DescribeStacks",
+                              "autoscaling:DescribeAutoScalingGroups"
+                            ],
+                            "Resource": "*"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
         "KeyName": { "Ref": "KeyName" },
         "UserData": {
           "Fn::Base64": {
