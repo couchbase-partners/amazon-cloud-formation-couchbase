@@ -2,11 +2,11 @@
 
 ## Compute
 
+Numerous AWS machine types are viable for running Couchbase.  Some commonly used instance types include:
+
 * R3
 * R4
 * M4
-
-Placement groups?
 
 ### Memory Allocation
 
@@ -14,15 +14,23 @@ Q: We're currently doing 50% for data and 15% for index.  Need a good solution h
 
 ### Fault Tolerance and High Availability
 
-AZ mapping determined by autoscaling group
+The Couchbase concept of a Server Group maps closely to an Availability Zone.  We are currently working to automate the mapping in the CFn templates.
 
 ## Storage
 
-EBS gp2
+Amazon offers numerous storage options for IaaS.  When running Couchbase, three are viable:
+
+* EBS gp2
+* EBS io1
+* SSD Instance Store
+
+io1 is the most performant, but can be expensive.  For most applications, gp2 providers a good balance of performance and cost.  Instance stores are both performant and side step noisy neighbor issues that can potentially plague EBS.  However the instance store is ephemeral.  The persistence of EBS offers a significant advantage and is what we have chosen to provision in the CFn templates.
 
 ## Network
 
-Use public IP.  Do we need 10G, balance against complexity of placement groups?
+Amazon provides a number of network options, including public IPs, VPN gateways and Direct Connect.  We recommend using public IPs for most applications.  They perform very well, are extremely cost effective and are resilient to failure.
+
+Placement groups provide 10G network, which is preferable.  However, they make the use of an Autoscaling Group more difficult as nodes will not be automatically spread across Availability Zones.  In the CFn template, we've opted for simplicity.
 
 ### Security
 
