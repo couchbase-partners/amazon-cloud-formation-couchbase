@@ -47,7 +47,7 @@ cd /opt/couchbase/bin/
 
 echo "Running couchbase-cli node-init"
 output=""
-while [[ $output =~ "SUCCESS" ]]
+while [[ ! $output =~ "SUCCESS" ]]
 do
   output=./couchbase-cli node-init \
   --cluster=$nodePrivateDNS \
@@ -68,7 +68,7 @@ then
 
   echo "Running couchbase-cli cluster-init"
   output=""
-  while [[ $output =~ "SUCCESS" ]]
+  while [[ ! $output =~ "SUCCESS" ]]
   do
     ./couchbase-cli cluster-init \
     --cluster=$nodePrivateDNS \
