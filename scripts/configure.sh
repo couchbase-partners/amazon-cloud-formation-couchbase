@@ -52,8 +52,8 @@ do
   output=`./couchbase-cli node-init \
     --cluster=$nodePrivateDNS \
     --node-init-hostname=$nodePrivateDNS \
-    --node-init-data-path=/datadisks/disk1/data \
-    --node-init-index-path=/datadisks/disk1/index \
+    --node-init-data-path=/mnt/datadisk/data \
+    --node-init-index-path=/mnt/datadisk/index \
     --user=$adminUsername \
     --pass=$adminPassword`
   echo node-init output \'$output\'
