@@ -4,6 +4,15 @@
 
 Numerous AWS machine types are viable for running Couchbase.  Some commonly used instance types include:
 
+All services on all nodes
+* some instance types
+* R3.2xlarge
+
+Using MDS
+Data - R3.2xlarge, R4.2xlarge
+Query - C4.2xlarge
+Index - ...
+
 * R3
 * R4
 * M4
