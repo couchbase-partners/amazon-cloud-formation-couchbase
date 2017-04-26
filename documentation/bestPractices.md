@@ -19,7 +19,7 @@ Index - ...
 
 ### Memory Allocation
 
-Q: We're currently doing 50% for data and 15% for index.  Need a good solution here.
+We're currently doing 50% for data and 25% for index.  These can be adjusted post deploy.
 
 ### Fault Tolerance and High Availability
 
