@@ -82,9 +82,8 @@
             "Fn::Join": [ "",
               [
                 "#!/bin/bash\n",
+                "yum -y install jq\n",
                 "cd /tmp\n",
-                "wget https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 -O /bin/jq\n",
-                "chmod +x /bin/jq\n",
                 "wget https://packages.couchbase.com/releases/4.6.1/couchbase-server-enterprise-4.6.1-centos6.x86_64.rpm\n",
                 "wget https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/node.sh\n",
                 "wget https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/format.sh\n",
