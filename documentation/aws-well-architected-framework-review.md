@@ -2,13 +2,18 @@
 As part of the Couchbase partnership with AWS, we are working to ensure compliance with the [AWS Well-Architected Framework](https://d0.awsstatic.com/whitepapers/architecture/AWS_Well-Architected_Framework.pdf).  This document describes that effort.
 
 # Reference Architecture
+
 For the purpose of this review we are considering a single Couchbase cluster deployed in a region with nodes in two different availability zones.
 
 ![](./images/wa-architecture.png)
 
-The Couchbase CFn template [here](../marketplace/couchbase.template) creates four nodes by default.  The number of nodes is exposed as a parameter the user can select.  Those nodes should be split between two availability zones.  Each node has two EBS volumes attached, one for the OS disk and another for the data disk.  Those volumes use gp2.
+The Couchbase CFn template [here](../marketplace/couchbase.template) creates an autoscaling group with four nodes by default.  The number of nodes is exposed as a parameter the user can select.  Those nodes should be split between two availability zones.  Each node has two EBS volumes attached, one for the OS disk and another for the data disk.  Those volumes use gp2.
+
+# Out of Scope
+More complex topologies, not described in this document, might include deployment with multiple clusters in different regions using Couchbase XDCR.  More complex deployments might also include the Couchbase MDS feature with nodes in a single cluster deployed in multiple autoscaling groups.  Finally, the Couchbase Sync Gateway could be deployed in any of these scenarios.
 
 # Security Pillar
+
 ## SEC 1. How are you protecting access to and use of the AWS root account credentials?
 The CFn template is not using the root account.  A user is configured for the VMs, but that is not used by Couchbase or the startup scripts.
 
