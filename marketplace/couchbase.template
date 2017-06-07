@@ -23,7 +23,7 @@
     "InstanceCount": {
       "Description": "Number of Couchbase Nodes",
       "Type": "Number",
-      "Default": 5
+      "Default": 4
     },
     "DiskSize": {
       "Description": "Size in GB of the EBS gp2 volume on each Couchbase node",
