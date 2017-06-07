@@ -1,6 +1,11 @@
 # AWS Well-Architected Framework Review
 As part of the Couchbase partnership with AWS, we are working to ensure compliance with the [AWS Well-Architected Framework](https://d0.awsstatic.com/whitepapers/architecture/AWS_Well-Architected_Framework.pdf).  This document describes that effort.
 
+# Reference Architecture
+For the purpose of this review we are considering a single Couchbase cluster deployed in a region with nodes in two different availability zones.
+
+![](./images/wa-architecture.png)
+
 # Security Pillar
 ## SEC 1. How are you protecting access to and use of the AWS root account credentials?
 ## SEC 2. How are you defining roles and responsibilities of system users to control human access to the AWS Management Console and API?
