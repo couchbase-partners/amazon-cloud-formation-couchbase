@@ -9,10 +9,6 @@ For the purpose of this review we are considering a single Couchbase cluster dep
 
 The Couchbase CFn template [here](../marketplace/couchbase.template) creates an autoscaling group with four nodes by default.  The number of nodes is exposed as a parameter the user can select.  Those nodes should be split between two availability zones.  Each node has two EBS volumes attached, one for the OS disk and another for the data disk.  Those volumes use gp2.
 
-The template configures each Couchbase node with its public DNS record.  With AWS split brain DNS, that record resolves to the private IP when invoked from inside the node's VPC.  It resolves to the public IP when invoked from elsewhere.
-
-The template [defines a security group](../marketplace/couchbase.template#L317) that blocks ports Couchbase does not use.  For scenarios where remote developer access and XDCR are not required, it's possible to further restrict accesss by configuring the RemoteAccessCIDR [here](../marketplace/couchbase.template#L34).
-
 # Out of Scope
 More complex topologies, not described in this document, might include deployment with multiple clusters in different regions using Couchbase XDCR.  More complex deployments might also include the Couchbase MDS feature with nodes in a single cluster deployed in multiple autoscaling groups.  Finally, the Couchbase Sync Gateway could be deployed in any of these scenarios.
 
@@ -22,31 +18,67 @@ More complex topologies, not described in this document, might include deploymen
 The CFn template is not using the root account.  A user is configured for the VMs, but that is not used by Couchbase or the startup scripts.
 
 ## SEC 2. How are you defining roles and responsibilities of system users to control human access to the AWS Management Console and API?
-The CFn template is not defining users to manage the console.  We believe this item is out of scope.
+The CFn template is not defining users to manage the console.
 
 ## SEC 3. How are you limiting automated access to AWS resources? (e.g., applications, scripts, and/or third-party tools or services)
-In the template we grant minimal permissions for describing autoscaling groups and instances [here](../marketplace/couchbase.template#L306-L307).
+In the template we grant minimal permissions for describing autoscaling groups and instances [here](../marketplace/couchbase.template#L306-L307).  Those are used by the startup script that configures Couchbase.
 
 ## SEC 4. How are you capturing and analyzing logs?
+The Couchbase Administrator provides the ability to view logs.  Those logs can also be viewed from the command line.  Customers can also upload logs to Couchbase support.  The documentation for logs is [here](https://developer.couchbase.com/documentation/server/4.6/clustersetup/ui-logs.html).
+
 ## SEC 5. How are you enforcing network and host-level boundary protection?
+The template [defines a security group](../marketplace/couchbase.template#L317) that blocks ports Couchbase does not use.  For scenarios where remote developer access and XDCR are not required, it's possible to further restrict accesss by configuring the RemoteAccessCIDR [here](../marketplace/couchbase.template#L34).
+
 ## SEC 6. How are you leveraging AWS service level security features?
+?
+
 ## SEC 7. How are you protecting the integrity of the operating systems on your Amazon EC2 instances?
+?
+
 ## SEC 8. How are you classifying your data?
+?
+
 ## SEC 9. How are you encrypting and protecting your data at rest?
+The template configures Couchbase to store data on a dedicated EBS drive.  A user can chose to enable encryption on that drive.  Couchbase also has a partner ecosystem that can provide encryption at rest if a user choses to deploy on an instance store.  Detail on that is available [here](https://developer.couchbase.com/documentation/server/4.6/security/security-data-encryption.html).
+
 ## SEC 10. How are you managing keys?
+The template takes a key as input, but does not manage keys directly.
+
 ## SEC 11. How are you encrypting and protecting your data in transit?
+Couchbase uses TLS/SSL to encrypt communications node to node and drive to node.  That is detailed [here](https://developer.couchbase.com/documentation/server/4.6/security/security-comm-encryption.html).
+
 ## SEC 12. How do you ensure you have the appropriate incident response?
+?
 
 # Reliability Pillar
+
 ## REL 1. How do you manage AWS service limits for your accounts?
+
 ## REL 2. How are you planning your network topology on AWS?
+The template configures each Couchbase node with its public DNS record.  With AWS split brain DNS, that record resolves to the private IP when invoked from inside the node's VPC.  It resolves to the public IP when invoked from elsewhere.  For the single cluster deployment in scope for this document, this configuration is substantially equivalent to configuring with private DNS.
+
 ## REL 3. How does your system adapt to changes in demand?
+?
+
 ## REL 4. How are you monitoring AWS resources?
+?
+
 ## REL 5. How are you executing change?
+?
+
 ## REL 6. How are you backing up your data?
+Couchbase provides tools to backup and recover the database.  Those are invoked manually by a user.  Documentation is [here](https://developer.couchbase.com/documentation/server/4.6/backup-restore/backup-restore.html).
+
 ## REL 7. How does your system withstand component failures?
+?
+
 ## REL 8. How are you testing for resiliency?
+Couchbase QA tests a variety of failure scenarios for each release of the product.
+
 ## REL 9. How are you planning for disaster recovery?
+For a single cluster configuration, Couchbase is deployed across two availability zones and resilient to failure of a zone.  If an entire region fails, restoration from a backup may be required.
+
+More advanced scenarios, out of scope here, might leverage [XDCR](https://developer.couchbase.com/documentation/server/4.6/xdcr/xdcr-intro.html) to avoid downtime in the event of a regional failure.
 
 # Performance Pillar
 ## PERF 1. How do you select the best performing architecture?
