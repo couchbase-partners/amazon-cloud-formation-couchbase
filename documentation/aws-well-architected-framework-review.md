@@ -53,6 +53,7 @@ Couchbase uses TLS/SSL to encrypt communications node to node and drive to node.
 # Reliability Pillar
 
 ## REL 1. How do you manage AWS service limits for your accounts?
+?
 
 ## REL 2. How are you planning your network topology on AWS?
 The template configures each Couchbase node with its public DNS record.  With AWS split brain DNS, that record resolves to the private IP when invoked from inside the node's VPC.  It resolves to the public IP when invoked from elsewhere.  For the single cluster deployment in scope for this document, this configuration is substantially equivalent to configuring with private DNS.
@@ -81,26 +82,33 @@ For a single cluster configuration, Couchbase is deployed across two availabilit
 More advanced scenarios, out of scope here, might leverage [XDCR](https://developer.couchbase.com/documentation/server/4.6/xdcr/xdcr-intro.html) to avoid downtime in the event of a regional failure.
 
 # Performance Pillar
+
 ## PERF 1. How do you select the best performing architecture?
-?
+Our engineering and business development teams partner with AWS to select the optimal components for running Couchbase.  The CFn templates are the result of years of experience from the Couchbase services and support organizations deploying at some of the largest enterprises in the world, including joint customers like [Viber](https://www.couchbase.com/customers/viber) and [RyanAir](https://www.couchbase.com/customers/ryanair).
 
 ## PERF 2. How do you select your compute solution?
-?
+Compute nodes are selected in accordance with Couchbase documentation [here](https://developer.couchbase.com/documentation/server/4.6/install/pre-install.html).  For most use cases we recommend EBS optimized machines as a variety of operational issues are simplified through the use of EBS rather than an instance store.
 
 ## PERF 3. How do you select your storage solution?
-?
+Couchbase can work on a variety of AWS storage solutions.  These are:
+
+* EBS io1
+* EBS gp2
+* SSD instance store
+
+We find EBS gp2 to be a good balance of performance and cost for most applications.  It also provides operational benefits over the instance store.  We do not recommend any HDD storage as its performance characteristics are insufficient for Couchbase.
 
 ## PERF 4. How do you select your database solution?
-?
+Couchbase is a database.
 
 ## PERF 5. How do you select your network solution?
-?
+For the single cluster deployment described in this document the default network works well.  More complex topolgies that include XDCR may necessitate the use of transit VPCs, public IPs or Direct Connect.
 
 ## PERF 6. How do you ensure that you continue to have the most appropriate resource type as new resource types and features are introduced?
-?
+Our engineering and business development partner with AWS to evaluate and incorporate new features.
 
 ## PERF 7. How do you monitor your resources post-launch to ensure they are performing as expected?
-?
+The Couchbase Administrator provides a variety of performance metrics.  Those are documented [here](https://developer.couchbase.com/documentation/server/4.6/monitoring/monitor-intro.html).  In addition, a user can make use of the AWS Console and native AWS tools to supplement this monitoring.
 
 ## PERF 8. How do you use tradeoffs to improve performance?
 ?
@@ -137,7 +145,7 @@ More advanced scenarios, out of scope here, might leverage [XDCR](https://develo
 # Operational Excellence Pillar
 
 ## OPS 1. What best practices for cloud operations are you using?
-Formal documentation for best practices is [here](https://developer.couchbase.com/documentation/server/4.6/install/deployment-aws.html#story-h2-3).  
+Formal documentation for best practices is [here](https://developer.couchbase.com/documentation/server/4.6/install/deployment-aws.html#story-h2-3).  We have an additional rough best practices document [here](bestPractices.md).
 
 ## OPS 2. How are you doing configuration management for your workload?
 ?
