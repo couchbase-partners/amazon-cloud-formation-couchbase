@@ -10,10 +10,14 @@ The Couchbase CFn template [here](https://github.com/couchbase-partners/amazon-c
 
 # Security Pillar
 ## SEC 1. How are you protecting access to and use of the AWS root account credentials?
-
+The CFn template is not using the root account.  A user is configured for the VMs, but that is not used by Couchbase or the startup scripts.
 
 ## SEC 2. How are you defining roles and responsibilities of system users to control human access to the AWS Management Console and API?
+The CFn template is not defining users to manage the console.  We believe this item is out of scope.
+
 ## SEC 3. How are you limiting automated access to AWS resources? (e.g., applications, scripts, and/or third-party tools or services)
+In the template we grant minimal permissions for describing autoscaling groups and instances [here](https://github.com/couchbase-partners/amazon-cloud-formation-couchbase/blob/master/marketplace/couchbase.template#L306-L307).
+
 ## SEC 4. How are you capturing and analyzing logs?
 ## SEC 5. How are you enforcing network and host-level boundary protection?
 ## SEC 6. How are you leveraging AWS service level security features?
