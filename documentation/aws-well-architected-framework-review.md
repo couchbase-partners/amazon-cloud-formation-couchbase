@@ -82,29 +82,74 @@ More advanced scenarios, out of scope here, might leverage [XDCR](https://develo
 
 # Performance Pillar
 ## PERF 1. How do you select the best performing architecture?
+?
+
 ## PERF 2. How do you select your compute solution?
+?
+
 ## PERF 3. How do you select your storage solution?
+?
+
 ## PERF 4. How do you select your database solution?
+?
+
 ## PERF 5. How do you select your network solution?
+?
+
 ## PERF 6. How do you ensure that you continue to have the most appropriate resource type as new resource types and features are introduced?
+?
+
 ## PERF 7. How do you monitor your resources post-launch to ensure they are performing as expected?
+?
+
 ## PERF 8. How do you use tradeoffs to improve performance?
+?
 
 # Cost Optimization Pillar
+
 ## COST 1. Are you considering cost when you select AWS services for your solution?
+?
+
 ## COST 2. Have you sized your resources to meet your cost targets?
+?
+
 ## COST 3. Have you selected the appropriate pricing model to meet your cost targets?
+?
+
 ## COST 4. How do you make sure your capacity matches but does not substantially exceed what you need?
+?
+
 ## COST 5. Did you consider data-transfer charges when designing your architecture?
+?
+
 ## COST 6. How are you monitoring usage and spending?
+?
+
 ## COST 7. Do you decommission resources that you no longer need or stop resources that are temporarily not needed?
+?
+
 ## COST 8. What access controls and procedures do you have in place to govern AWS usage?
+?
+
 ## COST 9. How do you manage and/or consider the adoption of new services?
+?
 
 # Operational Excellence Pillar
+
 ## OPS 1. What best practices for cloud operations are you using?
+Formal documentation for best practices is [here](https://developer.couchbase.com/documentation/server/4.6/install/deployment-aws.html#story-h2-3).  
+
 ## OPS 2. How are you doing configuration management for your workload?
+?
+
 ## OPS 3. How are you evolving your workload while minimizing the impact of change?
+?
+
 ## OPS 4. How do you monitor your workload to ensure it is operating as expected?
+?
+
 ## OPS 5. How do you respond to unplanned operational events?
+?
+
 ## OPS 6. How is escalation managed when responding to unplanned operational events?
+?
