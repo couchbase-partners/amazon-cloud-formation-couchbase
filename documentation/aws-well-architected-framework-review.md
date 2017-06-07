@@ -6,7 +6,7 @@ For the purpose of this review we are considering a single Couchbase cluster dep
 
 ![](./images/wa-architecture.png)
 
-The Couchbase CFn template [here](https://github.com/couchbase-partners/amazon-cloud-formation-couchbase/blob/master/marketplace/couchbase.template) creates four nodes by default.  Those nodes should be split between two availability zones.  Each node has two EBS volumes attached, one for the OS disk and another for the data disk.  Those volumes use gp2.
+The Couchbase CFn template [here](../marketplace/couchbase.template) creates four nodes by default.  The number of nodes is exposed as a parameter the user can select.  Those nodes should be split between two availability zones.  Each node has two EBS volumes attached, one for the OS disk and another for the data disk.  Those volumes use gp2.
 
 # Security Pillar
 ## SEC 1. How are you protecting access to and use of the AWS root account credentials?
@@ -16,7 +16,7 @@ The CFn template is not using the root account.  A user is configured for the VM
 The CFn template is not defining users to manage the console.  We believe this item is out of scope.
 
 ## SEC 3. How are you limiting automated access to AWS resources? (e.g., applications, scripts, and/or third-party tools or services)
-In the template we grant minimal permissions for describing autoscaling groups and instances [here](https://github.com/couchbase-partners/amazon-cloud-formation-couchbase/blob/master/marketplace/couchbase.template#L306-L307).
+In the template we grant minimal permissions for describing autoscaling groups and instances [here](../marketplace/couchbase.template#L306-L307).
 
 ## SEC 4. How are you capturing and analyzing logs?
 ## SEC 5. How are you enforcing network and host-level boundary protection?
