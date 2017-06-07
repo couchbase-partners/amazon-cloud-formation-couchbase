@@ -9,6 +9,10 @@ For the purpose of this review we are considering a single Couchbase cluster dep
 
 The Couchbase CFn template [here](../marketplace/couchbase.template) creates an autoscaling group with four nodes by default.  The number of nodes is exposed as a parameter the user can select.  Those nodes should be split between two availability zones.  Each node has two EBS volumes attached, one for the OS disk and another for the data disk.  Those volumes use gp2.
 
+The template configures each Couchbase node with its public DNS record.  With AWS split brain DNS, that record resolves to the private IP when invoked from inside the node's VPC.  It resolves to the public IP when invoked from elsewhere.
+
+The template [defines a security group](../marketplace/couchbase.template#L317) that blocks ports Couchbase does not use.  For scenarios where remote developer access and XDCR are not required, it's possible to further restrict accesss by configuring the RemoteAccessCIDR [here](../marketplace/couchbase.template#L34).
+
 # Out of Scope
 More complex topologies, not described in this document, might include deployment with multiple clusters in different regions using Couchbase XDCR.  More complex deployments might also include the Couchbase MDS feature with nodes in a single cluster deployed in multiple autoscaling groups.  Finally, the Couchbase Sync Gateway could be deployed in any of these scenarios.
 
