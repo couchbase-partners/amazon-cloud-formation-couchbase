@@ -6,8 +6,12 @@ For the purpose of this review we are considering a single Couchbase cluster dep
 
 ![](./images/wa-architecture.png)
 
+The Couchbase CFn template [here](https://github.com/couchbase-partners/amazon-cloud-formation-couchbase/blob/master/marketplace/couchbase.template) creates four nodes by default.  Those nodes should be split between two availability zones.  Each node has two EBS volumes attached, one for the OS disk and another for the data disk.  Those volumes use gp2.
+
 # Security Pillar
 ## SEC 1. How are you protecting access to and use of the AWS root account credentials?
+
+
 ## SEC 2. How are you defining roles and responsibilities of system users to control human access to the AWS Management Console and API?
 ## SEC 3. How are you limiting automated access to AWS resources? (e.g., applications, scripts, and/or third-party tools or services)
 ## SEC 4. How are you capturing and analyzing logs?
