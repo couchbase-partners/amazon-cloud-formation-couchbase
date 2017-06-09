@@ -48,7 +48,7 @@ The template configures Couchbase to store data on a dedicated EBS drive.  A use
 The template takes a key as input, but does not manage keys directly.
 
 ## SEC 11. How are you encrypting and protecting your data in transit?
-Couchbase uses TLS/SSL to encrypt communications node to node and drive to node.  That is detailed [here](https://developer.couchbase.com/documentation/server/4.6/security/security-comm-encryption.html).
+Couchbase uses TLS/SSL to encrypt communications from application drives to the database.  That is detailed [here](https://developer.couchbase.com/documentation/server/4.6/security/security-comm-encryption.html).
 
 ## SEC 12. How do you ensure you have the appropriate incident response?
 Couchbase recommends following the security best practices [here](https://developer.couchbase.com/documentation/server/4.6/security/security-best-practices.html).  For specific incident response, customers should work with their security office and involve Couchbase and AWS support as required.
@@ -62,10 +62,14 @@ Couchbase does not manage AWS service limits.
 The template configures each Couchbase node with its public DNS record.  With AWS split brain DNS, that record resolves to the private IP when invoked from inside the node's VPC.  It resolves to the public IP when invoked from elsewhere.  For the single cluster deployment in scope for this document, this configuration is substantially equivalent to configuring with private DNS.
 
 ## REL 3. How does your system adapt to changes in demand?
-Autoscaling a database is difficult.  In the event of increased demand, we recommend that an administrator identify the need and add or remove a node.  Cluster operations are documented [here](https://developer.couchbase.com/documentation/server/4.6/clustersetup/server-setup.html).
+Couchbase deployments are able to perform well against a wide variety of load profiles without changing the underlying hardware the database is deployed on.  This is due, in part, to the memory first architecture of the database.
+
+Autoscaling a database is difficult.  In the event of significantly increased demand, we recommend that an administrator identify the need and add or remove a node.  Cluster operations are documented [here](https://developer.couchbase.com/documentation/server/4.6/clustersetup/server-setup.html).
 
 ## REL 4. How are you monitoring AWS resources?
 The Couchbase Administrator provides a single pane of glass for monitoring.  Documentation is available [here](https://developer.couchbase.com/documentation/server/4.6/monitoring/monitor-intro.html).
+
+To monitor the underlying IaaS, we recommend a user use the AWS Console and set up alerts as their operational best practices and use case requires.
 
 ## REL 5. How are you executing change?
 Couchbase does not automate upgrades.  Documentation for upgrades is given [here](https://developer.couchbase.com/documentation/server/4.6/install/upgrade.html).
