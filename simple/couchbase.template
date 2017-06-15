@@ -31,7 +31,7 @@
       "Default": 100
 
     },
-    "SSH_CIDR": {
+    "SSHCIDR": {
       "Description": "CIDR for SSH and Couchbase administrator access",
       "Type": "String",
       "MinLength": 9,
@@ -40,7 +40,7 @@
       "ConstraintDescription": "must be a valid CIDR range of the form x.x.x.x/x.",
       "Default" : "0.0.0.0/0"
     },
-    "CouchbaseAdmin_CIDR": {
+    "CouchbaseAdminCIDR": {
       "Description": "CIDR for Couchbase Administrator access",
       "Type": "String",
       "MinLength": 9,
@@ -49,7 +49,7 @@
       "ConstraintDescription": "must be a valid CIDR range of the form x.x.x.x/x.",
       "Default" : "0.0.0.0/0"
     },
-    "Couchbase_CIDR": {
+    "CouchbaseCIDR": {
       "Description": "CIDR for Couchbase driver and XDCR access",
       "Type": "String",
       "MinLength": 9,
@@ -337,15 +337,15 @@
       "Properties": {
         "GroupDescription" : "Enable SSH and Couchbase Ports",
         "SecurityGroupIngress": [
-          { "IpProtocol": "tcp", "FromPort": 22, "ToPort": 22, "CidrIp": { "Ref": "SSH_CIDR" } },
-          { "IpProtocol": "tcp", "FromPort": 8091, "ToPort": 8091, "CidrIp": { "Ref": "CouchbaseAdmin_CIDR" } },
-          { "IpProtocol": "tcp", "FromPort": 8092, "ToPort": 8094, "CidrIp": { "Ref": "Couchbase_CIDR" } },
-          { "IpProtocol": "tcp", "FromPort": 9100, "ToPort": 9105, "CidrIp": { "Ref": "Couchbase_CIDR" } },
-          { "IpProtocol": "tcp", "FromPort": 9998, "ToPort": 9998, "CidrIp": { "Ref": "Couchbase_CIDR" } },
-          { "IpProtocol": "tcp", "FromPort": 11207, "ToPort": 11215, "CidrIp": { "Ref": "Couchbase_CIDR" } },
-          { "IpProtocol": "tcp", "FromPort": 18091, "ToPort": 18093, "CidrIp": { "Ref": "Couchbase_CIDR" } },
-          { "IpProtocol": "tcp", "FromPort": 4369, "ToPort": 4369, "CidrIp": { "Ref": "Couchbase_CIDR" } },
-          { "IpProtocol": "tcp", "FromPort": 21100, "ToPort": 21299, "CidrIp": { "Ref": "Couchbase_CIDR" } }
+          { "IpProtocol": "tcp", "FromPort": 22, "ToPort": 22, "CidrIp": { "Ref": "SSHCIDR" } },
+          { "IpProtocol": "tcp", "FromPort": 8091, "ToPort": 8091, "CidrIp": { "Ref": "CouchbaseAdminCIDR" } },
+          { "IpProtocol": "tcp", "FromPort": 8092, "ToPort": 8094, "CidrIp": { "Ref": "CouchbaseCIDR" } },
+          { "IpProtocol": "tcp", "FromPort": 9100, "ToPort": 9105, "CidrIp": { "Ref": "CouchbaseCIDR" } },
+          { "IpProtocol": "tcp", "FromPort": 9998, "ToPort": 9998, "CidrIp": { "Ref": "CouchbaseCIDR" } },
+          { "IpProtocol": "tcp", "FromPort": 11207, "ToPort": 11215, "CidrIp": { "Ref": "CouchbaseCIDR" } },
+          { "IpProtocol": "tcp", "FromPort": 18091, "ToPort": 18093, "CidrIp": { "Ref": "CouchbaseCIDR" } },
+          { "IpProtocol": "tcp", "FromPort": 4369, "ToPort": 4369, "CidrIp": { "Ref": "CouchbaseCIDR" } },
+          { "IpProtocol": "tcp", "FromPort": 21100, "ToPort": 21299, "CidrIp": { "Ref": "CouchbaseCIDR" } }
         ]
       }
     }
