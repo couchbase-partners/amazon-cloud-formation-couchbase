@@ -84,10 +84,13 @@
           "Fn::Base64": {
             "Fn::Join": [ "",
               [
-"#!/bin/bash\n",
-"echo 'Running startup script...'\n",
-"adminUsername=", { "Ref": "Username" }, "\n",
-"adminPassword=", { "Ref": "Password" }, "\n"
+                "#!/bin/bash\n",
+                "echo 'Running startup script...'\n",
+                "adminUsername=", { "Ref": "Username" }, "\n",
+                "adminPassword=", { "Ref": "Password" }, "\n",
+                "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
+                "wget ${baseURL}server.sh\n",
+                "./server.sh ${adminUsername} ${adminPassword}\n"
               ]
             ]
           }
