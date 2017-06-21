@@ -37,7 +37,7 @@
     }
   },
   "Mappings": {
-    "CouchbaseAMI": {
+    "ServerAMI": {
       "us-east-1": { "AMI": "ami-c58c1dd3" },
       "us-east-2": { "AMI": "ami-4191b524" },
       "us-west-1": { "AMI": "ami-7a85a01a" },
@@ -55,20 +55,20 @@
     }
   },
   "Resources": {
-    "CouchbaseAutoScalingGroup": {
+    "ServerAutoScalingGroup": {
       "Type": "AWS::AutoScaling::AutoScalingGroup",
       "Properties": {
         "AvailabilityZones": { "Fn::GetAZs": "" },
-        "LaunchConfigurationName": { "Ref": "CouchbaseLaunchConfiguration" },
+        "LaunchConfigurationName": { "Ref": "ServerLaunchConfiguration" },
         "MinSize": { "Ref": "ServerInstanceCount" },
         "MaxSize": { "Ref": "ServerInstanceCount" },
         "DesiredCapacity": { "Ref": "ServerInstanceCount" }
       }
     },
-    "CouchbaseLaunchConfiguration": {
+    "ServerLaunchConfiguration": {
       "Type": "AWS::AutoScaling::LaunchConfiguration",
       "Properties": {
-        "ImageId": { "Fn::FindInMap": [ "CouchbaseAMI", { "Ref": "AWS::Region" }, "AMI" ] },
+        "ImageId": { "Fn::FindInMap": [ "ServerAMI", { "Ref": "AWS::Region" }, "AMI" ] },
         "InstanceType": { "Ref": "InstanceType" },
         "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
         "KeyName": { "Ref": "KeyName" },
