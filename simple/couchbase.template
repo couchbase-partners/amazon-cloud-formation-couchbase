@@ -97,6 +97,7 @@
                 "wget ${baseURL}format.sh\n",
                 "wget ${baseURL}installServer.sh\n",
                 "wget ${baseURL}configureServer.sh\n",
+                "chmod +x *.sh\n",
                 "./server.sh ${adminUsername} ${adminPassword}\n"
               ]
             ]
@@ -133,6 +134,7 @@
                 "wget ${baseURL}syncGateway.sh\n",
                 "wget ${baseURL}installSyncGateway.sh\n",
                 "wget ${baseURL}configureSyncGateway.sh\n",
+                "chmod +x *.sh\n",
                 "./syncGateway.sh\n"
               ]
             ]
