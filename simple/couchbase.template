@@ -15,7 +15,7 @@
     "SyncGatewayInstanceCount": {
       "Description": "Number of Couchbase Sync Gateway Nodes",
       "Type": "Number",
-      "Default": 4
+      "Default": 2
     },
     "InstanceType": {
       "Description": "Instance type for Couchbase Nodes",
