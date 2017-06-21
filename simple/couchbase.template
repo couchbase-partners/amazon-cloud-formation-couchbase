@@ -94,6 +94,9 @@
                 "adminPassword=", { "Ref": "Password" }, "\n",
                 "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                 "wget ${baseURL}server.sh\n",
+                "wget ${baseURL}format.sh\n",
+                "wget ${baseURL}installServer.sh\n",
+                "wget ${baseURL}confureServer.sh\n",
                 "./server.sh ${adminUsername} ${adminPassword}\n"
               ]
             ]
