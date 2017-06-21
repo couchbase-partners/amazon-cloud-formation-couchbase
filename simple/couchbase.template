@@ -140,6 +140,7 @@
         "GroupDescription" : "Enable SSH and Couchbase Ports",
         "SecurityGroupIngress": [
           { "IpProtocol": "tcp", "FromPort": 22, "ToPort": 22, "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": 4984, "ToPort": 4984, "CidrIp": "0.0.0.0/0" },
           { "IpProtocol": "tcp", "FromPort": 8091, "ToPort": 8091, "CidrIp": "0.0.0.0/0" }
         ]
       }
