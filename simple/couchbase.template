@@ -37,7 +37,7 @@
     }
   },
   "Mappings": {
-    "ServerAMI": {
+    "CouchbaseAMI": {
       "us-east-1": { "AMI": "ami-c58c1dd3" },
       "us-east-2": { "AMI": "ami-4191b524" },
       "us-west-1": { "AMI": "ami-7a85a01a" },
@@ -68,7 +68,7 @@
     "ServerLaunchConfiguration": {
       "Type": "AWS::AutoScaling::LaunchConfiguration",
       "Properties": {
-        "ImageId": { "Fn::FindInMap": [ "ServerAMI", { "Ref": "AWS::Region" }, "AMI" ] },
+        "ImageId": { "Fn::FindInMap": [ "CouchbaseAMI", { "Ref": "AWS::Region" }, "AMI" ] },
         "InstanceType": { "Ref": "InstanceType" },
         "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
         "KeyName": { "Ref": "KeyName" },
@@ -96,8 +96,44 @@
                 "wget ${baseURL}server.sh\n",
                 "wget ${baseURL}format.sh\n",
                 "wget ${baseURL}installServer.sh\n",
-                "wget ${baseURL}confureServer.sh\n",
+                "wget ${baseURL}configureServer.sh\n",
                 "./server.sh ${adminUsername} ${adminPassword}\n"
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "SyncGatewayAutoScalingGroup": {
+      "Type": "AWS::AutoScaling::AutoScalingGroup",
+      "Properties": {
+        "AvailabilityZones": { "Fn::GetAZs": "" },
+        "LaunchConfigurationName": { "Ref": "SyncGatewayLaunchConfiguration" },
+        "MinSize": { "Ref": "SyncGatewayInstanceCount" },
+        "MaxSize": { "Ref": "SyncGatewayInstanceCount" },
+        "DesiredCapacity": { "Ref": "SyncGatewayInstanceCount" }
+      }
+    },
+    "SyncGatewayLaunchConfiguration": {
+      "Type": "AWS::AutoScaling::LaunchConfiguration",
+      "Properties": {
+        "ImageId": { "Fn::FindInMap": [ "CouchbaseAMI", { "Ref": "AWS::Region" }, "AMI" ] },
+        "InstanceType": { "Ref": "InstanceType" },
+        "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
+        "KeyName": { "Ref": "KeyName" },
+        "EbsOptimized": true,
+        "IamInstanceProfile": { "Ref": "CouchbaseInstanceProfile" },
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [ "",
+              [
+                "#!/bin/bash\n",
+                "echo 'Running startup script...'\n",
+                "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
+                "wget ${baseURL}syncGateway.sh\n",
+                "wget ${baseURL}installSyncGateway.sh\n",
+                "wget ${baseURL}configureSyncGateway.sh\n",
+                "./syncGateway.sh\n"
               ]
             ]
           }
