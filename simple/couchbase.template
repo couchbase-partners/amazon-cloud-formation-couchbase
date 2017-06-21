@@ -2,6 +2,26 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "AWS Deployment for Couchbase Enterprise",
   "Parameters": {
+    "ServerInstanceCount": {
+      "Description": "Number of Couchbase Server Nodes",
+      "Type": "Number",
+      "Default": 4
+    },
+    "ServerDiskSize": {
+      "Description": "Size in GB of the EBS gp2 volume on each Couchbase node",
+      "Type": "Number",
+      "Default": 100
+    },
+    "SyncGatewayInstanceCount": {
+      "Description": "Number of Couchbase Sync Gateway Nodes",
+      "Type": "Number",
+      "Default": 4
+    },
+    "InstanceType": {
+      "Description": "Instance type for Couchbase Nodes",
+      "Type": "String",
+      "Default": "m4.xlarge"
+    },
     "Username": {
       "Description": "Username for Couchbase administrator",
       "Type": "String"
@@ -14,22 +34,6 @@
     "KeyName": {
       "Description": "Name of an existing EC2 KeyPair",
       "Type": "AWS::EC2::KeyPair::KeyName"
-    },
-    "InstanceType": {
-      "Description": "Instance type for Couchbase Nodes",
-      "Type": "String",
-      "Default": "m4.xlarge"
-    },
-    "InstanceCount": {
-      "Description": "Number of Couchbase Nodes",
-      "Type": "Number",
-      "Default": 4
-    },
-    "DiskSize": {
-      "Description": "Size in GB of the EBS gp2 volume on each Couchbase node",
-      "Type": "Number",
-      "Default": 100
-
     }
   },
   "Mappings": {
@@ -56,9 +60,9 @@
       "Properties": {
         "AvailabilityZones": { "Fn::GetAZs": "" },
         "LaunchConfigurationName": { "Ref": "CouchbaseLaunchConfiguration" },
-        "MinSize": { "Ref": "InstanceCount" },
-        "MaxSize": { "Ref": "InstanceCount" },
-        "DesiredCapacity": { "Ref": "InstanceCount" }
+        "MinSize": { "Ref": "ServerInstanceCount" },
+        "MaxSize": { "Ref": "ServerInstanceCount" },
+        "DesiredCapacity": { "Ref": "ServerInstanceCount" }
       }
     },
     "CouchbaseLaunchConfiguration": {
@@ -75,7 +79,7 @@
           {
             "DeviceName" : "/dev/sdk",
             "Ebs" : {
-              "VolumeSize": { "Ref": "DiskSize" },
+              "VolumeSize": { "Ref": "ServerDiskSize" },
               "VolumeType": "gp2"
             }
           }
