@@ -6,7 +6,7 @@ REGION=`aws configure get region`
 
 ServerInstanceCount="4"
 ServerDiskSize="100"
-SyncGatewayInstanceCount="0"
+SyncGatewayInstanceCount="2"
 INSTANCE_TYPE="m4.xlarge"
 USERNAME="couchbase"
 PASSWORD="foo123!"
