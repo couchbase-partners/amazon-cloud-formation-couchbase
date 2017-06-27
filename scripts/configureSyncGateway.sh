@@ -32,15 +32,19 @@ rallyPublicDNS=$(aws ec2 describe-instances \
 
 serverDNS=${rallyPublicDNS}
 
+file="/home/sync_gateway/sync_gateway.json"
 echo '
 {
   "log": ["*"],
   "databases": {
     "db": {
-      "server": "http://${serverDNS}:8091",
+      "server": "http://'${serverDNS}':8091",
       "bucket": "default",
       "users": { "GUEST": { "disabled": false, "admin_channels": ["*"] } }
     }
   }
 }
-' > /home/sync_gateway/sync_gateway.json
+' > ${file}
+chmod 755 ${file}
+chown couchbase ${file}
+chgrp couchbase ${file}
