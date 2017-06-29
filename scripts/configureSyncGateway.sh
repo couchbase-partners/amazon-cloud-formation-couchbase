@@ -32,7 +32,7 @@ rallyPublicDNS=$(aws ec2 describe-instances \
 
 serverDNS=${rallyPublicDNS}
 
-file="/home/sync_gateway/sync_gateway.json"
+file="/opt/sync_gateway/etc/sync_gateway.json"
 echo '
 {
   "interface": "0.0.0.0:4984",
