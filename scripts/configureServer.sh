@@ -15,19 +15,16 @@ yum -y install jq
 region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
   | jq '.region'  \
   | sed 's/^"\(.*\)"$/\1/' )
-echo region: ${region}
 
 instanceID=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
   | jq '.instanceId' \
   | sed 's/^"\(.*\)"$/\1/' )
-echo instanceID: {$instanceID}
 
 autoscalingGroup=$(aws ec2 describe-instances \
   --region ${region} \
   --instance-ids ${instanceID} \
   | jq '.Reservations[0]|.Instances[0]|.Tags[] | select( .Key == "aws:autoscaling:groupName") | .Value' \
   | sed 's/^"\(.*\)"$/\1/' )
-echo autoscalingGroup: ${autoscalingGroup}
 
 autoscalingGroupInstanceIDs=$(aws autoscaling describe-auto-scaling-groups \
   --region ${region} \
@@ -36,7 +33,6 @@ autoscalingGroupInstanceIDs=$(aws autoscaling describe-auto-scaling-groups \
   | grep "i-" | sed 's/ //g' | sed 's/"//g' |sed 's/,//g' | sort)
 
 rallyInstanceID=`echo ${autoscalingGroupInstanceIDs} | cut -d " " -f1`
-echo rallyInstanceID: ${rallyInstanceID}
 
 rallyPublicDNS=$(aws ec2 describe-instances \
     --region ${region} \
