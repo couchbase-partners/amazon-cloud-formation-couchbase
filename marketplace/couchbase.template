@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "AWS Deployment for Couchbase Enterprise",
+  "Description": "AWS Deployment for Couchbase Enterprise -- AWSMP::00f6801d-49bf-41ee-aa95-01053fcbab2f::07eb1db2-a04e-47b3-b31b-5bd389e38d5a",
   "Parameters": {
     "Username": {
       "Description": "Username for Couchbase administrator",
