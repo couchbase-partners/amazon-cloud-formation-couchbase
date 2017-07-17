@@ -2,30 +2,21 @@
 
 ## Compute
 
-Numerous AWS machine types are viable for running Couchbase.  Some commonly used instance types include:
+A variety of compute types are EBS optimized.  Any such node will work well with Couchbase, though some may be more cost effective.  R4 and M4 machines are the most commonly used.  While one core machines will deploy successfully, [we recommend machines with 4 or more cores](https://developer.couchbase.com/documentation/server/current/install/pre-install.html) for production applications.
 
-All services on all nodes
-* some instance types
-* R3.2xlarge
-
-Using MDS
-Data - R3.2xlarge, R4.2xlarge
-Query - C4.2xlarge
-Index - ...
-
-* R3
-* R4
-* M4
+We recommend using Autoscaling Groups instead of stand alone instances as it improves reliability and simplifies the addition and removal of nodes.
 
 ### Memory Allocation
 
-We're currently doing 50% for data and 25% for index.  These can be adjusted post deploy.
+Couchbase recommends allocating 85% of system memory to the database.  When using MDS this can be tuned between data, query, etc.  The templates currently allocate 50% for data and 15% for index.  This can be adjusted after deployment.
 
 ### Fault Tolerance and High Availability
 
-The Couchbase concept of a Server Group maps closely to an Availability Zone.  We are currently working to automate the mapping in the CFn templates.
+Couchbase is a strongly consistent database with peer-to-peer replication for handling node failures.  Replicas are not needed to increase read performance due to a built-in managed caching layer.  For deployments in AWS, we typically recommend one replica.  In the event of a single node failure, replicas elsewhere in the cluster can be automatically promoted if automatic failover is [enabled](https://developer.couchbase.com/documentation/server/current/clustersetup/automatic-failover.html).  For most scenarios, the downed node will recover in a matter of minutes, obviating the need for additional replicas.
 
-... best practices vs getting started
+A minimum of 3 nodes required for the data service to support automatic failover, and a minimum of two nodes for the query, index and FTS service to support high availability.  Depending on your performance and topology needs, these services can be collocated or separated but the minimum node count requirement does not change.
+
+The Couchbase concept of a Server Group maps closely to an Availability Zone (AZ).  We suggest deploying nodes across two AZs.  We are currently working to automate the mapping in the CFn templates.
 
 ## Storage
 
@@ -37,25 +28,24 @@ Amazon offers numerous storage options for IaaS.  When running Couchbase, three 
 
 io1 is the most performant, but can be expensive.  For most applications, gp2 providers a good balance of performance and cost.  Instance stores are both performant and side step noisy neighbor issues that can potentially plague EBS.  However the instance store is ephemeral.  The persistence of EBS offers a significant advantage and is what we have chosen to provision in the CFn templates.
 
---- add something about size.  up to about 1TB/node
+We recommend a 1TB EBS drive as the upper end.  Large drives can lead to overly dense nodes that suffer from long rebuild times.  It's usually preferable to scale horizontally instead.
 
 ## Network
 
 Amazon provides a number of network options, including public IPs, VPN gateways and Direct Connect.  We recommend using public IPs for most applications.  They perform very well, are extremely cost effective and are resilient to failure.
 
-EIP... try accessing cluster over PIP.  If not, need EIP per node because those will resolve public and private.  EIP if want to stop/start
+The templates configure each Couchbase node with the public DNS.  In AWS the public DNS resolves to a NAT based IP from outside the VPC and to the private IP from within the VPC.  AWS refers to this as split brain DNS.
 
-Pass public DNS to couchbase
+For applications where nodes may be stopped and started, we recommend using an elastic IP (EIP).  EIPs remain allocated even when a node is stopped.
 
 Placement groups provide 10G network, which is preferable.  However, they make the use of an Autoscaling Group more difficult as nodes will not be automatically spread across Availability Zones.  In the CFn template, we've opted for simplicity.
 
 ### Security
 
-security groups - fix sg to open in the sg
+The template automatically sets up a username and password for the Couchbase Web Administrator.  The template also configures a Security Group that closes off unused ports.  This configuration can be further secured by specifying CIDR blocks to whitelist and blocking others.
 
-A number of steps are necessary to secure a Couchbase cluster:
-* Configure authentication for the administrator tool
-* Enable SSL for traffic between nodes
-* Enable authentication for connections to the database as well.
+AWS [automatically enables encryption](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html) for disks that use EBS.
 
-add link
+The template does not currently configure SSL.  We recommend setting it up for production applications.
+
+These templates open Sync Gateway access to the internet over ports 4984 and 4985.  We typically recommend securing the admin interface for access from `127.0.0.1` only.  That can be done by editing the `/home/sync_gateway/sync_gateway.json` file.
