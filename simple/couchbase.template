@@ -76,8 +76,8 @@
       "Properties": {
         "AvailabilityZones": { "Fn::GetAZs": "" },
         "LaunchConfigurationName": { "Ref": "ServerLaunchConfiguration" },
-        "MinSize": { "Ref": "ServerInstanceCount" },
-        "MaxSize": { "Ref": "ServerInstanceCount" },
+        "MinSize": 1,
+        "MaxSize": 100,
         "DesiredCapacity": { "Ref": "ServerInstanceCount" }
       }
     },
@@ -110,8 +110,8 @@
                 "adminPassword=", { "Ref": "Password" }, "\n",
                 "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                 "wget ${baseURL}server.sh\n",
+                "wget ${baseURL}configureOS.sh\n",
                 "wget ${baseURL}format.sh\n",
-                "wget ${baseURL}installServer.sh\n",
                 "wget ${baseURL}configureServer.sh\n",
                 "chmod +x *.sh\n",
                 "./server.sh ${adminUsername} ${adminPassword}\n"
@@ -126,8 +126,8 @@
       "Properties": {
         "AvailabilityZones": { "Fn::GetAZs": "" },
         "LaunchConfigurationName": { "Ref": "SyncGatewayLaunchConfiguration" },
-        "MinSize": { "Ref": "SyncGatewayInstanceCount" },
-        "MaxSize": { "Ref": "SyncGatewayInstanceCount" },
+        "MinSize": 0,
+        "MaxSize": 100,
         "DesiredCapacity": { "Ref": "SyncGatewayInstanceCount" }
       }
     },
@@ -148,7 +148,6 @@
                 "echo 'Running startup script...'\n",
                 "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                 "wget ${baseURL}syncGateway.sh\n",
-                "wget ${baseURL}installSyncGateway.sh\n",
                 "wget ${baseURL}configureSyncGateway.sh\n",
                 "chmod +x *.sh\n",
                 "./syncGateway.sh\n"
