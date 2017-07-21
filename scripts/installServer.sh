@@ -4,8 +4,8 @@ echo "Running installServer.sh"
 
 # Using these instructions
 # https://developer.couchbase.com/documentation/server/4.6/install/rhel-suse-install-intro.html
-wget https://packages.couchbase.com/releases/4.6.2/couchbase-server-enterprise-4.6.2-centos6.x86_64.rpm
-rpm --install couchbase-server-enterprise-4.6.2-centos6.x86_64.rpm
+#wget https://packages.couchbase.com/releases/4.6.2/couchbase-server-enterprise-4.6.2-centos6.x86_64.rpm
+#rpm --install couchbase-server-enterprise-4.6.2-centos6.x86_64.rpm
 
 #######################################################
 ############ Turn Off Transparent Hugepages ###########
