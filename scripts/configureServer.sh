@@ -11,7 +11,6 @@ echo adminPassword \'$adminPassword\'
 
 # This is all to figure out what our rally point is.  There might be a much better way to do this.
 yum -y install jq
-sleep 10
 
 region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
   | jq '.region'  \
