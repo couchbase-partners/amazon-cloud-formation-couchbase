@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-TEMPLATE_BODY="file://couchbase.template"
+TEMPLATE_BODY="file://couchbase-ee-hourly-pricing.template"
 STACK_NAME=$1
 REGION=`aws configure get region`
 
