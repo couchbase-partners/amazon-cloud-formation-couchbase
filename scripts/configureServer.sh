@@ -5,10 +5,6 @@ echo "Running configureServer.sh"
 adminUsername=$1
 adminPassword=$2
 
-echo "Using the settings:"
-echo adminUsername \'$adminUsername\'
-echo adminPassword \'$adminPassword\'
-
 # This is all to figure out what our rally point is.  There might be a much better way to do this.
 yum -y install jq
 
