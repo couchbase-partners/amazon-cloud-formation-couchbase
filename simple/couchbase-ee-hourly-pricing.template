@@ -149,9 +149,10 @@
                 "echo 'Running startup script...'\n",
                 "serverAutoScalingGroup=", { "Ref": "ServerAutoScalingGroup" }, "\n",
                 "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
+                "wget ${baseURL}syncGateway.sh\n",
                 "wget ${baseURL}configureSyncGateway.sh\n",
                 "chmod +x *.sh\n",
-                "./configureSyncGateway.sh ${serverAutoScalingGroup}\n"
+                "./syncGateway.sh ${serverAutoScalingGroup}\n"
               ]
             ]
           }
