@@ -184,9 +184,9 @@
                 {
                   "Effect": "Allow",
                   "Action": [
+                    "ec2:CreateTags",
                     "ec2:DescribeInstances",
-                    "autoscaling:DescribeAutoScalingGroups",
-                    "tag:addResourceTags"
+                    "autoscaling:DescribeAutoScalingGroups"
                   ],
                   "Resource": "*"
                 }
