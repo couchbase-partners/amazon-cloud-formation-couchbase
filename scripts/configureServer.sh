@@ -39,7 +39,6 @@ rallyPublicDNS=$(aws ec2 describe-instances \
 nodePublicDNS=`curl http://169.254.169.254/latest/meta-data/public-hostname`
 
 echo "Using the settings:"
-echo serverAutoScalingGroup \'$serverAutoScalingGroup\'
 echo adminUsername \'$adminUsername\'
 echo adminPassword \'$adminPassword\'
 echo instanceID \'$instanceID\'
