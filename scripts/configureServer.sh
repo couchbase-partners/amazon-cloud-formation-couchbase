@@ -35,6 +35,7 @@ rallyPublicDNS=$(aws ec2 describe-instances \
     --query  'Reservations[0].Instances[0].NetworkInterfaces[0].Association.PublicDnsName' \
     --instance-ids ${rallyInstanceID} \
     --output text)
+
 echo rallyPublicDNS ${rallyPublicDNS}
 
 nodePublicDNS=`curl http://169.254.169.254/latest/meta-data/public-hostname`
