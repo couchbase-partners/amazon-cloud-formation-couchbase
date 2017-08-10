@@ -12,8 +12,8 @@ region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/documen
   | sed 's/^"\(.*\)"$/\1/' )
 
 instanceID=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
-    | jq '.instanceId' \
-    | sed 's/^"\(.*\)"$/\1/' )
+  | jq '.instanceId' \
+  | sed 's/^"\(.*\)"$/\1/' )
 
 serverAutoscalingGroupInstanceIDs=$(aws autoscaling describe-auto-scaling-groups \
   --region ${region} \
@@ -24,10 +24,10 @@ serverAutoscalingGroupInstanceIDs=$(aws autoscaling describe-auto-scaling-groups
 rallyInstanceID=`echo ${serverAutoscalingGroupInstanceIDs} | cut -d " " -f1`
 
 rallyPublicDNS=$(aws ec2 describe-instances \
-    --region ${region} \
-    --query  'Reservations[0].Instances[0].NetworkInterfaces[0].Association.PublicDnsName' \
-    --instance-ids ${rallyInstanceID} \
-    --output text)
+  --region ${region} \
+  --query  'Reservations[0].Instances[0].NetworkInterfaces[0].Association.PublicDnsName' \
+  --instance-ids ${rallyInstanceID} \
+  --output text)
 
 nodePublicDNS=`curl http://169.254.169.254/latest/meta-data/public-hostname`
 
@@ -37,7 +37,10 @@ echo rallyPublicDNS \'$rallyPublicDNS\'
 echo nodePublicDNS \'$nodePublicDNS\'
 echo instanceID \'$instanceID\'
 
-aws ec2 create-tags --resources ${instanceID} --tags Key=Name,Value=SyncGateway
+aws ec2 create-tags \
+  --region ${region} \
+  --resources ${instanceID} \
+  --tags Key=Name,Value=SyncGateway
 
 file="/opt/sync_gateway/etc/sync_gateway.json"
 echo '

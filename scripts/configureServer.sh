@@ -31,10 +31,10 @@ serverAutoscalingGroupInstanceIDs=$(aws autoscaling describe-auto-scaling-groups
 rallyInstanceID=`echo ${serverAutoscalingGroupInstanceIDs} | cut -d " " -f1`
 
 rallyPublicDNS=$(aws ec2 describe-instances \
-    --region ${region} \
-    --query  'Reservations[0].Instances[0].NetworkInterfaces[0].Association.PublicDnsName' \
-    --instance-ids ${rallyInstanceID} \
-    --output text)
+  --region ${region} \
+  --query  'Reservations[0].Instances[0].NetworkInterfaces[0].Association.PublicDnsName' \
+  --instance-ids ${rallyInstanceID} \
+  --output text)
 
 nodePublicDNS=`curl http://169.254.169.254/latest/meta-data/public-hostname`
 
@@ -48,9 +48,15 @@ echo nodePublicDNS \'$nodePublicDNS\'
 
 if [[ $rallyPublicDNS == $nodePublicDNS ]]
 then
-  aws ec2 create-tags --resources ${instanceID} --tags Key=Name,Value=Server0
+  aws ec2 create-tags \
+    --region ${region} \
+    --resources ${instanceID} \
+    --tags Key=Name,Value=Server0
 else
-  aws ec2 create-tags --resources ${instanceID} --tags Key=Name,Value=ServerX
+  aws ec2 create-tags \
+    --region ${region} \
+    --resources ${instanceID} \
+    --tags Key=Name,Value=ServerX
 fi
 
 cd /opt/couchbase/bin/
