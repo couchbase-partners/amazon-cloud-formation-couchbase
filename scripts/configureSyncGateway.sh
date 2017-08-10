@@ -11,6 +11,10 @@ region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/documen
   | jq '.region'  \
   | sed 's/^"\(.*\)"$/\1/' )
 
+instanceID=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
+    | jq '.instanceId' \
+    | sed 's/^"\(.*\)"$/\1/' )
+
 serverAutoscalingGroupInstanceIDs=$(aws autoscaling describe-auto-scaling-groups \
   --region ${region} \
   --query 'AutoScalingGroups[*].Instances[*].InstanceId' \
@@ -29,6 +33,9 @@ echo "Using the settings:"
 echo serverAutoScalingGroup \'$serverAutoScalingGroup\'
 echo rallyPublicDNS \'$rallyPublicDNS\'
 echo nodePublicDNS \'$nodePublicDNS\'
+echo instanceID \'$instanceID\'
+
+aws ec2 create-tags --resources ${instanceID} --tags Key=Name,Value=SyncGateway
 
 file="/opt/sync_gateway/etc/sync_gateway.json"
 echo '

@@ -42,8 +42,16 @@ echo "Using the settings:"
 echo serverAutoScalingGroup \'$serverAutoScalingGroup\'
 echo adminUsername \'$adminUsername\'
 echo adminPassword \'$adminPassword\'
+echo instanceID \'$instanceID\'
 echo rallyPublicDNS \'$rallyPublicDNS\'
 echo nodePublicDNS \'$nodePublicDNS\'
+
+if [[ $rallyPublicDNS == $nodePublicDNS ]]
+then
+  aws ec2 create-tags --resources ${instanceID} --tags Key=Name,Value=Server0
+else
+  aws ec2 create-tags --resources ${instanceID} --tags Key=Name,Value=ServerX
+fi
 
 cd /opt/couchbase/bin/
 
