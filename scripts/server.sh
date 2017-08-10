@@ -2,13 +2,15 @@
 
 echo "Running server.sh"
 
-adminUsername=$1
-adminPassword=$2
+serverAutoScalingGroup=$1
+adminUsername=$2
+adminPassword=$3
 
 echo "Using the settings:"
+echo serverAutoScalingGroup \'$serverAutoScalingGroup\'
 echo adminUsername \'$adminUsername\'
 echo adminPassword \'$adminPassword\'
 
 ./configureOS.sh
 ./format.sh
-./configureServer.sh $adminUsername $adminPassword
+./configureServer.sh $serverAutoScalingGroup $adminUsername $adminPassword
