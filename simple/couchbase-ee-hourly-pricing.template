@@ -108,14 +108,13 @@
                 "echo 'Running startup script...'\n",
                 "adminUsername=", { "Ref": "Username" }, "\n",
                 "adminPassword=", { "Ref": "Password" }, "\n",
-                "serverAutoScalingGroup=", { "Ref": "ServerAutoScalingGroup" }, "\n",
                 "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                 "wget ${baseURL}server.sh\n",
                 "wget ${baseURL}configureOS.sh\n",
                 "wget ${baseURL}format.sh\n",
                 "wget ${baseURL}configureServer.sh\n",
                 "chmod +x *.sh\n",
-                "./server.sh ${serverAutoScalingGroup} ${adminUsername} ${adminPassword}\n"
+                "./server.sh ${adminUsername} ${adminPassword}\n"
               ]
             ]
           }

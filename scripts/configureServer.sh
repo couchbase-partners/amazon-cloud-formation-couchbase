@@ -2,15 +2,24 @@
 
 echo "Running configureServer.sh"
 
-serverAutoScalingGroup=$1
-adminUsername=$2
-adminPassword=$3
+adminUsername=$1
+adminPassword=$2
 
 # This is all to figure out what our rally point is.  There might be a much better way to do this.
 yum -y install jq
 
 region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
   | jq '.region'  \
+  | sed 's/^"\(.*\)"$/\1/' )
+
+instanceID=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
+  | jq '.instanceId' \
+  | sed 's/^"\(.*\)"$/\1/' )
+
+serverAutoscalingGroup=$(aws ec2 describe-instances \
+  --region ${region} \
+  --instance-ids ${instanceID} \
+  | jq '.Reservations[0]|.Instances[0]|.Tags[] | select( .Key == "aws:autoscaling:groupName") | .Value' \
   | sed 's/^"\(.*\)"$/\1/' )
 
 serverAutoscalingGroupInstanceIDs=$(aws autoscaling describe-auto-scaling-groups \
