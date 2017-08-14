@@ -24,8 +24,8 @@ serverAutoscalingGroup=$(aws ec2 describe-instances \
 
 serverAutoscalingGroupInstanceIDs=$(aws autoscaling describe-auto-scaling-groups \
   --region ${region} \
-  --query 'AutoScalingGroups[*].Instances[*].InstanceId' \
   --auto-scaling-group-name ${serverAutoScalingGroup} \
+  --query 'AutoScalingGroups[*].Instances[*].InstanceId' \
   | grep "i-" | sed 's/ //g' | sed 's/"//g' |sed 's/,//g' | sort)
 
 rallyInstanceID=`echo ${serverAutoscalingGroupInstanceIDs} | cut -d " " -f1`
