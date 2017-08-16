@@ -41,6 +41,7 @@ nodePublicDNS=`curl http://169.254.169.254/latest/meta-data/public-hostname`
 echo "Using the settings:"
 echo adminUsername \'$adminUsername\'
 echo adminPassword \'$adminPassword\'
+echo region \'$region\'
 echo instanceID \'$instanceID\'
 echo rallyPublicDNS \'$rallyPublicDNS\'
 echo nodePublicDNS \'$nodePublicDNS\'
