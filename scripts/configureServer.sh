@@ -24,7 +24,7 @@ serverAutoscalingGroup=$(aws ec2 describe-instances \
 
 serverAutoscalingGroupInstanceIDs=$(aws autoscaling describe-auto-scaling-groups \
   --region ${region} \
-  --auto-scaling-group-name ${serverAutoScalingGroup} \
+  --auto-scaling-group-name ${serverAutoscalingGroup} \
   --query 'AutoScalingGroups[*].Instances[*].InstanceId' \
   | grep "i-" | sed 's/ //g' | sed 's/"//g' |sed 's/,//g' | sort)
 
