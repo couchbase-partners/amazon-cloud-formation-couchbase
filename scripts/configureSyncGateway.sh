@@ -31,6 +31,7 @@ rallyPublicDNS=$(aws ec2 describe-instances \
   --output text)
 
 echo "Using the settings:"
+echo stackName \'$stackName\'
 echo region \'$region\'
 echo instanceID \'$instanceID\'
 echo rallyPublicDNS \'$rallyPublicDNS\'
