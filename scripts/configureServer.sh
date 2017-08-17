@@ -4,6 +4,7 @@ echo "Running configureServer.sh"
 
 adminUsername=$1
 adminPassword=$2
+stackName=$3
 
 # This is all to figure out what our rally point is.  There might be a much better way to do this.
 yum -y install jq
@@ -51,12 +52,12 @@ then
   aws ec2 create-tags \
     --region ${region} \
     --resources ${instanceID} \
-    --tags Key=Name,Value=Server0
+    --tags Key=Name,Value=${stackName}-Server0
 else
   aws ec2 create-tags \
     --region ${region} \
     --resources ${instanceID} \
-    --tags Key=Name,Value=ServerX
+    --tags Key=Name,Value=${stackName}-ServerX
 fi
 
 cd /opt/couchbase/bin/

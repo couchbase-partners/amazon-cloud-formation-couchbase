@@ -3,6 +3,7 @@
 echo "Running configureSyncGateway.sh"
 
 serverAutoScalingGroup=$1
+stackName=$2
 
 # This is all to figure out what our rally point is.  There might be a much better way to do this.
 yum -y install jq
@@ -37,7 +38,7 @@ echo rallyPublicDNS \'$rallyPublicDNS\'
 aws ec2 create-tags \
   --region ${region} \
   --resources ${instanceID} \
-  --tags Key=Name,Value=SyncGateway
+  --tags Key=Name,Value=${stackName}-SyncGateway
 
 file="/opt/sync_gateway/etc/sync_gateway.json"
 echo '
