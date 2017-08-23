@@ -8,7 +8,7 @@ This doesn't work yet.
 
 ## Deployment
 
-Creating a deployment is really simple.  Run the `deploy.sh` command with the name of a parameters file and the name of a [stack set](docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-getting-started-create.html) to create.  For instance:
+Creating a deployment is really simple.  Run the `deploy.sh` command with the name of a parameters file and the name of a [stack set](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html) to create.  For instance:
 
     ./deploy.sh simple simple_stack_set
 
