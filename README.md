@@ -1,6 +1,6 @@
 # amazon-cloud-formation-couchbase
 
-These are Amazon CloudFormation (CFn) templates that install Couchbase Enterprise.  [marketplace](marketplace) is the template used in the Couchbase Amazon Marketplace offer.  [simple](simple) is a good way to get started deploying from the CLI and includes a shell script to get you started.
+These are Amazon CloudFormation (CFn) templates that install Couchbase Enterprise.  [simple](simple) is probably the best starting point.  [marketplace](marketplace) is the template used in the Couchbase AWS Marketplace offer. [generator](generator) is a template generator for advanced configurations.
 
 Some best practices are covered [here](documentation/bestPractices.md).
 
