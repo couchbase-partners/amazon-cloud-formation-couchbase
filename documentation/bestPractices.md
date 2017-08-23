@@ -4,6 +4,8 @@
 
 A variety of compute types are EBS optimized.  Any such node will work well with Couchbase, though some may be more cost effective.  R4 and M4 machines are the most commonly used.  While one core machines will deploy successfully, [we recommend machines with 4 or more cores](https://developer.couchbase.com/documentation/server/current/install/pre-install.html) for production applications.
 
+For a majority of applications the r4.4xlarge will be a good balance of price and performance.
+
 We recommend using Autoscaling Groups instead of stand alone instances as it improves reliability and simplifies the addition and removal of nodes.
 
 ### Memory Allocation
