@@ -1,0 +1,32 @@
+username: couchbase
+password: foo123!
+clusters:
+  - cluster: cluster1
+    region: us-east1
+    groups:
+      - group: group1
+        diskSize: 100
+        nodeCount: 5
+        nodeType: m4.4xlarge
+        services:
+          - data
+      - group: group2
+        diskSize: 100
+        nodeCount: 5
+        nodeType: m4.4xlarge
+        services:
+          - query
+          - index
+          - fts
+  - cluster: cluster2
+    region: us-central1
+    groups:
+      - group: group1
+        diskSize: 100
+        nodeCount: 5
+        nodeType: m4.4xlarge
+        services:
+          - data
+          - query
+          - index
+          - fts
