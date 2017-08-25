@@ -4,14 +4,14 @@ PARAMETERS_FILE=$1
 STACK_NAME=$2
 
 # create generatedTemplate.json
-python deployment.py parameters.${PARAMETERS_FILE}.yaml
+python generator.py parameters.${PARAMETERS_FILE}.yaml
 
 TEMPLATE_BODY="file://generated.template"
 REGION=`aws configure get region`
 
-USERNAME="couchbase"
-PASSWORD="foo123!"
-KEY_NAME="couchbase-${REGION}"
+Username="couchbase"
+Password="foo123!"
+KeyName="couchbase-${REGION}"
 
 aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM \
@@ -19,6 +19,6 @@ aws cloudformation create-stack \
 --stack-name ${STACK_NAME} \
 --region ${REGION} \
 --parameters \
-ParameterKey=Username,ParameterValue=${USERNAME} \
-ParameterKey=Password,ParameterValue=${PASSWORD} \
-ParameterKey=KeyName,ParameterValue=${KEY_NAME}
+ParameterKey=Username,ParameterValue=${Username} \
+ParameterKey=Password,ParameterValue=${Password} \
+ParameterKey=KeyName,ParameterValue=${KeyName}
