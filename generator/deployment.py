@@ -78,7 +78,7 @@ def generateMappings(license):
                 "sa-east-1": { "AMI": "ami-4d1e6821" }
             }
         }
-    else:
+    else: # hourly-pricing
         mappings = {
             "CouchbaseServerAMI": {
               "us-east-1": { "AMI": "ami-d71f29c1" },
