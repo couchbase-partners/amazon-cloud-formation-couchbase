@@ -13,6 +13,15 @@ def main():
         "AWSTemplateFormatVersion": "2010-09-09",
         "Description": "AWS Deployment for Couchbase Enterprise",
         "Parameters": {
+            "Username": {
+                "Description": "Username for Couchbase administrator",
+                "Type": "String"
+            },
+            "Password": {
+                "Description": "Password for Couchbase administrator",
+                "Type": "String",
+                "NoEcho": True
+            },
             "KeyName": {
                 "Description": "Name of an existing EC2 KeyPair",
                 "Type": "AWS::EC2::KeyPair::KeyName"
@@ -23,8 +32,6 @@ def main():
     }
 
     license = parameters['license']
-    username = parameters['username']
-    password = parameters['password']
     cluster = parameters['cluster']
 
     template['Mappings'] = dict(template['Mappings'].items() + generateMappings(license).items())
@@ -182,21 +189,21 @@ def generateSyncGateway(group):
     nodeType = group['nodeType']
 
     resources = {
-        "SyncGatewayAutoScalingGroup": {
+        groupName + "AutoScalingGroup": {
             "Type": "AWS::AutoScaling::AutoScalingGroup",
             "Properties": {
                 "AvailabilityZones": { "Fn::GetAZs": "" },
                 "LaunchConfigurationName": { "Ref": "SyncGatewayLaunchConfiguration" },
                 "MinSize": 0,
                 "MaxSize": 100,
-                "DesiredCapacity": { "Ref": "SyncGatewayInstanceCount" }
+                "DesiredCapacity": nodeCount
             }
         },
-        "SyncGatewayLaunchConfiguration": {
+        groupName + "LaunchConfiguration": {
             "Type": "AWS::AutoScaling::LaunchConfiguration",
             "Properties": {
                 "ImageId": { "Fn::FindInMap": [ "CouchbaseSyncGatewayAMI", { "Ref": "AWS::Region" }, "AMI" ] },
-                "InstanceType": { "Ref": "InstanceType" },
+                "InstanceType": nodeType,
                 "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
                 "KeyName": { "Ref": "KeyName" },
                 "EbsOptimized": True,
@@ -229,21 +236,21 @@ def generateServer(group):
     services = group['services']
 
     resources = {
-        "ServerAutoScalingGroup": {
+        groupName + "AutoScalingGroup": {
             "Type": "AWS::AutoScaling::AutoScalingGroup",
             "Properties": {
                 "AvailabilityZones": { "Fn::GetAZs": "" },
                 "LaunchConfigurationName": { "Ref": "ServerLaunchConfiguration" },
                 "MinSize": 1,
                 "MaxSize": 100,
-                "DesiredCapacity": { "Ref": "ServerInstanceCount" }
+                "DesiredCapacity": nodeCount
             }
         },
-        "ServerLaunchConfiguration": {
+        groupName + "LaunchConfiguration": {
             "Type": "AWS::AutoScaling::LaunchConfiguration",
             "Properties": {
                 "ImageId": { "Fn::FindInMap": [ "CouchbaseServerAMI", { "Ref": "AWS::Region" }, "AMI" ] },
-                "InstanceType": { "Ref": "InstanceType" },
+                "InstanceType": nodeType,
                 "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
                 "KeyName": { "Ref": "KeyName" },
                 "EbsOptimized": True,
@@ -252,7 +259,7 @@ def generateServer(group):
                 [{
                     "DeviceName" : "/dev/sdk",
                     "Ebs" : {
-                        "VolumeSize": { "Ref": "ServerDiskSize" },
+                        "VolumeSize": dataDiskSize,
                         "VolumeType": "gp2"
                     }
                 }],

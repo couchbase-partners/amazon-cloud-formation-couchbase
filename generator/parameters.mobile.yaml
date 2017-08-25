@@ -1,6 +1,4 @@
 license: hourly-pricing
-username: couchbase
-password: foo123!
 cluster:
   - group: server
     nodeCount: 5

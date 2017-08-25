@@ -9,6 +9,8 @@ python deployment.py parameters.${PARAMETERS_FILE}.yaml
 #TEMPLATE_BODY="file://generated.template"
 #REGION=`aws configure get region`
 
+#USERNAME="couchbase"
+#PASSWORD="foo123!"
 #KEY_NAME="couchbase-${REGION}"
 #KEY_FILENAME=~/.ssh/${KEY_NAME}.pem
 #if [ ! -e ${KEY_FILENAME} ]
@@ -25,4 +27,6 @@ python deployment.py parameters.${PARAMETERS_FILE}.yaml
 #--stack-name ${STACK_NAME} \
 #--region ${REGION} \
 #--parameters \
+#ParameterKey=Username,ParameterValue=${USERNAME} \
+#ParameterKey=Password,ParameterValue=${PASSWORD} \
 #ParameterKey=KeyName,ParameterValue=${KEY_NAME}
