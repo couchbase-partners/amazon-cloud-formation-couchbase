@@ -20,7 +20,7 @@ def main():
     for cluster in parameters['clusters']:
         template['resources']+=generateCluster(cluster)
 
-    file = open('generatedTemplate.json', 'w')
+    file = open('generated.template', 'w')
     file.write(json.dumps(template, sort_keys=True, indent=4, separators=(',', ': ')) + '\n')
     file.close()
 
