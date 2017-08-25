@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-TEMPLATE_BODY="file://couchbase-ee-hourly-pricing.template"
 STACK_NAME=$1
+
+LICENSE=hourly-pricing
+TEMPLATE_BODY="file://couchbase-ee-${LICENSE}.template"
 REGION=`aws configure get region`
 
 ServerInstanceCount="4"
