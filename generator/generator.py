@@ -235,6 +235,12 @@ def generateServer(group):
     dataDiskSize = group['dataDiskSize']
     services = group['services']
 
+    services=context.properties['services']
+    servicesParameter=''
+    for service in services:
+        servicesParameter += service + ','
+    servicesParameter=servicesParameter[:-1]
+
     resources = {
         groupName + "AutoScalingGroup": {
             "Type": "AWS::AutoScaling::AutoScalingGroup",
