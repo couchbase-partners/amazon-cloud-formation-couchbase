@@ -193,7 +193,7 @@ def generateSyncGateway(group):
             "Type": "AWS::AutoScaling::AutoScalingGroup",
             "Properties": {
                 "AvailabilityZones": { "Fn::GetAZs": "" },
-                "LaunchConfigurationName": { "Ref": "SyncGatewayLaunchConfiguration" },
+                "LaunchConfigurationName": { "Ref": groupName + "LaunchConfiguration" },
                 "MinSize": 0,
                 "MaxSize": 100,
                 "DesiredCapacity": nodeCount
@@ -240,7 +240,7 @@ def generateServer(group):
             "Type": "AWS::AutoScaling::AutoScalingGroup",
             "Properties": {
                 "AvailabilityZones": { "Fn::GetAZs": "" },
-                "LaunchConfigurationName": { "Ref": "ServerLaunchConfiguration" },
+                "LaunchConfigurationName": { "Ref": groupName + "LaunchConfiguration" },
                 "MinSize": 1,
                 "MaxSize": 100,
                 "DesiredCapacity": nodeCount
