@@ -16,9 +16,8 @@ def main():
 
     username = parameters['username']
     password = parameters['password']
-
-    for cluster in parameters['clusters']:
-        template['resources']+=generateCluster(cluster)
+    cluster = parameters['cluster']
+    template['resources']+=generateCluster(cluster)
 
     file = open('generated.template', 'w')
     file.write(json.dumps(template, sort_keys=True, indent=4, separators=(',', ': ')) + '\n')
@@ -26,9 +25,7 @@ def main():
 
 def generateCluster(cluster):
     resources = []
-    clusterName = cluster['cluster']
-    region = cluster['region']
-    for group in cluster['groups']:
+    for group in cluster:
         resources+=generateGroup(group)
     return resources
 
