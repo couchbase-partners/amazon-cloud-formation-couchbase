@@ -176,6 +176,115 @@ def generateGroup(group):
     services = group['services']
 
     resources = {}
+    if 'syncGateway' in services:
+        resources = dict(resources.items() + generateSyncGateway(group).items())
+    else:
+        resources = dict(resources.items() + generateServer(group).items())
+    return resources
+
+def generateSyncGateway(group):
+    groupName = group['group']
+    nodeCount = group['nodeCount']
+    nodeType = group['nodeType']
+    diskSize = group['diskSize']
+    services = group['services']
+
+    resources = {
+        "SyncGatewayAutoScalingGroup": {
+            "Type": "AWS::AutoScaling::AutoScalingGroup",
+            "Properties": {
+                "AvailabilityZones": { "Fn::GetAZs": "" },
+                "LaunchConfigurationName": { "Ref": "SyncGatewayLaunchConfiguration" },
+                "MinSize": 0,
+                "MaxSize": 100,
+                "DesiredCapacity": { "Ref": "SyncGatewayInstanceCount" }
+            }
+        },
+        "SyncGatewayLaunchConfiguration": {
+            "Type": "AWS::AutoScaling::LaunchConfiguration",
+            "Properties": {
+                "ImageId": { "Fn::FindInMap": [ "CouchbaseSyncGatewayAMI", { "Ref": "AWS::Region" }, "AMI" ] },
+                "InstanceType": { "Ref": "InstanceType" },
+                "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
+                "KeyName": { "Ref": "KeyName" },
+                "EbsOptimized": True,
+                "IamInstanceProfile": { "Ref": "CouchbaseInstanceProfile" },
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [ "", [
+                            "#!/bin/bash\n",
+                            "echo 'Running startup script...'\n",
+                            "serverAutoScalingGroup=", { "Ref": "ServerAutoScalingGroup" }, "\n",
+                            "stackName=", { "Ref": "AWS::StackName" }, "\n",
+                            "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
+                            "wget ${baseURL}syncGateway.sh\n",
+                            "wget ${baseURL}configureSyncGateway.sh\n",
+                            "chmod +x *.sh\n",
+                            "./syncGateway.sh ${serverAutoScalingGroup} ${stackName}\n"
+                        ]]
+                    }
+                }
+            }
+        }
+    }
+    return resources
+
+def generateServer(group):
+    groupName = group['group']
+    nodeCount = group['nodeCount']
+    nodeType = group['nodeType']
+    diskSize = group['diskSize']
+    services = group['services']
+
+    resources = {
+        "ServerAutoScalingGroup": {
+            "Type": "AWS::AutoScaling::AutoScalingGroup",
+            "Properties": {
+                "AvailabilityZones": { "Fn::GetAZs": "" },
+                "LaunchConfigurationName": { "Ref": "ServerLaunchConfiguration" },
+                "MinSize": 1,
+                "MaxSize": 100,
+                "DesiredCapacity": { "Ref": "ServerInstanceCount" }
+            }
+        },
+        "ServerLaunchConfiguration": {
+            "Type": "AWS::AutoScaling::LaunchConfiguration",
+            "Properties": {
+                "ImageId": { "Fn::FindInMap": [ "CouchbaseServerAMI", { "Ref": "AWS::Region" }, "AMI" ] },
+                "InstanceType": { "Ref": "InstanceType" },
+                "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
+                "KeyName": { "Ref": "KeyName" },
+                "EbsOptimized": True,
+                "IamInstanceProfile": { "Ref": "CouchbaseInstanceProfile" },
+                "BlockDeviceMappings":
+                [{
+                    "DeviceName" : "/dev/sdk",
+                    "Ebs" : {
+                        "VolumeSize": { "Ref": "ServerDiskSize" },
+                        "VolumeType": "gp2"
+                    }
+                }],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [ "", [
+                            "#!/bin/bash\n",
+                            "echo 'Running startup script...'\n",
+                            "adminUsername=", { "Ref": "Username" }, "\n",
+                            "adminPassword=", { "Ref": "Password" }, "\n",
+                            "stackName=", { "Ref": "AWS::StackName" }, "\n",
+                            "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
+                            "wget ${baseURL}server.sh\n",
+                            "wget ${baseURL}configureOS.sh\n",
+                            "wget ${baseURL}format.sh\n",
+                            "wget ${baseURL}configureServer.sh\n",
+                            "chmod +x *.sh\n",
+                            "./server.sh ${adminUsername} ${adminPassword} ${stackName}\n"
+                        ]]
+                    }
+                }
+            }
+        }
+    }
     return resources
 
 main()
