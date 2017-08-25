@@ -39,7 +39,7 @@ If you don't have a key, you'll also need to create one.  That can be done with 
 
 ## Creating a Stack
 
-The AWS word for a deployment is a stack.  `deploy.sh` is a helper script to deploy a stack.  Take a look at it and modify any variables, then run it as:
+The AWS word for a deployment is a stack.  [deploy.sh](deploy.sh) is a helper script to deploy a stack.  Take a look at it and modify any variables, then run it as:
 
     cd amazon-cloud-formation-couchbase
     cd simple
