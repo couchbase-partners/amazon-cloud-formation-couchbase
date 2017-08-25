@@ -3,9 +3,9 @@ username: couchbase
 password: foo123!
 cluster:
   - group: server
-    diskSize: 100
     nodeCount: 5
     nodeType: m4.4xlarge
+    dataDiskSize: 100
     services:
       - data
       - query

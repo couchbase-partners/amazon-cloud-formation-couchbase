@@ -169,14 +169,8 @@ def generateCluster(cluster):
     return resources
 
 def generateGroup(group):
-    groupName = group['group']
-    nodeCount = group['nodeCount']
-    nodeType = group['nodeType']
-    diskSize = group['diskSize']
-    services = group['services']
-
     resources = {}
-    if 'syncGateway' in services:
+    if 'syncGateway' in group['services']:
         resources = dict(resources.items() + generateSyncGateway(group).items())
     else:
         resources = dict(resources.items() + generateServer(group).items())
@@ -186,8 +180,6 @@ def generateSyncGateway(group):
     groupName = group['group']
     nodeCount = group['nodeCount']
     nodeType = group['nodeType']
-    diskSize = group['diskSize']
-    services = group['services']
 
     resources = {
         "SyncGatewayAutoScalingGroup": {
@@ -233,7 +225,7 @@ def generateServer(group):
     groupName = group['group']
     nodeCount = group['nodeCount']
     nodeType = group['nodeType']
-    diskSize = group['diskSize']
+    dataDiskSize = group['dataDiskSize']
     services = group['services']
 
     resources = {
