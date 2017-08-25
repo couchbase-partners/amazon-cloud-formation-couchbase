@@ -28,6 +28,7 @@ def main():
     cluster = parameters['cluster']
 
     template['Mappings'] = dict(template['Mappings'].items() + generateMappings(license).items())
+    template['Resources'] = dict(template['Resources'].items() + generateMiscResources().items())
     template['Resources'] = dict(template['Resources'].items() + generateCluster(cluster).items())
 
     file = open('generated.template', 'w')
@@ -106,6 +107,60 @@ def generateMappings(license):
             }
         }
     return mappings
+
+def generateMiscResources():
+    resources = {
+        "CouchbaseInstanceProfile": {
+            "Type": "AWS::IAM::InstanceProfile",
+            "Properties": {"Roles": [{"Ref": "CouchbaseRole"}]}
+        },
+        "CouchbaseRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [{
+                        "Effect": "Allow",
+                        "Principal": {"Service": ["ec2.amazonaws.com"]},
+                        "Action": ["sts:AssumeRole"]
+                    }]
+                },
+                "Policies": [{
+                    "PolicyName": "CouchbasePolicy",
+                    "PolicyDocument": {
+                        "Version": "2012-10-17",
+                        "Statement": [{
+                            "Effect": "Allow",
+                            "Action": [
+                                "ec2:CreateTags",
+                                "ec2:DescribeInstances",
+                                "autoscaling:DescribeAutoScalingGroups"
+                            ],
+                            "Resource": "*"
+                        }]
+                    }
+                }]
+            }
+        },
+        "CouchbaseSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription" : "Enable SSH and Couchbase Ports",
+                "SecurityGroupIngress": [
+                    { "IpProtocol": "tcp", "FromPort": 22, "ToPort": 22, "CidrIp": "0.0.0.0/0" },
+                    { "IpProtocol": "tcp", "FromPort": 4369, "ToPort": 4369, "CidrIp": "0.0.0.0/0" },
+                    { "IpProtocol": "tcp", "FromPort": 4984, "ToPort": 4985, "CidrIp": "0.0.0.0/0" },
+                    { "IpProtocol": "tcp", "FromPort": 8091, "ToPort": 8094, "CidrIp": "0.0.0.0/0" },
+                    { "IpProtocol": "tcp", "FromPort": 9100, "ToPort": 9105, "CidrIp": "0.0.0.0/0" },
+                    { "IpProtocol": "tcp", "FromPort": 9998, "ToPort": 9999, "CidrIp": "0.0.0.0/0" },
+                    { "IpProtocol": "tcp", "FromPort": 11207, "ToPort": 11215, "CidrIp": "0.0.0.0/0" },
+                    { "IpProtocol": "tcp", "FromPort": 18091, "ToPort": 18093, "CidrIp": "0.0.0.0/0" },
+                    { "IpProtocol": "tcp", "FromPort": 21100, "ToPort": 21299, "CidrIp": "0.0.0.0/0" }
+                ]
+            }
+        }
+    }
+    return resources
 
 def generateCluster(cluster):
     resources = {}
