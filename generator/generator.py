@@ -219,7 +219,7 @@ def generateSyncGateway(group):
                             "wget ${baseURL}syncGateway.sh\n",
                             "wget ${baseURL}configureSyncGateway.sh\n",
                             "chmod +x *.sh\n",
-                            "./syncGateway.sh ${serverAutoScalingGroup} ${stackName}\n"
+                            "./syncGateway.sh ${stackName} ${serverAutoScalingGroup}\n"
                         ]]
                     }
                 }

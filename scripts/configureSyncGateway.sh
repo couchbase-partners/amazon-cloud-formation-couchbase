@@ -2,8 +2,8 @@
 
 echo "Running configureSyncGateway.sh"
 
-serverAutoScalingGroup=$1
-stackName=$2
+stackName=$1
+rallyAutoScalingGroup=$2
 
 # This is all to figure out what our rally point is.  There might be a much better way to do this.
 yum -y install jq
@@ -16,13 +16,13 @@ instanceID=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/doc
   | jq '.instanceId' \
   | sed 's/^"\(.*\)"$/\1/' )
 
-serverAutoscalingGroupInstanceIDs=$(aws autoscaling describe-auto-scaling-groups \
+rallyAutoscalingGroupInstanceIDs=$(aws autoscaling describe-auto-scaling-groups \
   --region ${region} \
   --query 'AutoScalingGroups[*].Instances[*].InstanceId' \
-  --auto-scaling-group-name ${serverAutoscalingGroup} \
+  --auto-scaling-group-name ${rallyAutoScalingGroup} \
   | grep "i-" | sed 's/ //g' | sed 's/"//g' |sed 's/,//g' | sort)
 
-rallyInstanceID=`echo ${serverAutoscalingGroupInstanceIDs} | cut -d " " -f1`
+rallyInstanceID=`echo ${rallyAutoscalingGroupInstanceIDs} | cut -d " " -f1`
 
 rallyPublicDNS=$(aws ec2 describe-instances \
   --region ${region} \
@@ -32,6 +32,7 @@ rallyPublicDNS=$(aws ec2 describe-instances \
 
 echo "Using the settings:"
 echo stackName \'$stackName\'
+echo rallyAutoScalingGroup \'$rallyAutoScalingGroup\'
 echo region \'$region\'
 echo instanceID \'$instanceID\'
 echo rallyPublicDNS \'$rallyPublicDNS\'

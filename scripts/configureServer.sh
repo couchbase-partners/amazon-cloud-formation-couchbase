@@ -5,6 +5,7 @@ echo "Running configureServer.sh"
 adminUsername=$1
 adminPassword=$2
 stackName=$3
+rallyAutoScalingGroup=$4
 
 # This is all to figure out what our rally point is.  There might be a much better way to do this.
 yum -y install jq
@@ -53,12 +54,12 @@ then
   aws ec2 create-tags \
     --region ${region} \
     --resources ${instanceID} \
-    --tags Key=Name,Value=${stackName}-Server0
+    --tags Key=Name,Value=${stackName}-ServerRally
 else
   aws ec2 create-tags \
     --region ${region} \
     --resources ${instanceID} \
-    --tags Key=Name,Value=${stackName}-ServerX
+    --tags Key=Name,Value=${stackName}-Server
 fi
 
 cd /opt/couchbase/bin/
