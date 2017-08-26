@@ -12,16 +12,18 @@ region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/documen
   | jq '.region'  \
   | sed 's/^"\(.*\)"$/\1/' )
 
+#### or pass this in if in a different group
+#if len(args)==3
 instanceID=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
   | jq '.instanceId' \
   | sed 's/^"\(.*\)"$/\1/' )
 
-#### or pass this in if in a different group
 rallyAutoscalingGroup=$(aws ec2 describe-instances \
   --region ${region} \
   --instance-ids ${instanceID} \
   | jq '.Reservations[0]|.Instances[0]|.Tags[] | select( .Key == "aws:autoscaling:groupName") | .Value' \
   | sed 's/^"\(.*\)"$/\1/' )
+#fi
 
 rallyAutoscalingGroupInstanceIDs=$(aws autoscaling describe-auto-scaling-groups \
   --region ${region} \
