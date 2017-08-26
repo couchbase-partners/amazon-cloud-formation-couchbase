@@ -18,19 +18,19 @@ instanceID=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/doc
   | jq '.instanceId' \
   | sed 's/^"\(.*\)"$/\1/' )
 
-serverAutoscalingGroup=$(aws ec2 describe-instances \
+rallyAutoscalingGroup=$(aws ec2 describe-instances \
   --region ${region} \
   --instance-ids ${instanceID} \
   | jq '.Reservations[0]|.Instances[0]|.Tags[] | select( .Key == "aws:autoscaling:groupName") | .Value' \
   | sed 's/^"\(.*\)"$/\1/' )
 
-serverAutoscalingGroupInstanceIDs=$(aws autoscaling describe-auto-scaling-groups \
+rallyAutoscalingGroupInstanceIDs=$(aws autoscaling describe-auto-scaling-groups \
   --region ${region} \
-  --auto-scaling-group-name ${serverAutoscalingGroup} \
+  --auto-scaling-group-name ${rallyAutoscalingGroup} \
   --query 'AutoScalingGroups[*].Instances[*].InstanceId' \
   | grep "i-" | sed 's/ //g' | sed 's/"//g' |sed 's/,//g' | sort)
 
-rallyInstanceID=`echo ${serverAutoscalingGroupInstanceIDs} | cut -d " " -f1`
+rallyInstanceID=`echo ${rallyAutoscalingGroupInstanceIDs} | cut -d " " -f1`
 
 rallyPublicDNS=$(aws ec2 describe-instances \
   --region ${region} \
