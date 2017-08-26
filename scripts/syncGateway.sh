@@ -9,4 +9,5 @@ echo "Using the settings:"
 echo serverAutoScalingGroup \'$serverAutoScalingGroup\'
 echo stackName \'$stackName\'
 
+yum -y install jq
 ./configureSyncGateway.sh $serverAutoScalingGroup $stackName
