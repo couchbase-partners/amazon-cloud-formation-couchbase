@@ -213,8 +213,8 @@ def generateSyncGateway(group):
                         "Fn::Join": [ "", [
                             "#!/bin/bash\n",
                             "echo 'Running startup script...'\n",
-                            "serverAutoScalingGroup=", { "Ref": "ServerAutoScalingGroup" }, "\n",
                             "stackName=", { "Ref": "AWS::StackName" }, "\n",
+                            "serverAutoScalingGroup=", { "Ref": "ServerAutoScalingGroup" }, "\n",
                             "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                             "wget ${baseURL}syncGateway.sh\n",
                             "wget ${baseURL}configureSyncGateway.sh\n",
