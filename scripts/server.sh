@@ -14,4 +14,5 @@ echo stackName \'$stackName\'
 ./configureOS.sh
 ./format.sh
 yum -y install jq
-./configureServer.sh $adminUsername $adminPassword $stackName
+##### need to set rallyPublicDNS
+./configureServer.sh $stackName $rallyPublicDNS $adminUsername $adminPassword

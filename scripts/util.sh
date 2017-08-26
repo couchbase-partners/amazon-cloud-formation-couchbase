@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# make this into a function called getRallyPublicDNS
 echo "Running getRallyPublicDNS.sh"
 
 adminUsername=$1

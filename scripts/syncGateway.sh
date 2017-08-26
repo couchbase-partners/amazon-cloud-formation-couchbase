@@ -2,12 +2,13 @@
 
 echo "Running server.sh"
 
-serverAutoScalingGroup=$1
-stackName=$2
+stackName=$1
+rallyAutoScalingGroup=$2
 
 echo "Using the settings:"
-echo serverAutoScalingGroup \'$serverAutoScalingGroup\'
 echo stackName \'$stackName\'
+echo rallyAutoScalingGroup \'$rallyAutoScalingGroup\'
 
 yum -y install jq
-./configureSyncGateway.sh $serverAutoScalingGroup $stackName
+#### need to set rallyPublicDNS
+./configureSyncGateway.sh $stackName $rallyPublicDNS
