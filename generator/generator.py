@@ -214,12 +214,13 @@ def generateSyncGateway(group):
                             "#!/bin/bash\n",
                             "echo 'Running startup script...'\n",
                             "stackName=", { "Ref": "AWS::StackName" }, "\n",
-                            "serverAutoScalingGroup=", { "Ref": "ServerAutoScalingGroup" }, "\n",
+                            "rallyAutoScalingGroup=", { "Ref": "ServerAutoScalingGroup" }, "\n",
                             "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                             "wget ${baseURL}syncGateway.sh\n",
                             "wget ${baseURL}configureSyncGateway.sh\n",
+                            "wget ${baseURL}util.sh\n",
                             "chmod +x *.sh\n",
-                            "./syncGateway.sh ${stackName} ${serverAutoScalingGroup}\n"
+                            "./syncGateway.sh ${stackName} ${rallyAutoScalingGroup}\n"
                         ]]
                     }
                 }
@@ -282,6 +283,7 @@ def generateServer(group):
                             "wget ${baseURL}configureOS.sh\n",
                             "wget ${baseURL}format.sh\n",
                             "wget ${baseURL}configureServer.sh\n",
+                            "wget ${baseURL}util.sh\n",
                             "chmod +x *.sh\n",
                             "./server.sh ${adminUsername} ${adminPassword} ${stackName}\n"
                         ]]
