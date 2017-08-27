@@ -171,11 +171,13 @@ def generateMiscResources():
 
 def generateCluster(cluster):
     resources = {}
+    rallyAutoScalingGroup=cluster[0]['group']
     for group in cluster:
-        resources = dict(resources.items() + generateGroup(group).items())
+        groupResources=generateGroup(group, rallyAutoScalingGroup)
+        resources = dict(resources.items() + groupResources.items())
     return resources
 
-def generateGroup(group):
+def generateGroup(group, rallyAutoScalingGroup):
     resources = {}
     if 'syncGateway' in group['services']:
         resources = dict(resources.items() + generateSyncGateway(group).items())
