@@ -24,8 +24,10 @@ setSwappinessToZero
 # if no rallyAutoscalingGroup was passed then the node this is running on is part of the rallyAutoscalingGroup
 if [ -z "$5" ]
 then
+  echo "This node is the rally point."
   rallyPublicDNS=`getRallyPublicDNS $stackName`
 else
+  echo "This node is not the rally point."
   rallyAutoScalingGroup=$4
   rallyPublicDNS=`getRallyPublicDNS $stackName $rallyAutoScalingGroup`
 fi
