@@ -4,7 +4,7 @@ PARAMETERS_FILE=$1
 STACK_NAME=$2
 
 # create generatedTemplate.json
-python generator.py parameters.${PARAMETERS_FILE}.yaml
+python generator.py parameters/${PARAMETERS_FILE}.yaml
 
 TEMPLATE_BODY="file://generated.template"
 REGION=`aws configure get region`
