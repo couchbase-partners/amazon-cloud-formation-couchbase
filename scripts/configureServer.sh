@@ -7,8 +7,6 @@ rallyPublicDNS=$2
 adminUsername=$3
 adminPassword=$4
 
-# This is all to figure out what our rally point is.  There might be a much better way to do this.
-
 region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
   | jq '.region'  \
   | sed 's/^"\(.*\)"$/\1/' )
@@ -20,10 +18,10 @@ instanceID=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/doc
 nodePublicDNS=`curl http://169.254.169.254/latest/meta-data/public-hostname`
 
 echo "Using the settings:"
-echo adminUsername \'$adminUsername\'
-echo adminPassword \'$adminPassword\'
 echo stackName \'$stackName\'
 echo rallyPublicDNS \'$rallyPublicDNS\'
+echo adminUsername \'$adminUsername\'
+echo adminPassword \'$adminPassword\'
 echo region \'$region\'
 echo instanceID \'$instanceID\'
 echo nodePublicDNS \'$nodePublicDNS\'
