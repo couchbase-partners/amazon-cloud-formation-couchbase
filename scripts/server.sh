@@ -28,7 +28,7 @@ then
   rallyPublicDNS=`getRallyPublicDNS $stackName`
 else
   echo "This node is not the rally point."
-  rallyAutoScalingGroup=$4
+  rallyAutoScalingGroup=$5
   rallyPublicDNS=`getRallyPublicDNS $stackName $rallyAutoScalingGroup`
 fi
 
