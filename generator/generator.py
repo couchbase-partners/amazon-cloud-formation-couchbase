@@ -171,7 +171,7 @@ def generateMiscResources():
 
 def generateCluster(cluster):
     resources = {}
-    rallyAutoScalingGroup=cluster[0]['group']+'AutoScalingGroup'
+    rallyAutoScalingGroup=cluster[0]['group']
     for group in cluster:
         groupResources=generateGroup(group, rallyAutoScalingGroup)
         resources = dict(resources.items() + groupResources.items())
@@ -216,7 +216,7 @@ def generateSyncGateway(group, rallyAutoScalingGroup):
                             "#!/bin/bash\n",
                             "echo 'Running startup script...'\n",
                             "stackName=", { "Ref": "AWS::StackName" }, "\n",
-                            "rallyAutoScalingGroup=", { "Ref": rallyAutoScalingGroup }, "\n",
+                            "rallyAutoScalingGroup=", { "Ref": rallyAutoScalingGroup + "AutoScalingGroup" }, "\n",
                             "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                             "wget ${baseURL}syncGateway.sh\n",
                             "wget ${baseURL}configureSyncGateway.sh\n",
