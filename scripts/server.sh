@@ -22,7 +22,7 @@ turnOffTransparentHugepages
 setSwappinessToZero
 
 # if no rallyAutoscalingGroup was passed then the node this is running on is part of the rallyAutoscalingGroup
-if [ -z "$4" ]
+if [ -z "$5" ]
 then
   rallyPublicDNS=`getRallyPublicDNS $stackName`
 else
