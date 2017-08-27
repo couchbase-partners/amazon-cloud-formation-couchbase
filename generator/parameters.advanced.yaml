@@ -1,0 +1,31 @@
+license: hourly-pricing
+cluster:
+  - group: data
+    nodeCount: 3
+    nodeType: m4.4xlarge
+    dataDiskSize: 100
+    services:
+      - data
+  - group: query
+    nodeCount: 3
+    nodeType: m4.4xlarge
+    dataDiskSize: 100
+    services:
+      - query
+  - group: index
+    nodeCount: 3
+    nodeType: m4.4xlarge
+    dataDiskSize: 100
+    services:
+      - index
+  - group: fts
+    nodeCount: 3
+    nodeType: m4.4xlarge
+    dataDiskSize: 100
+    services:
+      - fts
+  - group: syncgateway
+    nodeCount: 3
+    nodeType: m4.4xlarge
+    services:
+      - syncGateway
