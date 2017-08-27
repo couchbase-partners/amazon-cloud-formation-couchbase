@@ -20,10 +20,6 @@ You can confirm the cli is working properly by running:
 
     aws ec2 describe-account-attributes
 
-Then you'll want to clone this repo.  You can do that with the command:
-
-    git clone https://github.com/couchbase-partners/amazon-cloud-formation-couchbase.git
-
 If you don't have a key, you'll also need to create one.  That can be done with these commands:
 
     REGION=`aws configure get region`
@@ -36,6 +32,10 @@ If you don't have a key, you'll also need to create one.  That can be done with 
       chmod 600 ${KEY_FILENAME}
       echo "Key saved to ${KEY_FILENAME}"
     fi
+
+Then you'll want to clone this repo.  You can do that with the command:
+
+    git clone https://github.com/couchbase-partners/amazon-cloud-formation-couchbase.git
 
 ## Creating a Stack
 
@@ -52,7 +52,3 @@ When complete you can access the Couchbase web administrator tool on port 8091 o
 To delete your deployment you can either run the wrapper command below or use the GUI in the web console [here](https://console.aws.amazon.com/cloudformation/home).
 
     aws cloudformation delete-stack --stack-name <STACK_NAME>
-
-## Next Steps
-
-The getting started guide [here](https://www.couchbase.com/get-started-developing-nosql) is a great place to go next.
