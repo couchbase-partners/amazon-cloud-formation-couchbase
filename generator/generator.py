@@ -219,7 +219,6 @@ def generateSyncGateway(group, rallyAutoScalingGroup):
                             "rallyAutoScalingGroup=", { "Ref": rallyAutoScalingGroup + "AutoScalingGroup" }, "\n",
                             "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                             "wget ${baseURL}syncGateway.sh\n",
-                            "wget ${baseURL}configureSyncGateway.sh\n",
                             "wget ${baseURL}util.sh\n",
                             "chmod +x *.sh\n",
                             "./syncGateway.sh ${stackName} ${rallyAutoScalingGroup}\n"
@@ -252,7 +251,6 @@ def generateServer(group, rallyAutoScalingGroup):
         "stackName=", { "Ref": "AWS::StackName" }, "\n",
         "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
         "wget ${baseURL}server.sh\n",
-        "wget ${baseURL}configureServer.sh\n",
         "wget ${baseURL}util.sh\n",
         "chmod +x *.sh\n",
     ]

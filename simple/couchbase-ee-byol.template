@@ -112,7 +112,6 @@
                 "services=data,index,query,fts\n",
                 "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                 "wget ${baseURL}server.sh\n",
-                "wget ${baseURL}configureServer.sh\n",
                 "wget ${baseURL}util.sh\n",
                 "chmod +x *.sh\n",
                 "./server.sh ${adminUsername} ${adminPassword} ${stackName} ${services}\n"
@@ -151,7 +150,6 @@
                 "rallyAutoScalingGroup=", { "Ref": "ServerAutoScalingGroup" }, "\n",
                 "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                 "wget ${baseURL}syncGateway.sh\n",
-                "wget ${baseURL}configureSyncGateway.sh\n",
                 "wget ${baseURL}util.sh\n",
                 "chmod +x *.sh\n",
                 "./syncGateway.sh ${stackName} ${rallyAutoScalingGroup}\n"
