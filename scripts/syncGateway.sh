@@ -10,5 +10,9 @@ echo stackName \'$stackName\'
 echo rallyAutoScalingGroup \'$rallyAutoScalingGroup\'
 
 yum -y install jq
-#### need to set rallyPublicDNS
+source util.sh
+
+getRallyPublicDNS $stackName $rallyAutoScalingGroup
+rallyPublicDNS=$?
+
 ./configureSyncGateway.sh $stackName $rallyPublicDNS

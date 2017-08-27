@@ -11,8 +11,22 @@ echo adminUsername \'$adminUsername\'
 echo adminPassword \'$adminPassword\'
 echo stackName \'$stackName\'
 
-./configureOS.sh
-./format.sh
 yum -y install jq
-##### need to set rallyPublicDNS
+source util.sh
+
+formatDataDisk
+turnOffTransparentHugepages
+setSwappinessToZero
+
+# if no rallyAutoscalingGroup was passed then the node this is running on is part of the rallyAutoscalingGroup
+if [ -z "$4" ]
+then
+  getRallyPublicDNS $stackName
+  rallyPublicDNS=$?
+else
+  rallyAutoScalingGroup=$4
+  getRallyPublicDNS $stackName $rallyAutoScalingGroup
+  rallyPublicDNS=$?
+fi
+
 ./configureServer.sh $stackName $rallyPublicDNS $adminUsername $adminPassword
