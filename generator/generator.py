@@ -171,7 +171,7 @@ def generateMiscResources():
 
 def generateCluster(cluster):
     resources = {}
-    rallyAutoScalingGroup=cluster[0]['group']
+    rallyAutoScalingGroup=cluster[0]['group']+'AutoScalingGroup'
     for group in cluster:
         groupResources=generateGroup(group, rallyAutoScalingGroup)
         resources = dict(resources.items() + groupResources.items())
@@ -180,12 +180,12 @@ def generateCluster(cluster):
 def generateGroup(group, rallyAutoScalingGroup):
     resources = {}
     if 'syncGateway' in group['services']:
-        resources = dict(resources.items() + generateSyncGateway(group).items())
+        resources = dict(resources.items() + generateSyncGateway(group, rallyAutoScalingGroup).items())
     else:
-        resources = dict(resources.items() + generateServer(group).items())
+        resources = dict(resources.items() + generateServer(group, rallyAutoScalingGroup).items())
     return resources
 
-def generateSyncGateway(group):
+def generateSyncGateway(group, rallyAutoScalingGroup):
     groupName = group['group']
     nodeCount = group['nodeCount']
     nodeType = group['nodeType']
@@ -216,7 +216,7 @@ def generateSyncGateway(group):
                             "#!/bin/bash\n",
                             "echo 'Running startup script...'\n",
                             "stackName=", { "Ref": "AWS::StackName" }, "\n",
-                            "rallyAutoScalingGroup=", { "Ref": "ServerAutoScalingGroup" }, "\n",
+                            "rallyAutoScalingGroup=", { "Ref": rallyAutoScalingGroup }, "\n",
                             "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                             "wget ${baseURL}syncGateway.sh\n",
                             "wget ${baseURL}configureSyncGateway.sh\n",
@@ -231,12 +231,42 @@ def generateSyncGateway(group):
     }
     return resources
 
-def generateServer(group):
+def generateServer(group, rallyAutoScalingGroup):
     groupName = group['group']
     nodeCount = group['nodeCount']
     nodeType = group['nodeType']
     dataDiskSize = group['dataDiskSize']
     services = group['services']
+
+    if groupName==rallyAutoScalingGroup:
+        command = [
+            "#!/bin/bash\n",
+            "echo 'Running startup script...'\n",
+            "adminUsername=", { "Ref": "Username" }, "\n",
+            "adminPassword=", { "Ref": "Password" }, "\n",
+            "stackName=", { "Ref": "AWS::StackName" }, "\n",
+            "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
+            "wget ${baseURL}server.sh\n",
+            "wget ${baseURL}configureServer.sh\n",
+            "wget ${baseURL}util.sh\n",
+            "chmod +x *.sh\n",
+            "./server.sh ${adminUsername} ${adminPassword} ${stackName}\n"
+        ]
+    else:
+        command = [
+            "#!/bin/bash\n",
+            "echo 'Running startup script...'\n",
+            "adminUsername=", { "Ref": "Username" }, "\n",
+            "adminPassword=", { "Ref": "Password" }, "\n",
+            "stackName=", { "Ref": "AWS::StackName" }, "\n",
+            "rallyAutoScalingGroup=", { "Ref": rallyAutoScalingGroup }, "\n",
+            "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
+            "wget ${baseURL}server.sh\n",
+            "wget ${baseURL}configureServer.sh\n",
+            "wget ${baseURL}util.sh\n",
+            "chmod +x *.sh\n",
+            "./server.sh ${adminUsername} ${adminPassword} ${stackName} ${rallyAutoScalingGroup}\n"
+        ]
 
     servicesParameter=''
     for service in services:
@@ -273,21 +303,7 @@ def generateServer(group):
                 }],
                 "UserData": {
                     "Fn::Base64": {
-                        "Fn::Join": [ "", [
-                            "#!/bin/bash\n",
-                            "echo 'Running startup script...'\n",
-                            "adminUsername=", { "Ref": "Username" }, "\n",
-                            "adminPassword=", { "Ref": "Password" }, "\n",
-                            "stackName=", { "Ref": "AWS::StackName" }, "\n",
-                            "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
-                            "wget ${baseURL}server.sh\n",
-                            "wget ${baseURL}configureOS.sh\n",
-                            "wget ${baseURL}format.sh\n",
-                            "wget ${baseURL}configureServer.sh\n",
-                            "wget ${baseURL}util.sh\n",
-                            "chmod +x *.sh\n",
-                            "./server.sh ${adminUsername} ${adminPassword} ${stackName}\n"
-                        ]]
+                        "Fn::Join": [ "", command]
                     }
                 }
             }
