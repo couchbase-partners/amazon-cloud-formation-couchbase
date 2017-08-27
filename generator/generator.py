@@ -259,7 +259,7 @@ def generateServer(group, rallyAutoScalingGroup):
             "adminUsername=", { "Ref": "Username" }, "\n",
             "adminPassword=", { "Ref": "Password" }, "\n",
             "stackName=", { "Ref": "AWS::StackName" }, "\n",
-            "rallyAutoScalingGroup=", { "Ref": rallyAutoScalingGroup }, "\n",
+            "rallyAutoScalingGroup=", { "Ref": rallyAutoScalingGroup + "AutoScalingGroup" }, "\n",
             "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
             "wget ${baseURL}server.sh\n",
             "wget ${baseURL}configureServer.sh\n",
