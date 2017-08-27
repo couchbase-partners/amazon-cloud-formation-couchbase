@@ -6,6 +6,7 @@ stackName=$1
 rallyPublicDNS=$2
 adminUsername=$3
 adminPassword=$4
+services=$5
 
 region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
   | jq '.region'  \
@@ -22,6 +23,7 @@ echo stackName \'$stackName\'
 echo rallyPublicDNS \'$rallyPublicDNS\'
 echo adminUsername \'$adminUsername\'
 echo adminPassword \'$adminPassword\'
+echo services \'$services\'
 echo region \'$region\'
 echo instanceID \'$instanceID\'
 echo nodePublicDNS \'$nodePublicDNS\'
@@ -69,7 +71,7 @@ then
     --cluster-password=$adminPassword \
     --cluster-ramsize=$dataRAM \
     --cluster-index-ramsize=$indexRAM \
-    --services=data,index,query,fts
+    --services=${services}
 
     echo "Running couchbase-cli bucket-create"
   ./couchbase-cli bucket-create \
@@ -91,7 +93,7 @@ else
       --server-add=$nodePublicDNS \
       --server-add-username=$adminUsername \
       --server-add-password=$adminPassword \
-      --services=data,index,query,fts`
+      --services=${services}`
     echo server-add output \'$output\'
     sleep 10
   done

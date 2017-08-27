@@ -238,40 +238,31 @@ def generateServer(group, rallyAutoScalingGroup):
     dataDiskSize = group['dataDiskSize']
     services = group['services']
 
-    if groupName==rallyAutoScalingGroup:
-        command = [
-            "#!/bin/bash\n",
-            "echo 'Running startup script...'\n",
-            "adminUsername=", { "Ref": "Username" }, "\n",
-            "adminPassword=", { "Ref": "Password" }, "\n",
-            "stackName=", { "Ref": "AWS::StackName" }, "\n",
-            "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
-            "wget ${baseURL}server.sh\n",
-            "wget ${baseURL}configureServer.sh\n",
-            "wget ${baseURL}util.sh\n",
-            "chmod +x *.sh\n",
-            "./server.sh ${adminUsername} ${adminPassword} ${stackName}\n"
-        ]
-    else:
-        command = [
-            "#!/bin/bash\n",
-            "echo 'Running startup script...'\n",
-            "adminUsername=", { "Ref": "Username" }, "\n",
-            "adminPassword=", { "Ref": "Password" }, "\n",
-            "stackName=", { "Ref": "AWS::StackName" }, "\n",
-            "rallyAutoScalingGroup=", { "Ref": rallyAutoScalingGroup + "AutoScalingGroup" }, "\n",
-            "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
-            "wget ${baseURL}server.sh\n",
-            "wget ${baseURL}configureServer.sh\n",
-            "wget ${baseURL}util.sh\n",
-            "chmod +x *.sh\n",
-            "./server.sh ${adminUsername} ${adminPassword} ${stackName} ${rallyAutoScalingGroup}\n"
-        ]
-
     servicesParameter=''
     for service in services:
         servicesParameter += service + ','
     servicesParameter=servicesParameter[:-1]
+
+    command = [
+        "#!/bin/bash\n",
+        "echo 'Running startup script...'\n",
+        "adminUsername=", { "Ref": "Username" }, "\n",
+        "adminPassword=", { "Ref": "Password" }, "\n",
+        "services=" + servicesParameter + "\n",
+        "stackName=", { "Ref": "AWS::StackName" }, "\n",
+        "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
+        "wget ${baseURL}server.sh\n",
+        "wget ${baseURL}configureServer.sh\n",
+        "wget ${baseURL}util.sh\n",
+        "chmod +x *.sh\n",
+    ]
+    if groupName==rallyAutoScalingGroup:
+        command.append("./server.sh ${adminUsername} ${adminPassword} ${services} ${stackName}\n")
+    else:
+        command.append("rallyAutoScalingGroup=")
+        command.append({ "Ref": rallyAutoScalingGroup + "AutoScalingGroup" })
+        command.append("\n")
+        command.append("./server.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${rallyAutoScalingGroup}\n")
 
     resources = {
         groupName + "AutoScalingGroup": {

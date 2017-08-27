@@ -4,13 +4,16 @@ echo "Running server.sh"
 
 adminUsername=$1
 adminPassword=$2
-stackName=$3
+services=$3
+stackName=$4
 
 echo "Using the settings:"
 echo adminUsername \'$adminUsername\'
 echo adminPassword \'$adminPassword\'
+echo services \'$services\'
 echo stackName \'$stackName\'
 
+yum -y update
 yum -y install jq
 source util.sh
 
@@ -27,4 +30,4 @@ else
   rallyPublicDNS=`getRallyPublicDNS $stackName $rallyAutoScalingGroup`
 fi
 
-./configureServer.sh $stackName $rallyPublicDNS $adminUsername $adminPassword
+./configureServer.sh $stackName $rallyPublicDNS $adminUsername $adminPassword $services
