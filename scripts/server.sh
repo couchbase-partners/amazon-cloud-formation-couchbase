@@ -21,12 +21,10 @@ setSwappinessToZero
 # if no rallyAutoscalingGroup was passed then the node this is running on is part of the rallyAutoscalingGroup
 if [ -z "$4" ]
 then
-  getRallyPublicDNS $stackName
-  rallyPublicDNS=$?
+  rallyPublicDNS=`getRallyPublicDNS $stackName`
 else
   rallyAutoScalingGroup=$4
-  getRallyPublicDNS $stackName $rallyAutoScalingGroup
-  rallyPublicDNS=$?
+  rallyPublicDNS=`getRallyPublicDNS $stackName $rallyAutoScalingGroup`
 fi
 
 ./configureServer.sh $stackName $rallyPublicDNS $adminUsername $adminPassword

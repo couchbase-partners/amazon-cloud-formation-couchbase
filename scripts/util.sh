@@ -38,7 +38,7 @@ getRallyPublicDNS ()
     --instance-ids ${rallyInstanceID} \
     --output text)
 
-  return ${rallyPublicDNS}
+  echo ${rallyPublicDNS}
 }
 
 formatDataDisk ()
