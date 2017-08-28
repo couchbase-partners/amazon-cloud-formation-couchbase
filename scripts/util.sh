@@ -2,14 +2,12 @@
 
 getRallyPublicDNS ()
 {
-  stackName=$1
-
   region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
     | jq '.region'  \
     | sed 's/^"\(.*\)"$/\1/' )
 
   # if no rallyAutoscalingGroup was passed then the node this is running on is part of the rallyAutoscalingGroup
-  if [ -z "$2" ]
+  if [ -z "$1" ]
   then
     instanceID=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
       | jq '.instanceId' \
@@ -21,7 +19,7 @@ getRallyPublicDNS ()
         | jq '.Reservations[0]|.Instances[0]|.Tags[] | select( .Key == "aws:autoscaling:groupName") | .Value' \
         | sed 's/^"\(.*\)"$/\1/' )
   else
-    rallyAutoScalingGroup=$2
+    rallyAutoScalingGroup=$1
   fi
 
   rallyAutoscalingGroupInstanceIDs=$(aws autoscaling describe-auto-scaling-groups \

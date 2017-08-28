@@ -19,11 +19,11 @@ setSwappinessToZero
 if [ -z "$5" ]
 then
   echo "This node is the rally point."
-  rallyPublicDNS=`getRallyPublicDNS $stackName`
+  rallyPublicDNS=`getRallyPublicDNS`
 else
   echo "This node is not the rally point."
   rallyAutoScalingGroup=$5
-  rallyPublicDNS=`getRallyPublicDNS $stackName $rallyAutoScalingGroup`
+  rallyPublicDNS=`getRallyPublicDNS $rallyAutoScalingGroup`
 fi
 
 region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \

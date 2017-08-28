@@ -8,7 +8,7 @@ rallyAutoScalingGroup=$2
 yum -y update
 yum -y install jq
 source util.sh
-rallyPublicDNS=`getRallyPublicDNS $stackName $rallyAutoScalingGroup`
+rallyPublicDNS=`getRallyPublicDNS $rallyAutoScalingGroup`
 
 region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
   | jq '.region'  \
