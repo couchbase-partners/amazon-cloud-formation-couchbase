@@ -13,7 +13,7 @@ getRallyPublicDNS ()
       | jq '.instanceId' \
       | sed 's/^"\(.*\)"$/\1/' )
 
-      rallyAutoscalingGroup=$(aws ec2 describe-instances \
+      rallyAutoScalingGroup=$(aws ec2 describe-instances \
         --region ${region} \
         --instance-ids ${instanceID} \
         | jq '.Reservations[0]|.Instances[0]|.Tags[] | select( .Key == "aws:autoscaling:groupName") | .Value' \
@@ -24,7 +24,7 @@ getRallyPublicDNS ()
 
   rallyAutoscalingGroupInstanceIDs=$(aws autoscaling describe-auto-scaling-groups \
     --region ${region} \
-    --auto-scaling-group-name ${rallyAutoscalingGroup} \
+    --auto-scaling-group-name ${rallyAutoScalingGroup} \
     --query 'AutoScalingGroups[*].Instances[*].InstanceId' \
     | grep "i-" | sed 's/ //g' | sed 's/"//g' |sed 's/,//g' | sort)
 
