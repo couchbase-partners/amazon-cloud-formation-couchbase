@@ -18,7 +18,7 @@ First we need to install and configure the AWS CLI.  Follow the instructions Ama
     pip install --upgrade --user awscli
     aws configure
 
-You can confirm the cli is working properly by running:
+You can confirm the CLI is working properly by running:
 
     aws ec2 describe-account-attributes
 
@@ -47,7 +47,7 @@ The AWS word for a deployment is a stack.  [deploy.sh](deploy.sh) is a helper sc
     cd simple
     ./deploy.sh <STACK_NAME>
 
-When complete you can access the Couchbase web administrator tool on port 8091 of any node.
+When complete you can access the Couchbase web administrator tool on port 8091 of any Server node.
 
 ## Deleting a Stack
 
