@@ -2,7 +2,9 @@
 
 This is an Amazon Cloud Formation (CFn) template that installs Couchbase Enterprise.  You can run it from the AWS CLI or using the web console.
 
-# Deploy with the AWS CLI
+## Important Note
+
+This template uses two AWS Marketplace AMIs.  To deploy in your AWS subscription you must first subscribe to the AMIs [here](https://aws.amazon.com/marketplace/seller-profile?id=1a064a14-5ac2-4980-9167-15746aabde72)
 
 ## Environment Setup
 
@@ -49,6 +51,6 @@ When complete you can access the Couchbase web administrator tool on port 8091 o
 
 ## Deleting a Stack
 
-To delete your deployment you can either run the wrapper command below or use the GUI in the web console [here](https://console.aws.amazon.com/cloudformation/home).
+To delete your deployment you can either run the command below or use the GUI in the web console [here](https://console.aws.amazon.com/cloudformation/home).
 
     aws cloudformation delete-stack --stack-name <STACK_NAME>
