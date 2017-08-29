@@ -38,13 +38,13 @@ If you don't have a key, you'll also need to create one.  That can be done with 
 Then you'll want to clone this repo.  You can do that with the command:
 
     git clone https://github.com/couchbase-partners/amazon-cloud-formation-couchbase.git
+    cd amazon-cloud-formation-couchbase
+    cd simple
 
 ## Creating a Stack
 
 The AWS word for a deployment is a stack.  [deploy.sh](deploy.sh) is a helper script to deploy a stack.  Take a look at it and modify any variables, then run it as:
 
-    cd amazon-cloud-formation-couchbase
-    cd simple
     ./deploy.sh <STACK_NAME>
 
 When complete you can access the Couchbase web administrator tool on port 8091 of any Server node.
