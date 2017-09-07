@@ -8,6 +8,10 @@ This describes how we build the AMIs for the Couchbase AWS Marketplace offers.  
 
 Get a local copy of the Couchabse Server rpm by downloading them from https://www.couchbase.com/downloads
 
+Alternatively you can run the command:
+
+    wget https://packages.couchbase.com/releases/4.6.3/couchbase-server-enterprise-4.6.3-centos6.x86_64.rpm
+
 Note that the Amazon Linux image we're using runs best with the Redhat 7 version of Couchbase Server
 
 Login to the AWS Marketplace Management Portal and click on AMI.  [Here](https://aws.amazon.com/marketplace/management/manage-products) is a direct link.
