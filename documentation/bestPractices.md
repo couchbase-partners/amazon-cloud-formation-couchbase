@@ -18,7 +18,7 @@ Couchbase is a strongly consistent database with peer-to-peer replication for ha
 
 A minimum of 3 nodes required for the data service to support automatic failover, and a minimum of two nodes for the query, index and FTS service to support high availability.  Depending on your performance and topology needs, these services can be collocated or separated but the minimum node count requirement does not change.
 
-The Couchbase concept of a Server Group maps closely to an Availability Zone (AZ).  We suggest deploying nodes across two AZs.  We are currently working to automate the mapping in the CFn templates.
+The Couchbase concept of a Server Group maps closely to an Availability Zone (AZ).  We suggest deploying nodes across all available AZs and then creating a Couchbase Server Group per AZ.
 
 ## Storage
 
