@@ -34,13 +34,13 @@ We recommend a 1TB EBS drive as the upper end.  Large drives can lead to overly 
 
 ## Network
 
-Amazon provides a number of network options, including public IPs, VPN gateways and Direct Connect.  We recommend using public IPs for most applications.  They perform very well, are extremely cost effective and are resilient to failure.
+Amazon provides a number of network options, including public DNS, VPN gateways and Direct Connect.  We recommend using public DNS for most applications.  They perform very well, are extremely cost effective and are resilient to failure.
 
 The templates configure each Couchbase node with the public DNS.  In AWS the public DNS resolves to a NAT based IP from outside the VPC and to the private IP from within the VPC.  AWS refers to this as split brain DNS.
 
-For applications where nodes may be stopped and started, we recommend using an elastic IP (EIP).  EIPs remain allocated even when a node is stopped.
+For applications where nodes may be stopped and started, you could use an Elastic IP (EIP).  However, that adds significant management complexity.  We do not recommend EIPs for most applications.
 
-Placement groups provide 10G network, which is preferable.  However, they make the use of an Autoscaling Group more difficult as nodes will not be automatically spread across Availability Zones.  In the CFn template, we've opted for simplicity.
+Placement groups provide 10G network, which is preferable.  However, they make the use of an Autoscaling Group more difficult as nodes will not be automatically spread across Availability Zones.  In the CFT, we've opted for simplicity.
 
 ### Security
 
