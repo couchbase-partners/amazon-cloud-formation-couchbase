@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "AWS Deployment for Couchbase Enterprise -- AWSMP::7ab3d84d-7989-48d7-8bca-19b9aa17b8fb::a394d62f-baef-4b3f-8d13-b551e6457c3c",
+  "Description": "AWS Deployment for Couchbase Enterprise -- AWSMP::7ab3d84d-7989-48d7-8bca-19b9aa17b8fb::ac8a6d88-4b2f-4437-9d3d-4a0427d547e6",
   "Parameters": {
     "Username": {
       "Description": "Username for Couchbase administrator",
@@ -86,20 +86,20 @@
   },
   "Mappings": {
     "CouchbaseServerAMI": {
-      "us-east-1": { "AMI": "ami-48f6d033" },
-      "us-east-2": { "AMI": "ami-2fe2c24a" },
-      "us-west-1": { "AMI": "ami-92a48cf2" },
-      "us-west-2": { "AMI": "ami-4ac92e32" },
-      "ca-central-1": { "AMI": "ami-98ee50fc" },
-      "eu-central-1": { "AMI": "ami-f761ce98" },
-      "eu-west-1": { "AMI": "ami-e4ee1a9d" },
-      "eu-west-2": { "AMI": "ami-c82736ac" },
-      "ap-southeast-1": { "AMI": "ami-536af530" },
-      "ap-southeast-2": { "AMI": "ami-4a948a29" },
-      "ap-south-1": { "AMI": "ami-87bdc6e8 " },
-      "ap-northeast-1": { "AMI": "ami-07da3461" },
-      "ap-northeast-2": { "AMI": "ami-0de53c63" },
-      "sa-east-1": { "AMI": "ami-301f695c" }
+      "us-east-1": { "AMI": "ami-e14d569a" },
+      "us-east-2": { "AMI": "ami-c83f1dad" },
+      "us-west-1": { "AMI": "ami-0ba4936b" },
+      "us-west-2": { "AMI": "ami-0426d77c" },
+      "ca-central-1": { "AMI": "ami-12d86176" },
+      "eu-central-1": { "AMI": "ami-17ae1978" },
+      "eu-west-1": { "AMI": "ami-da6faea3" },
+      "eu-west-2": { "AMI": "ami-8a7f6cee" },
+      "ap-southeast-1": { "AMI": "ami-31a1ca52" },
+      "ap-southeast-2": { "AMI": "ami-86ad4ae4" },
+      "ap-south-1": { "AMI": "ami-85aee9ea" },
+      "ap-northeast-1": { "AMI": "ami-315c9c57" },
+      "ap-northeast-2": { "AMI": "ami-6bed3605" },
+      "sa-east-1": { "AMI": "ami-ad9be9c1" }
     }
   },
   "Resources": {
