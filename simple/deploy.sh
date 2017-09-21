@@ -13,6 +13,7 @@ InstanceType="m4.xlarge"
 Username="couchbase"
 Password="foo123!"
 KeyName="couchbase-${REGION}"
+License="Hourly-Pricing"
 
 aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM \
@@ -26,4 +27,5 @@ ParameterKey=SyncGatewayInstanceCount,ParameterValue=${SyncGatewayInstanceCount}
 ParameterKey=InstanceType,ParameterValue=${InstanceType} \
 ParameterKey=Username,ParameterValue=${Username} \
 ParameterKey=Password,ParameterValue=${Password} \
-ParameterKey=KeyName,ParameterValue=${KeyName}
+ParameterKey=KeyName,ParameterValue=${KeyName} \
+ParameterKey=License,ParameterValue=${License}
