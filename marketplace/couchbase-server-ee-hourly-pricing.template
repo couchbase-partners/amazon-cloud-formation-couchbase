@@ -85,7 +85,7 @@
     }
   },
   "Mappings": {
-    "CouchbaseServerAMI": {
+    "CouchbaseServer": {
       "us-east-1": { "AMI": "ami-e8405b93" },
       "us-east-2": { "AMI": "ami-42391b27" },
       "us-west-1": { "AMI": "ami-03a69163" },
@@ -116,7 +116,7 @@
     "CouchbaseLaunchConfiguration": {
       "Type": "AWS::AutoScaling::LaunchConfiguration",
       "Properties": {
-        "ImageId": { "Fn::FindInMap": [ "CouchbaseServerAMI", { "Ref": "AWS::Region" }, "AMI" ] },
+        "ImageId": { "Fn::FindInMap": [ "CouchbaseServer", { "Ref": "AWS::Region" }, "AMI" ] },
         "InstanceType": { "Ref": "InstanceType" },
         "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
         "KeyName": { "Ref": "KeyName" },
