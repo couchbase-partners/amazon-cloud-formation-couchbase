@@ -97,6 +97,10 @@
         "BlockDeviceMappings":
         [
           {
+            "DeviceName" : "/dev/xvda",
+            "Ebs" : { "DeleteOnTermination" : true }
+          },
+          {
             "DeviceName" : "/dev/sdk",
             "Ebs" : {
               "VolumeSize": { "Ref": "ServerDiskSize" },
@@ -144,6 +148,13 @@
         "KeyName": { "Ref": "KeyName" },
         "EbsOptimized": true,
         "IamInstanceProfile": { "Ref": "CouchbaseInstanceProfile" },
+        "BlockDeviceMappings":
+        [
+          {
+            "DeviceName" : "/dev/xvda",
+            "Ebs" : { "DeleteOnTermination" : true }
+          }
+        ],
         "UserData": {
           "Fn::Base64": {
             "Fn::Join": [ "",
