@@ -173,6 +173,13 @@ def generateSyncGateway(group, rallyAutoScalingGroup):
                 "KeyName": { "Ref": "KeyName" },
                 "EbsOptimized": True,
                 "IamInstanceProfile": { "Ref": "CouchbaseInstanceProfile" },
+                "BlockDeviceMappings":
+                [
+                    {
+                        "DeviceName" : "/dev/xvda",
+                        "Ebs" : { "DeleteOnTermination" : true }
+                    }
+                ],
                 "UserData": {
                     "Fn::Base64": {
                         "Fn::Join": [ "", [
@@ -246,13 +253,19 @@ def generateServer(group, rallyAutoScalingGroup):
                 "EbsOptimized": True,
                 "IamInstanceProfile": { "Ref": "CouchbaseInstanceProfile" },
                 "BlockDeviceMappings":
-                [{
-                    "DeviceName" : "/dev/sdk",
-                    "Ebs" : {
-                        "VolumeSize": dataDiskSize,
-                        "VolumeType": "gp2"
+                [
+                    {
+                        "DeviceName" : "/dev/xvda",
+                        "Ebs" : { "DeleteOnTermination" : true }
+                    },
+                    {
+                        "DeviceName" : "/dev/sdk",
+                        "Ebs" : {
+                            "VolumeSize": dataDiskSize,
+                            "VolumeType": "gp2"
+                        }
                     }
-                }],
+                ],
                 "UserData": {
                     "Fn::Base64": {
                         "Fn::Join": [ "", command]
