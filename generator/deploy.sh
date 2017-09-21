@@ -12,7 +12,7 @@ REGION=`aws configure get region`
 Username="couchbase"
 Password="foo123!"
 KeyName="couchbase-${REGION}"
-License="Hourly-Pricing"
+License="HourlyPricing"
 
 aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM \
