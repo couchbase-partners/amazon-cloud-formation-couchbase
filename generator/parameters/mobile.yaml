@@ -1,4 +1,4 @@
-license: hourly-pricing
+license: Hourly-Pricing
 cluster:
   - group: server
     nodeCount: 3

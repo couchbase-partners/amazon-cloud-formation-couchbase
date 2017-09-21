@@ -2,8 +2,7 @@
 
 STACK_NAME=$1
 
-LICENSE=hourly-pricing
-TEMPLATE_BODY="file://couchbase-ee-${LICENSE}.template"
+TEMPLATE_BODY="file://couchbase-ee.template"
 REGION=`aws configure get region`
 
 ServerInstanceCount="4"

@@ -31,10 +31,9 @@ def main():
         "Resources": {}
     }
 
-    license = parameters['license']
     cluster = parameters['cluster']
 
-    template['Mappings'] = dict(template['Mappings'].items() + generateMappings(license).items())
+    template['Mappings'] = dict(template['Mappings'].items() + generateMappings().items())
     template['Resources'] = dict(template['Resources'].items() + generateMiscResources().items())
     template['Resources'] = dict(template['Resources'].items() + generateCluster(cluster).items())
 
@@ -42,9 +41,9 @@ def main():
     file.write(json.dumps(template, sort_keys=True, indent=4, separators=(',', ': ')) + '\n')
     file.close()
 
-def generateMappings(license):
-    if license == 'byol':
-        mappings = {
+def generateMappings():
+    mappings = {
+        "BYOL": {
             "CouchbaseServerAMI": {
                 "us-east-1": { "AMI": "ami-48f6d033" },
                 "us-east-2": { "AMI": "ami-2fe2c24a" },
@@ -77,24 +76,23 @@ def generateMappings(license):
                 "ap-northeast-2": { "AMI": "ami-f6e23b98" },
                 "sa-east-1": { "AMI": "ami-4d1e6821" }
             }
-        }
-    else: # hourly-pricing
-        mappings = {
+        },
+        "Hourly-Pricing": {
             "CouchbaseServerAMI": {
-              "us-east-1": { "AMI": "ami-d71f29c1" },
-              "us-east-2": { "AMI": "ami-ef4f6e8a" },
-              "us-west-1": { "AMI": "ami-5c0a263c" },
-              "us-west-2": { "AMI": "ami-29fbec50" },
-              "ca-central-1": { "AMI": "ami-e2a91686" },
-              "eu-central-1": { "AMI": "ami-5f2f8930" },
-              "eu-west-1": { "AMI": "ami-10b25769" },
-              "eu-west-2": { "AMI": "ami-800315e4" },
-              "ap-southeast-1": { "AMI": "ami-a048c6c3" },
-              "ap-southeast-2": { "AMI": "ami-ba796ad9" },
-              "ap-south-1": { "AMI": "ami-83700eec" },
-              "ap-northeast-1": { "AMI": "ami-910312f6" },
-              "ap-northeast-2": { "AMI": "ami-553ae53b" },
-              "sa-east-1": { "AMI": "ami-6b107a07" }
+                "us-east-1": { "AMI": "ami-d71f29c1" },
+                "us-east-2": { "AMI": "ami-ef4f6e8a" },
+                "us-west-1": { "AMI": "ami-5c0a263c" },
+                "us-west-2": { "AMI": "ami-29fbec50" },
+                "ca-central-1": { "AMI": "ami-e2a91686" },
+                "eu-central-1": { "AMI": "ami-5f2f8930" },
+                "eu-west-1": { "AMI": "ami-10b25769" },
+                "eu-west-2": { "AMI": "ami-800315e4" },
+                "ap-southeast-1": { "AMI": "ami-a048c6c3" },
+                "ap-southeast-2": { "AMI": "ami-ba796ad9" },
+                "ap-south-1": { "AMI": "ami-83700eec" },
+                "ap-northeast-1": { "AMI": "ami-910312f6" },
+                "ap-northeast-2": { "AMI": "ami-553ae53b" },
+                "sa-east-1": { "AMI": "ami-6b107a07" }
             },
             "CouchbaseSyncGatewayAMI": {
                 "us-east-1": { "AMI": "ami-f80b3dee" },
@@ -113,6 +111,7 @@ def generateMappings(license):
                 "sa-east-1": { "AMI": "ami-30167c5c" }
             }
         }
+    }
     return mappings
 
 def generateMiscResources():
