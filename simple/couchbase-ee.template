@@ -170,7 +170,21 @@
     "SyncGatewayLaunchConfiguration": {
       "Type": "AWS::AutoScaling::LaunchConfiguration",
       "Properties": {
-        "ImageId": { "Fn::FindInMap": [ "CouchbaseSyncGatewayBYOL", { "Ref": "AWS::Region" }, "AMI" ] },
+        "ImageId": {
+          "Fn::FindInMap": [
+            {
+              "Fn::Join": [
+                "",
+                [
+                  "CouchbaseSyncGateway",
+                  "BYOL"
+                ]
+              ]
+            },
+            { "Ref": "AWS::Region" },
+            "AMI"
+          ]
+        },
         "InstanceType": { "Ref": "InstanceType" },
         "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
         "KeyName": { "Ref": "KeyName" },
