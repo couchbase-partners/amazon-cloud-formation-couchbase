@@ -2,9 +2,9 @@
 
 echo "Running syncGateway.sh"
 
-stackName=$1
-rallyAutoScalingGroup=$2
-license=$3
+license=$1
+stackName=$2
+rallyAutoScalingGroup=$3
 
 if [[ $license == "None" ]]
 then

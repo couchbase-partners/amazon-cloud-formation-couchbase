@@ -2,11 +2,11 @@
 
 echo "Running server.sh"
 
-adminUsername=$1
-adminPassword=$2
-services=$3
-stackName=$4
-license=$5
+license=$1
+adminUsername=$2
+adminPassword=$3
+services=$4
+stackName=$5
 
 if [[ $license == "None" ]]
 then
@@ -23,7 +23,7 @@ turnOffTransparentHugepages
 setSwappinessToZero
 
 # if no rallyAutoscalingGroup was passed then the node this is running on is part of the rallyAutoscalingGroup
-if [ -z "$5" ]
+if [ -z "$6" ]
 then
   echo "This node is the rally point."
   rallyPublicDNS=`getRallyPublicDNS`

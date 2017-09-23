@@ -192,7 +192,7 @@ def generateSyncGateway(group, rallyAutoScalingGroup):
                             "wget ${baseURL}syncGateway.sh\n",
                             "wget ${baseURL}util.sh\n",
                             "chmod +x *.sh\n",
-                            "./syncGateway.sh ${stackName} ${rallyAutoScalingGroup} ${license}\n"
+                            "./syncGateway.sh ${license} ${stackName} ${rallyAutoScalingGroup}\n"
                         ]]
                     }
                 }
@@ -227,12 +227,12 @@ def generateServer(group, rallyAutoScalingGroup):
         "chmod +x *.sh\n",
     ]
     if groupName==rallyAutoScalingGroup:
-        command.append("./server.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${license}\n")
+        command.append("./server.sh ${license} ${adminUsername} ${adminPassword} ${services} ${stackName}\n")
     else:
         command.append("rallyAutoScalingGroup=")
         command.append({ "Ref": rallyAutoScalingGroup + "AutoScalingGroup" })
         command.append("\n")
-        command.append("./server.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${rallyAutoScalingGroup} ${license}\n")
+        command.append("./server.sh ${license} ${adminUsername} ${adminPassword} ${services} ${stackName} ${rallyAutoScalingGroup}\n")
 
     resources = {
         groupName + "AutoScalingGroup": {

@@ -124,7 +124,7 @@
                 "wget ${baseURL}server.sh\n",
                 "wget ${baseURL}util.sh\n",
                 "chmod +x *.sh\n",
-                "./server.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${license}\n"
+                "./server.sh ${license} ${adminUsername} ${adminPassword} ${services} ${stackName}\n"
               ]
             ]
           }
@@ -170,7 +170,7 @@
                 "wget ${baseURL}syncGateway.sh\n",
                 "wget ${baseURL}util.sh\n",
                 "chmod +x *.sh\n",
-                "./syncGateway.sh ${stackName} ${rallyAutoScalingGroup} ${license}\n"
+                "./syncGateway.sh ${license} ${stackName} ${rallyAutoScalingGroup}\n"
               ]
             ]
           }
