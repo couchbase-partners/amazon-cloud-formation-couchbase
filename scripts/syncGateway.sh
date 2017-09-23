@@ -4,6 +4,13 @@ echo "Running syncGateway.sh"
 
 stackName=$1
 rallyAutoScalingGroup=$2
+license=$3
+
+if [[ $license == "None" ]]
+then
+  wget https://packages.couchbase.com/releases/couchbase-sync-gateway/1.4.1/couchbase-sync-gateway-enterprise_1.4.1-3_x86_64.rpm
+  rpm -i couchbase-sync-gateway-enterprise_1.4.1-3_x86_64.rpm
+fi
 
 yum -y update
 yum -y install jq

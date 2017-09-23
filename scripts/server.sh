@@ -6,6 +6,13 @@ adminUsername=$1
 adminPassword=$2
 services=$3
 stackName=$4
+license=$5
+
+if [[ $license == "None" ]]
+then
+  wget https://packages.couchbase.com/releases/4.6.3/couchbase-server-enterprise-4.6.3-centos6.x86_64.rpm
+  rpm --install couchbase-server-enterprise-4.6.3-centos6.x86_64.rpm
+fi
 
 yum -y update
 yum -y install jq

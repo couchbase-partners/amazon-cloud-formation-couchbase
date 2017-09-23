@@ -36,8 +36,9 @@
       "Type": "AWS::EC2::KeyPair::KeyName"
     },
     "License": {
-      "Description": "License model either BYOL or HourlyPricing",
-      "Type": "String"
+      "Description": "License model can be either BYOL or HourlyPricing",
+      "Type": "String",
+      "Default": "HourlyPricing"
     }
   },
   "Mappings": {
@@ -116,13 +117,14 @@
                 "echo 'Running startup script...'\n",
                 "adminUsername=", { "Ref": "Username" }, "\n",
                 "adminPassword=", { "Ref": "Password" }, "\n",
-                "stackName=", { "Ref": "AWS::StackName" }, "\n",
                 "services=data,index,query,fts\n",
+                "stackName=", { "Ref": "AWS::StackName" }, "\n",
+                "license=", { "Ref": "License" }, "\n",
                 "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                 "wget ${baseURL}server.sh\n",
                 "wget ${baseURL}util.sh\n",
                 "chmod +x *.sh\n",
-                "./server.sh ${adminUsername} ${adminPassword} ${services} ${stackName}\n"
+                "./server.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${license}\n"
               ]
             ]
           }
@@ -163,11 +165,12 @@
                 "echo 'Running startup script...'\n",
                 "stackName=", { "Ref": "AWS::StackName" }, "\n",
                 "rallyAutoScalingGroup=", { "Ref": "ServerAutoScalingGroup" }, "\n",
+                "license=", { "Ref": "License" }, "\n",
                 "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                 "wget ${baseURL}syncGateway.sh\n",
                 "wget ${baseURL}util.sh\n",
                 "chmod +x *.sh\n",
-                "./syncGateway.sh ${stackName} ${rallyAutoScalingGroup}\n"
+                "./syncGateway.sh ${stackName} ${rallyAutoScalingGroup} ${license}\n"
               ]
             ]
           }
