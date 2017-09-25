@@ -22,10 +22,9 @@ formatDataDisk
 turnOffTransparentHugepages
 setSwappinessToZero
 
-# if no rallyAutoscalingGroup was passed then the node this is running on is part of the rallyAutoscalingGroup
 if [ -z "$6" ]
 then
-  echo "This node is the rally point."
+  echo "This node is part of the autoscaling group that contains the rally point."
   rallyPublicDNS=`getRallyPublicDNS`
 else
   rallyAutoScalingGroup=$5
@@ -99,7 +98,7 @@ then
     --cluster-index-ramsize=$indexRAM \
     --services=${services}
 
-    echo "Running couchbase-cli bucket-create"
+  echo "Running couchbase-cli bucket-create"
   ./couchbase-cli bucket-create \
     --cluster=$nodePublicDNS \
     --user=$adminUsername \
