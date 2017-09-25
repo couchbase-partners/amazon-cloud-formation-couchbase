@@ -204,6 +204,7 @@
                   "Effect": "Allow",
                   "Action": [
                     "ec2:CreateTags",
+                    "ec2:DescribeTags",
                     "ec2:DescribeInstances",
                     "autoscaling:DescribeAutoScalingGroups"
                   ],
