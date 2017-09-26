@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "AWS Deployment for Couchbase Enterprise",
+  "Description": "Couchbase Enterprise",
   "Parameters": {
     "ServerInstanceCount": {
       "Description": "Number of Couchbase Server Nodes",
