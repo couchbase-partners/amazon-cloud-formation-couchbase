@@ -25,6 +25,11 @@ def main():
             "KeyName": {
                 "Description": "Name of an existing EC2 KeyPair",
                 "Type": "AWS::EC2::KeyPair::KeyName"
+            },
+            "License": {
+              "Description": "License model can be BYOL, HourlyPricing or None",
+              "Type": "String",
+              "Default": "HourlyPricing"
             }
         },
         "Mappings": {},
