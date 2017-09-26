@@ -27,7 +27,7 @@ then
   echo "This node is part of the autoscaling group that contains the rally point."
   rallyPublicDNS=`getRallyPublicDNS`
 else
-  rallyAutoScalingGroup=$5
+  rallyAutoScalingGroup=$6
   echo "This node is not the rally point."
   echo rallyAutoScalingGroup \'$rallyAutoScalingGroup\'
   rallyPublicDNS=`getRallyPublicDNS ${rallyAutoScalingGroup}`
