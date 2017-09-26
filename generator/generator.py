@@ -177,7 +177,7 @@ def generateSyncGateway(group, rallyAutoScalingGroup):
                 [
                     {
                         "DeviceName" : "/dev/xvda",
-                        "Ebs" : { "DeleteOnTermination" : true }
+                        "Ebs" : { "DeleteOnTermination" : True }
                     }
                 ],
                 "UserData": {
@@ -258,7 +258,7 @@ def generateServer(group, rallyAutoScalingGroup):
                 [
                     {
                         "DeviceName" : "/dev/xvda",
-                        "Ebs" : { "DeleteOnTermination" : true }
+                        "Ebs" : { "DeleteOnTermination" : True }
                     },
                     {
                         "DeviceName" : "/dev/sdk",
