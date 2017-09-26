@@ -28,14 +28,18 @@ getRallyPublicDNS ()
     --query 'AutoScalingGroups[*].Instances[*].InstanceId' \
     | grep "i-" | sed 's/ //g' | sed 's/"//g' |sed 's/,//g' | sort)
 
-  # Check if any IDs are already the rally point
-  # Need stackname
+  rallyInstanceID=`echo ${rallyAutoscalingGroupInstanceIDs} | cut -d " " -f1`
+
+  # Check if any IDs are already the rally point and overwrite rallyInstanceID if so
   rallyAutoscalingGroupInstanceIDsArray=(`echo $rallyAutoscalingGroupInstanceIDs`)
   for instanceID in ${rallyAutoscalingGroupInstanceIDsArray[@]}; do
     tags=`aws ec2 describe-tags --region ${region}  --filter "Name=tag:Name,Values=*Rally" "Name=resource-id,Values=$instanceID"`
+    tags=`echo $tags | jq '.Tags'`
+    if [ "$tags" != "[]" ]
+    then
+      rallyInstanceID=$instanceID
+    fi
   done
-
-  rallyInstanceID=`echo ${rallyAutoscalingGroupInstanceIDs} | cut -d " " -f1`
 
   rallyPublicDNS=$(aws ec2 describe-instances \
     --region ${region} \
