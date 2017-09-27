@@ -233,7 +233,7 @@
 "echo instanceID \\'$instanceID\\'\n",
 "echo nodePublicDNS \\'$nodePublicDNS\\'\n",
 
-"if [[ $rallyPublicDNS == $nodePublicDNS ]]\n",
+"if [[ ${rallyPublicDNS} == ${nodePublicDNS} ]]\n",
 "then\n",
 "  aws ec2 create-tags \\\n",
 "    --region ${region} \\\n",

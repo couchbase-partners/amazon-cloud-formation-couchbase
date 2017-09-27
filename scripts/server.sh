@@ -53,7 +53,7 @@ echo region \'$region\'
 echo instanceID \'$instanceID\'
 echo nodePublicDNS \'$nodePublicDNS\'
 
-if [[ $rallyPublicDNS == $nodePublicDNS ]]
+if [[ ${rallyPublicDNS} == ${nodePublicDNS} ]]
 then
   aws ec2 create-tags \
     --region ${region} \
