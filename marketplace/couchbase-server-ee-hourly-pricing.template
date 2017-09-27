@@ -238,7 +238,7 @@
 "for instanceID in ${rallyAutoscalingGroupInstanceIDsArray[@]}; do\n",
 "  tags=`aws ec2 describe-tags --region ${region}  --filter \"Name=tag:Name,Values=*Rally\" \"Name=resource-id,Values=$instanceID\"`\n",
 "  tags=`echo $tags | jq '.Tags'`\n",
-"  if [ \"$tags\" != "[]" ]\n",
+"  if [ \"$tags\" != \"[]\" ]\n",
 "  then\n",
 "    rallyInstanceID=$instanceID\n",
 "  fi\n",
