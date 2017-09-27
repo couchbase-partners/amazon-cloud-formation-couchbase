@@ -207,12 +207,12 @@
 
 "# Check if any IDs are already the rally point and overwrite rallyInstanceID if so\n",
 "rallyAutoscalingGroupInstanceIDsArray=(`echo $rallyAutoscalingGroupInstanceIDs`)\n",
-"for instanceID in ${rallyAutoscalingGroupInstanceIDsArray[@]}; do\n",
+"for i in ${rallyAutoscalingGroupInstanceIDsArray[@]}; do\n",
 "  tags=`aws ec2 describe-tags --region ${region}  --filter \"Name=tag:Name,Values=*Rally\" \"Name=resource-id,Values=$instanceID\"`\n",
 "  tags=`echo $tags | jq '.Tags'`\n",
 "  if [ \"$tags\" != \"[]\" ]\n",
 "  then\n",
-"    rallyInstanceID=$instanceID\n",
+"    rallyInstanceID=$i\n",
 "  fi\n",
 "done\n",
 

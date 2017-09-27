@@ -116,13 +116,13 @@
 "adminUsername=", { "Ref": "Username" }, "\n",
 "adminPassword=", { "Ref": "Password" }, "\n",
 "stackName=", { "Ref": "AWS::StackName" }, "\n",
-"\n",
+
 "#######################################################\n",
 "############ Turn Off Transparent Hugepages ###########\n",
 "#######################################################\n",
 "echo \"Turning off transparent hugepages...\"\n",
 "# Please look at http://bit.ly/1ZAcLjD as for how to PERMANENTLY alter this setting.\n",
-"\n",
+
 "echo \"#!/bin/bash\n",
 "### BEGIN INIT INFO\n",
 "# Provides:          disable-thp\n",
@@ -134,96 +134,96 @@
 "# Short-Description: Disable THP\n",
 "# Description:       disables Transparent Huge Pages (THP) on boot\n",
 "### END INIT INFO\n",
-"\n",
+
 "echo 'never' > /sys/kernel/mm/transparent_hugepage/enabled\n",
 "echo 'never' > /sys/kernel/mm/transparent_hugepage/defrag\n",
 "\" > /etc/init.d/disable-thp\n",
 "chmod 755 /etc/init.d/disable-thp\n",
 "service disable-thp start\n",
 "chkconfig disable-thp on\n",
-"\n",
+
 "#######################################################\n",
 "################# Set Swappiness to 0 #################\n",
 "#######################################################\n",
 "echo \"Setting swappiness to 0...\"\n",
 "# Please look at http://bit.ly/1k2CtNn as for how to PERMANENTLY alter this setting.\n",
-"\n",
+
 "sysctl vm.swappiness=0\n",
 "echo \"\n",
 "# Required for Couchbase\n",
 "vm.swappiness = 0\" >> /etc/sysctl.conf\n",
-"\n",
+
 "#######################################################\n",
 "##################### Format Disk #####################\n",
 "#######################################################\n",
 "echo \"Formatting disk...\"\n",
-"\n",
+
 "DEVICE=/dev/sdk\n",
 "MOUNTPOINT=/mnt/datadisk\n",
-"\n",
+
 "echo \"Creating the filesystem.\"\n",
 "mkfs -t ext4 ${DEVICE}\n",
-"\n",
+
 "echo \"Updating fstab\"\n",
 "LINE=\"${DEVICE}\t${MOUNTPOINT}\text4\tdefaults,nofail\t0\t2\"\n",
 "echo -e ${LINE} >> /etc/fstab\n",
-"\n",
+
 "echo \"Mounting the disk\"\n",
 "mkdir $MOUNTPOINT\n",
 "mount -a\n",
-"\n",
+
 "echo \"Changing permissions\"\n",
 "chown couchbase $MOUNTPOINT\n",
 "chgrp couchbase $MOUNTPOINT\n",
-"\n",
+
 "#######################################################\n",
 "################# Configure Couchbase #################\n",
 "#######################################################\n",
 "echo \"Configuring Couchbase...\"\n",
-"\n",
+
 "yum -y install jq\n",
-"\n",
+
 "region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \\\n",
 "  | jq '.region'  \\\n",
 "  | sed 's/^\"\\(.*\\)\"$/\\1/' )\n",
-"\n",
+
 "instanceID=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \\\n",
 "  | jq '.instanceId' \\\n",
 "  | sed 's/^\"\\(.*\\)\"$/\\1/' )\n",
-"\n",
+
 "rallyAutoscalingGroup=$(aws ec2 describe-instances \\\n",
 "  --region ${region} \\\n",
 "  --instance-ids ${instanceID} \\\n",
 "  | jq '.Reservations[0]|.Instances[0]|.Tags[] | select( .Key == \"aws:autoscaling:groupName\") | .Value' \\\n",
 "  | sed 's/^\"\\(.*\\)\"$/\\1/' )\n",
-"\n",
+
 "rallyAutoscalingGroupInstanceIDs=$(aws autoscaling describe-auto-scaling-groups \\\n",
 "  --region ${region} \\\n",
 "  --query 'AutoScalingGroups[*].Instances[*].InstanceId' \\\n",
 "  --auto-scaling-group-name ${rallyAutoscalingGroup} \\\n",
 "  | grep \"i-\" | sed 's/ //g' | sed 's/\"//g' |sed 's/,//g' | sort)\n",
-"\n",
+
 "rallyInstanceID=`echo ${rallyAutoscalingGroupInstanceIDs} | cut -d \" \" -f1`\n",
-"\n",
+
 "# Check if any IDs are already the rally point and overwrite rallyInstanceID if so\n",
 "rallyAutoscalingGroupInstanceIDsArray=(`echo $rallyAutoscalingGroupInstanceIDs`)\n",
-"for instanceID in ${rallyAutoscalingGroupInstanceIDsArray[@]}; do\n",
+"for i in ${rallyAutoscalingGroupInstanceIDsArray[@]}; do\n",
 "  tags=`aws ec2 describe-tags --region ${region}  --filter \"Name=tag:Name,Values=*Rally\" \"Name=resource-id,Values=$instanceID\"`\n",
 "  tags=`echo $tags | jq '.Tags'`\n",
 "  if [ \"$tags\" != \"[]\" ]\n",
 "  then\n",
-"    rallyInstanceID=$instanceID\n",
+"    rallyInstanceID=$i\n",
 "  fi\n",
 "done\n",
-"\n",
+
 "rallyPublicDNS=$(aws ec2 describe-instances \\\n",
 "    --region ${region} \\\n",
 "    --query  'Reservations[0].Instances[0].NetworkInterfaces[0].Association.PublicDnsName' \\\n",
 "    --instance-ids ${rallyInstanceID} \\\n",
 "    --output text)\n",
-"\n",
+
 "nodePublicDNS=`curl http://169.254.169.254/latest/meta-data/public-hostname`\n",
-"\n",
+
 "echo \"Using the settings:\"\n",
 "echo adminUsername \\'$adminUsername\\'\n",
 "echo adminPassword \\'$adminPassword\\'\n",
@@ -232,8 +232,8 @@
 "echo region \\'$region\\'\n",
 "echo instanceID \\'$instanceID\\'\n",
 "echo nodePublicDNS \\'$nodePublicDNS\\'\n",
-"\n",
-"if [[ $rallyPublicDNS == $nodePublicDNS ]]\n",
+
+"if [[ ${rallyPublicDNS} == ${nodePublicDNS} ]]\n",
 "then\n",
 "  aws ec2 create-tags \\\n",
 "    --region ${region} \\\n",
@@ -245,9 +245,9 @@
 "    --resources ${instanceID} \\\n",
 "    --tags Key=Name,Value=${stackName}-Server\n",
 "fi\n",
-"\n",
+
 "cd /opt/couchbase/bin/\n",
-"\n",
+
 "echo \"Running couchbase-cli node-init\"\n",
 "output=\"\"\n",
 "while [[ ! $output =~ \"SUCCESS\" ]]\n",
@@ -262,13 +262,13 @@
 "  echo node-init output \\'$output\\'\n",
 "  sleep 10\n",
 "done\n",
-"\n",
+
 "if [[ $rallyPublicDNS == $nodePublicDNS ]]\n",
 "then\n",
 "  totalRAM=$(grep MemTotal /proc/meminfo | awk '{print $2}')\n",
 "  dataRAM=$((50 * $totalRAM / 100000))\n",
 "  indexRAM=$((25 * $totalRAM / 100000))\n",
-"\n",
+
 "  echo \"Running couchbase-cli cluster-init\"\n",
 "  ./couchbase-cli cluster-init \\\n",
 "    --cluster=$nodePublicDNS \\\n",
@@ -293,7 +293,7 @@
 "    echo server-add output \\'$output\\'\n",
 "    sleep 10\n",
 "  done\n",
-"\n",
+
 "  echo \"Running couchbase-cli rebalance\"\n",
 "  output=\"\"\n",
 "  while [[ ! $output =~ \"SUCCESS\" ]]\n",
@@ -305,7 +305,6 @@
 "    echo rebalance output \\'$output\\'\n",
 "    sleep 10\n",
 "  done\n",
-"\n",
 "fi\n"
               ]
             ]
