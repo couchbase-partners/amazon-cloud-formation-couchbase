@@ -2,7 +2,7 @@
 
 STACK_NAME=$1
 
-LICENSE="byol"
+LICENSE="hourly-pricing"
 TEMPLATE_BODY="file://couchbase-ee-${LICENSE}.template"
 REGION=`aws configure get region`
 
