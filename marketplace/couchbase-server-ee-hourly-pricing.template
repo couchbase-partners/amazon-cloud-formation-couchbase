@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "AWS Deployment for Couchbase Enterprise -- AWSMP::7ab3d84d-7989-48d7-8bca-19b9aa17b8fb::ac8a6d88-4b2f-4437-9d3d-4a0427d547e6",
+  "Description": "AWS Deployment for Couchbase Enterprise -- AWSMP::00f6801d-49bf-41ee-aa95-01053fcbab2f::ccecd71e-2b60-4f2a-9d6a-04fd10817678",
   "Parameters": {
     "ServerInstanceCount": {
       "Description": "Number of Couchbase Server Nodes",
