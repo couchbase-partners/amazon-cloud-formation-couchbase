@@ -1,6 +1,6 @@
 # Best Practices
 
-![](./images/wa-architecture.png)
+![](./images/architecture.png)
 
 ## Compute
 
