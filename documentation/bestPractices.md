@@ -1,5 +1,7 @@
 # Best Practices
 
+![](./images/wa-architecture.png)
+
 ## Compute
 
 A variety of compute types are EBS optimized.  Any such node will work well with Couchbase, though some may be more cost effective.  R4 and M4 machines are the most commonly used.  While one core machines will deploy successfully, [we recommend machines with 4 or more cores](https://developer.couchbase.com/documentation/server/current/install/pre-install.html) for production applications.
