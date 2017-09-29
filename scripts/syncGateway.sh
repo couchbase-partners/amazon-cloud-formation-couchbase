@@ -37,7 +37,7 @@ echo '
 {
   "interface": "0.0.0.0:4984",
   "adminInterface": "0.0.0.0:4985",
-  "log": ["*"],
+  "log": ["*"]
 }
 ' > ${file}
 chmod 755 ${file}
