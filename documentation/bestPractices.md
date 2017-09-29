@@ -30,15 +30,17 @@ Amazon offers numerous storage options for IaaS.  When running Couchbase, three 
 * EBS io1
 * SSD Instance Store
 
-io1 is the most performant, but can be expensive.  For most applications, gp2 providers a good balance of performance and cost.  Instance stores are both performant and side step noisy neighbor issues that can potentially plague EBS.  However the instance store is ephemeral.  The persistence of EBS offers a significant advantage and is what we have chosen to provision in the CFn templates.
+For most applications, gp2 providers a good balance of performance and cost.  EBS io1 is the most performant flavor of EBS, but can be expensive. The persistence of EBS offers a significant advantage and is what we have chosen to provision in the CFT.
 
 We recommend a 1TB EBS drive as the upper end.  Large drives can lead to overly dense nodes that suffer from long rebuild times.  It's usually preferable to scale horizontally instead.
+
+Instance stores are both performant and side step noisy neighbor issues that can potentially plague EBS.  However the instance store is ephemeral, expensive and not encrypted, so we don't typically recommend it.
 
 ## Network
 
 Amazon provides a number of network options, including public DNS, VPN gateways and Direct Connect.  We recommend using public DNS for most applications.  They perform very well, are extremely cost effective and are resilient to failure.
 
-The templates configure each Couchbase node with the public DNS.  In AWS the public DNS resolves to a NAT based IP from outside the VPC and to the private IP from within the VPC.  AWS refers to this as split brain DNS.
+The templates configure each Couchbase node with the public DNS.  In AWS the public DNS resolves to a NAT based IP from outside the VPC and to the private IP from within the VPC.  AWS refers to this as split horizon DNS.
 
 For applications where nodes may be stopped and started, you could use an Elastic IP (EIP).  However, that adds significant management complexity.  We do not recommend EIPs for most applications.
 
@@ -46,7 +48,9 @@ Placement groups provide 10G network, which is preferable.  However, they make t
 
 ### Security
 
-The template automatically sets up a username and password for the Couchbase Web Administrator.  The template also configures a Security Group that closes off unused ports.  This configuration can be further secured by specifying CIDR blocks to whitelist and blocking others.
+The template automatically sets up a username and password for the Couchbase Web Administrator.  
+
+The template also configures a Security Group that closes off unused ports.  This configuration can be further secured by specifying CIDR blocks to whitelist for XDCR and client connectivity.  We also recommend restricting access to intra-node communication ports to the security group.  Detailed information on Server ports is available [here](https://developer.couchbase.com/documentation/server/current/install/install-ports.html).
 
 AWS [automatically enables encryption](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html) for disks that use EBS.
 
