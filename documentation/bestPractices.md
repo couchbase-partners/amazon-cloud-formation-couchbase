@@ -50,7 +50,7 @@ Placement groups provide 10G network, which is preferable.  However, they make t
 
 The template automatically sets up a username and password for the Couchbase Web Administrator.  
 
-The template also configures a Security Group that closes off unused ports.  This configuration can be further secured by specifying CIDR blocks to whitelist for XDCR and client connectivity.  We also recommend restricting access to intra-node communication ports to the security group.  Detailed information on Server ports is available [here](https://developer.couchbase.com/documentation/server/current/install/install-ports.html).
+The template also configures a Security Group that closes off unused ports.  This configuration can be further secured by specifying CIDR blocks to whitelist for XDCR and client connectivity.  We also recommend restricting access to intra-cluster communication ports to the security group.  Detailed information on Server ports is available [here](https://developer.couchbase.com/documentation/server/current/install/install-ports.html).
 
 AWS [automatically enables encryption](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html) for disks that use EBS.
 
