@@ -191,13 +191,11 @@ def generateSyncGateway(group, rallyAutoScalingGroup):
                             "#!/bin/bash\n",
                             "echo 'Running startup script...'\n",
                             "stackName=", { "Ref": "AWS::StackName" }, "\n",
-                            "rallyAutoScalingGroup=", { "Ref": rallyAutoScalingGroup + "AutoScalingGroup" }, "\n",
                             "license=", { "Ref": "License" }, "\n",
                             "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                             "wget ${baseURL}syncGateway.sh\n",
-                            "wget ${baseURL}util.sh\n",
                             "chmod +x *.sh\n",
-                            "./syncGateway.sh ${license} ${stackName} ${rallyAutoScalingGroup}\n"
+                            "./syncGateway.sh ${license} ${stackName}\n"
                         ]]
                     }
                 }

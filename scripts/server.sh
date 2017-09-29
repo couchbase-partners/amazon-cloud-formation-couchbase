@@ -8,16 +8,16 @@ adminPassword=$3
 services=$4
 stackName=$5
 
-if [[ $license == "None" ]]
-then
-  wget https://packages.couchbase.com/releases/4.6.3/couchbase-server-enterprise-4.6.3-centos6.x86_64.rpm
-  rpm --install couchbase-server-enterprise-4.6.3-centos6.x86_64.rpm
-fi
-
 yum -y update
 yum -y install jq
-source util.sh
 
+if [[ $license == "None" ]]
+then
+  wget https://packages.couchbase.com/releases/5.0.0/couchbase-server-enterprise-5.0.0-centos6.x86_64.rpm
+  rpm --install couchbase-server-enterprise-5.0.0-centos6.x86_64.rpm
+fi
+
+source util.sh
 formatDataDisk
 turnOffTransparentHugepages
 setSwappinessToZero
@@ -97,15 +97,6 @@ then
     --cluster-ramsize=$dataRAM \
     --cluster-index-ramsize=$indexRAM \
     --services=${services}
-
-  echo "Running couchbase-cli bucket-create"
-  ./couchbase-cli bucket-create \
-    --cluster=$nodePublicDNS \
-    --user=$adminUsername \
-    --pass=$adminPassword \
-    --bucket=sync_gateway \
-    --bucket-type=couchbase \
-    --bucket-ramsize=$dataRAM
 else
   echo "Running couchbase-cli server-add"
   output=""

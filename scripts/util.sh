@@ -73,9 +73,7 @@ formatDataDisk ()
 
 turnOffTransparentHugepages ()
 {
-  # Please look at http://bit.ly/1ZAcLjD as for how to PERMANENTLY alter this setting.
-
-  echo "#!/bin/bash
+echo "#!/bin/bash
 ### BEGIN INIT INFO
 # Provides:          disable-thp
 # Required-Start:    $local_fs
@@ -90,17 +88,16 @@ turnOffTransparentHugepages ()
 echo 'never' > /sys/kernel/mm/transparent_hugepage/enabled
 echo 'never' > /sys/kernel/mm/transparent_hugepage/defrag
 " > /etc/init.d/disable-thp
-  chmod 755 /etc/init.d/disable-thp
-  service disable-thp start
-  chkconfig disable-thp on
+chmod 755 /etc/init.d/disable-thp
+service disable-thp start
+chkconfig disable-thp on
 }
 
 setSwappinessToZero ()
 {
-  # Please look at http://bit.ly/1k2CtNn as for how to PERMANENTLY alter this setting.
-
-  sysctl vm.swappiness=0
-  echo "
+sysctl vm.swappiness=0
+echo "
 # Required for Couchbase
-vm.swappiness = 0" >> /etc/sysctl.conf
+vm.swappiness = 0
+" >> /etc/sysctl.conf
 }
