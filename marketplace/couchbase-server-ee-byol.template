@@ -116,7 +116,6 @@
                 "############ Turn Off Transparent Hugepages ###########\n",
                 "#######################################################\n",
                 "echo \"Turning off transparent hugepages...\"\n",
-                "# Please look at http://bit.ly/1ZAcLjD as for how to PERMANENTLY alter this setting.\n",
 
                 "echo \"#!/bin/bash\n",
                 "### BEGIN INIT INFO\n",
@@ -141,7 +140,6 @@
                 "################# Set Swappiness to 0 #################\n",
                 "#######################################################\n",
                 "echo \"Setting swappiness to 0...\"\n",
-                "# Please look at http://bit.ly/1k2CtNn as for how to PERMANENTLY alter this setting.\n",
 
                 "sysctl vm.swappiness=0\n",
                 "echo \"\n",
