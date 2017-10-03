@@ -10,7 +10,7 @@ Get a local copy of the Couchbase Server rpm by downloading them from https://ww
 
 Alternatively you can run the command:
 
-    wget https://packages.couchbase.com/releases/4.6.3/couchbase-server-enterprise-4.6.3-centos6.x86_64.rpm
+    wget https://packages.couchbase.com/releases/5.0.0/couchbase-server-enterprise-5.0.0-centos6.x86_64.rpm
 
 Note that the Amazon Linux image we're using runs best with the CentOS 6 version of Couchbase Server.
 
@@ -19,7 +19,7 @@ Login to the AWS Marketplace Management Portal and click on AMI.  [Here](https:/
 Click to upload the RPM.  Note it takes several minutes to be reflected in the UI.
 
 For AMI description use either:
-* Couchbase Server Enterprise Edition 4.6.3
+* Couchbase Server Enterprise Edition 5.0.0
 * Couchbase Sync Gateway Enterprise Edition 1.4.1-3
 
 For the base AMI select Amazon Linux.
