@@ -1,4 +1,3 @@
-license: Hourly-Pricing
 cluster:
   - group: group1
     nodeCount: 5
