@@ -2,6 +2,10 @@
 
 This is an Amazon Cloud Formation Template (CFT) that installs Couchbase Enterprise.  You can run it from the AWS CLI or using the web console.
 
+While written instructions are below, we also have a how to video here:
+
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/KpwmiRKrsfw/0.jpg)](https://www.youtube.com/watch?v=KpwmiRKrsfw&index=4&list=PLG3nTnYVz3nzGsaREuEjlvAKnNe4Xc-8j "Deploying Couchbase with the AWS CLI and CloudFormation")
+
 ## Important Note
 
 This template uses two AWS Marketplace AMIs.  To deploy in your AWS subscription you must first subscribe to the AMIs [here](https://aws.amazon.com/marketplace/seller-profile?id=1a064a14-5ac2-4980-9167-15746aabde72)
