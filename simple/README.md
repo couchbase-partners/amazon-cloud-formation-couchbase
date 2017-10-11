@@ -8,10 +8,24 @@ This template uses two AWS Marketplace AMIs.  To deploy in your AWS subscription
 
 ## Environment Setup
 
-You will need an AWS account with permission to access the services:
-* Cloud Formation
-* EC2
-* EBS
+You will need an AWS account with these permissions:
+* aws-marketplace:Subscribe
+* aws-marketplace:ViewSubscriptions
+* ec2:AuthorizeSecurityGroupEgress
+* ec2:AuthorizeSecurityGroupIngress
+* ec2:CreateSecurityGroup
+* ec2:DescribeImages
+* ec2:DescribeInstances
+* ec2:DescribeKeyPairs
+* ec2:DeleteSecurityGroup
+* ec2:DescribeSecurityGroups
+* ec2:DescribeSubnets
+* ec2:DescribeVpcs
+* ec2:DescribeAccountAttributes
+* ec2:RunInstances
+* ec2:StartInstances
+* ec2:StopInstances
+* ec2:TerminateInstances
 
 First we need to install and configure the AWS CLI.  Follow the instructions Amazon provides [here](http://docs.aws.amazon.com/cli/latest/userguide/installing.html).  Basically all you need to do is:
 
