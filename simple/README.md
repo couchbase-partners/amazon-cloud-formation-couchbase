@@ -47,13 +47,9 @@ If you don't have a key, you'll also need to create one.  That can be done with 
     REGION=`aws configure get region`
     KEY_NAME="couchbase-${REGION}"
     KEY_FILENAME=~/.ssh/${KEY_NAME}.pem
-    if [ ! -e ${KEY_FILENAME} ]
-    then
-      echo "The key does not exist.  Generating a new key."
-      aws ec2 create-key-pair --region ${REGION} --key-name ${KEY_NAME} --query 'KeyMaterial' --output text > ${KEY_FILENAME}
-      chmod 600 ${KEY_FILENAME}
-      echo "Key saved to ${KEY_FILENAME}"
-    fi
+    aws ec2 create-key-pair --region ${REGION} --key-name ${KEY_NAME} --query 'KeyMaterial' --output text > ${KEY_FILENAME}
+    chmod 600 ${KEY_FILENAME}
+    echo "Key saved to ${KEY_FILENAME}"
 
 Then you'll want to clone this repo.  You can do that with the command:
 
