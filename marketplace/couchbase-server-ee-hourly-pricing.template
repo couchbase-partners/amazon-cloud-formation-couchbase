@@ -1,6 +1,7 @@
+
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "AWS Deployment for Couchbase Enterprise -- AWSMP::00f6801d-49bf-41ee-aa95-01053fcbab2f::ccecd71e-2b60-4f2a-9d6a-04fd10817678",
+  "Description": "AWS Deployment for Couchbase Enterprise -- AWSMP::00f6801d-49bf-41ee-aa95-01053fcbab2f::5110a57f-0ed8-4db0-bd18-b0fdec2bcdf8",
   "Parameters": {
     "ServerInstanceCount": {
       "Description": "Number of Couchbase Server Nodes",
@@ -52,7 +53,7 @@
   },
   "Mappings": {
     "CouchbaseServer": {
-      "us-east-1": { "BYOL": "ami-e14d569a", "HourlyPricing": "ami-e8405b93", "None": "ami-a4c7edb2" },
+      "us-east-1": { "BYOL": "ami-1642856c", "HourlyPricing": "ami-d64186ac", "None": "ami-d68278ac" },
       "us-east-2": { "BYOL": "ami-c83f1dad", "HourlyPricing": "ami-42391b27", "None": "ami-8a7859ef" },
       "us-west-1": { "BYOL": "ami-0ba4936b", "HourlyPricing": "ami-03a69163", "None": "ami-327f5352" },
       "us-west-2": { "BYOL": "ami-0426d77c", "HourlyPricing": "ami-0a2bda72", "None": "ami-6df1e514" },
