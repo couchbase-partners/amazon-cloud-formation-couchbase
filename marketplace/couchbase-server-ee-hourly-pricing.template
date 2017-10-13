@@ -1,4 +1,3 @@
-
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "AWS Deployment for Couchbase Enterprise -- AWSMP::00f6801d-49bf-41ee-aa95-01053fcbab2f::5110a57f-0ed8-4db0-bd18-b0fdec2bcdf8",

@@ -1,4 +1,3 @@
-
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "AWS Deployment for Couchbase Enterprise -- AWSMP::7ab3d84d-7989-48d7-8bca-19b9aa17b8fb::3af29531-0f44-4fba-8317-ceed888bb317",
@@ -62,11 +61,11 @@
       "eu-west-1": { "BYOL": "ami-f99b4d80" },
       "eu-west-2": { "BYOL": "ami-762f3d12" },
       "ap-southeast-1": { "BYOL": "ami-1aed9279" },
-      "ap-southeast-2": { "BYOL": " ami-0adf3c68" },
+      "ap-southeast-2": { "BYOL": "ami-0adf3c68" },
       "ap-south-1": { "BYOL": "ami-934f0ffc" },
       "ap-northeast-1": { "BYOL": "ami-8966b6ef" },
-      "ap-northeast-2": { "BYOL": "ami-b0a7d8dc" },
-      "sa-east-1": { "BYOL": "ami-ad9be9c1" }
+      "ap-northeast-2": { "BYOL": "ami-152df77b" },
+      "sa-east-1": { "BYOL": "ami-b0a7d8dc" }
     }
   },
   "Resources": {
