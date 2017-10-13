@@ -53,20 +53,20 @@
   },
   "Mappings": {
     "CouchbaseServer": {
-      "us-east-1": { "BYOL": "ami-1642856c", "HourlyPricing": "ami-d64186ac", "None": "ami-d68278ac" },
-      "us-east-2": { "BYOL": "ami-c83f1dad", "HourlyPricing": "ami-42391b27", "None": "ami-8a7859ef" },
-      "us-west-1": { "BYOL": "ami-0ba4936b", "HourlyPricing": "ami-03a69163", "None": "ami-327f5352" },
-      "us-west-2": { "BYOL": "ami-0426d77c", "HourlyPricing": "ami-0a2bda72", "None": "ami-6df1e514" },
-      "ca-central-1": { "BYOL": "ami-12d86176", "HourlyPricing": "ami-97e75ef3", "None": "ami-a7aa15c3" },
-      "eu-central-1": { "BYOL": "ami-17ae1978", "HourlyPricing": "ami-d5a116ba", "None": "ami-82be18ed" },
-      "eu-west-1": { "BYOL": "ami-da6faea3", "HourlyPricing": "ami-ab6cadd2", "None": "ami-d7b9a2b1" },
-      "eu-west-2": { "BYOL": "ami-8a7f6cee", "HourlyPricing": "ami-e27f6c86", "None": "ami-ed100689" },
-      "ap-southeast-1": { "BYOL": "ami-31a1ca52", "HourlyPricing": "ami-53a3c830", "None": "ami-77af2014" },
-      "ap-southeast-2": { "BYOL": "ami-86ad4ae4", "HourlyPricing": "ami-3baa4d59", "None": "ami-10918173" },
-      "ap-south-1": { "BYOL": "ami-85aee9ea ", "HourlyPricing": "ami-b0a1e6df", "None": "ami-47205e28" },
-      "ap-northeast-1": { "BYOL": "ami-315c9c57", "HourlyPricing": "ami-905f9ff6", "None": "ami-3bd3c45c" },
-      "ap-northeast-2": { "BYOL": "ami-6bed3605", "HourlyPricing": "ami-6ded3603", "None": "ami-e21cc38c" },
-      "sa-east-1": { "BYOL": "ami-ad9be9c1", "HourlyPricing": "ami-e29be98e", "None": "ami-87dab1eb" }
+      "us-east-1": { "BYOL": "ami-1642856c", "HourlyPricing": "ami-d64186ac" },
+      "us-east-2": { "BYOL": "ami-17c3ee72", "HourlyPricing": "ami-30c0ed55" },
+      "us-west-1": { "BYOL": "ami-2f41724f", "HourlyPricing": "ami-964675f6" },
+      "us-west-2": { "BYOL": "ami-e5c6039d", "HourlyPricing": "ami-43c3063b" },
+      "ca-central-1": { "BYOL": "ami-64259c00", "HourlyPricing": "ami-e9239a8d" },
+      "eu-central-1": { "BYOL": "ami-979a27f8", "HourlyPricing": "ami-48942927" },
+      "eu-west-1": { "BYOL": "ami-f99b4d80", "HourlyPricing": "ami-fb9b4d82" },
+      "eu-west-2": { "BYOL": "ami-762f3d12", "HourlyPricing": "ami-3d2c3e59" },
+      "ap-southeast-1": { "BYOL": "ami-1aed9279", "HourlyPricing": "ami-5eec933d" },
+      "ap-southeast-2": { "BYOL": " ami-0adf3c68", "HourlyPricing": "ami-78de3d1a" },
+      "ap-south-1": { "BYOL": "aami-934f0ffc", "HourlyPricing": "ami-7e4d0d11" },
+      "ap-northeast-1": { "BYOL": "ami-8966b6ef", "HourlyPricing": "ami-0367b765" },
+      "ap-northeast-2": { "BYOL": "ami-b0a7d8dc", "HourlyPricing": "ami-942ff5fa" },
+      "sa-east-1": { "BYOL": "ami-ad9be9c1", "HourlyPricing": "ami-87acd3eb" }
     }
   },
   "Resources": {
