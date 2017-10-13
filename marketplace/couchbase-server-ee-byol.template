@@ -63,7 +63,7 @@
       "eu-west-2": { "BYOL": "ami-762f3d12" },
       "ap-southeast-1": { "BYOL": "ami-1aed9279" },
       "ap-southeast-2": { "BYOL": " ami-0adf3c68" },
-      "ap-south-1": { "BYOL": "aami-934f0ffc" },
+      "ap-south-1": { "BYOL": "ami-934f0ffc" },
       "ap-northeast-1": { "BYOL": "ami-8966b6ef" },
       "ap-northeast-2": { "BYOL": "ami-b0a7d8dc" },
       "sa-east-1": { "BYOL": "ami-ad9be9c1" }
