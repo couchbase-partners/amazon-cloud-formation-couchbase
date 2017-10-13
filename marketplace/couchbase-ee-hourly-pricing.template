@@ -114,7 +114,7 @@
                 "adminPassword=", { "Ref": "Password" }, "\n",
                 "services=data,index,query,fts\n",
                 "stackName=", { "Ref": "AWS::StackName" }, "\n",
-                "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
+                "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/de3c2f13cb742d57cf5bb12a6e5eb30e1b6137b8/scripts/\n",
                 "wget ${baseURL}server.sh\n",
                 "wget ${baseURL}util.sh\n",
                 "chmod +x *.sh\n",
