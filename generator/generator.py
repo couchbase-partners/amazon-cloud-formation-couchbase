@@ -93,11 +93,11 @@ def generateMappings(serverVersion, syncGatewayVersion):
                 "eu-west-1": { "BYOL": "ami-f99b4d80", "HourlyPricing": "ami-fb9b4d82" },
                 "eu-west-2": { "BYOL": "ami-762f3d12", "HourlyPricing": "ami-3d2c3e59" },
                 "ap-southeast-1": { "BYOL": "ami-1aed9279", "HourlyPricing": "ami-5eec933d" },
-                "ap-southeast-2": { "BYOL": " ami-0adf3c68", "HourlyPricing": "ami-78de3d1a" },
+                "ap-southeast-2": { "BYOL": "ami-0adf3c68", "HourlyPricing": "ami-78de3d1a" },
                 "ap-south-1": { "BYOL": "aami-934f0ffc", "HourlyPricing": "ami-7e4d0d11" },
                 "ap-northeast-1": { "BYOL": "ami-8966b6ef", "HourlyPricing": "ami-0367b765" },
-                "ap-northeast-2": { "BYOL": "ami-b0a7d8dc", "HourlyPricing": "ami-942ff5fa" },
-                "sa-east-1": { "BYOL": "ami-ad9be9c1", "HourlyPricing": "ami-87acd3eb" }
+                "ap-northeast-2": { "BYOL": "ami-152df77b", "HourlyPricing": "ami-942ff5fa" },
+                "sa-east-1": { "BYOL": "ami-b0a7d8dc", "HourlyPricing": "ami-87acd3eb" }
             }
         },
         "CouchbaseSyncGateway": {
