@@ -13,8 +13,9 @@ yum -y install jq
 
 if [[ $license == "None" ]]
 then
-  wget https://packages.couchbase.com/releases/5.0.0/couchbase-server-enterprise-5.0.0-centos6.x86_64.rpm
-  rpm --install couchbase-server-enterprise-5.0.0-centos6.x86_64.rpm
+  version=5.0.0
+  wget https://packages.couchbase.com/releases/${version}/couchbase-server-enterprise-${version}-centos6.x86_64.rpm
+  rpm --install couchbase-server-enterprise-${version}-centos6.x86_64.rpm
 fi
 
 source util.sh

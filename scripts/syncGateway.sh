@@ -10,8 +10,9 @@ yum -y install jq
 
 if [[ $license == "None" ]]
 then
-  wget https://packages.couchbase.com/releases/couchbase-sync-gateway/1.5.0/couchbase-sync-gateway-enterprise_1.5.0_x86_64.rpm
-  rpm -i couchbase-sync-gateway-enterprise_1.5.0_x86_64.rpm
+  version=1.5.0
+  wget https://packages.couchbase.com/releases/couchbase-sync-gateway/${version}/couchbase-sync-gateway-enterprise_${version}_x86_64.rpm
+  rpm -i couchbase-sync-gateway-enterprise_${version}_x86_64.rpm
 fi
 
 region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
