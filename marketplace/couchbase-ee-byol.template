@@ -62,20 +62,20 @@
       "sa-east-1": { "BYOL": "ami-301f695c" }
     },
     "CouchbaseSyncGateway": {
-      "us-east-1": { "BYOL": "ami-9cf7d1e7" },
-      "us-east-2": { "BYOL": "ami-141f3f71" },
-      "us-west-1": { "BYOL": "ami-7ca58d1c" },
-      "us-west-2": { "BYOL": "ami-57d6312f" },
-      "ca-central-1": { "BYOL": "ami-23ed5347" },
-      "eu-central-1": { "BYOL": "ami-fa62cd95" },
-      "eu-west-1": { "BYOL": "ami-20ee1a59" },
-      "eu-west-2": { "BYOL": "ami-c12839a5" },
-      "ap-southeast-1": { "BYOL": "ami-206af543" },
-      "ap-southeast-2": { "BYOL": "ami-00968863" },
-      "ap-south-1": { "BYOL": "ami-5dbec532" },
-      "ap-northeast-1": { "BYOL": "ami-e5df3183" },
-      "ap-northeast-2": { "BYOL": "ami-f6e23b98" },
-      "sa-east-1": { "BYOL": "ami-4d1e6821" }
+      "us-east-1": { "BYOL": "ami-4219d238" },
+      "us-east-2": { "BYOL": "ami-33456956" },
+      "us-west-1": { "BYOL": "ami-b52715d5" },
+      "us-west-2": { "BYOL": "ami-dfa263a7" },
+      "ca-central-1": { "BYOL": "ami-42ec5426" },
+      "eu-central-1": { "BYOL": "ami-c83a85a7" },
+      "eu-west-1": { "BYOL": "ami-306dbf49" },
+      "eu-west-2": { "BYOL": "ami-cca8baa8" },
+      "ap-southeast-1": { "BYOL": "ami-47a6dd24" },
+      "ap-southeast-2": { "BYOL": "ami-cc40a2ae" },
+      "ap-south-1": { "BYOL": "ami-a54506ca" },
+      "ap-northeast-1": { "BYOL": "ami-74c61812" },
+      "ap-northeast-2": { "BYOL": "ami-d4cd68ba" },
+      "sa-east-1": { "BYOL": "ami-42b3cd2e" }
     }
   },
   "Resources": {

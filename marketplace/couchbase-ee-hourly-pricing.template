@@ -62,20 +62,20 @@
       "sa-east-1": { "HourlyPricing": "ami-6b107a07" }
     },
     "CouchbaseSyncGateway": {
-      "us-east-1": { "HourlyPricing": "ami-f80b3dee" },
-      "us-east-2": { "HourlyPricing": "ami-fd4d6c98" },
-      "us-west-1": { "HourlyPricing": "ami-910428f1" },
-      "us-west-2": { "HourlyPricing": "ami-54e7f02d" },
-      "ca-central-1": { "HourlyPricing": "ami-8ca718e8" },
-      "eu-central-1": { "HourlyPricing": "ami-b73492d8" },
-      "eu-west-1": { "HourlyPricing": "ami-95ba5fec" },
-      "eu-west-2": { "HourlyPricing": "ami-b70214d3" },
-      "ap-southeast-1": { "HourlyPricing": "ami-ba44cad9" },
-      "ap-southeast-2": { "HourlyPricing": "ami-687f6c0b" },
-      "ap-south-1": { "HourlyPricing": "ami-786e1017" },
-      "ap-northeast-1": { "HourlyPricing": "ami-6d07160a" },
-      "ap-northeast-2": { "HourlyPricing": "ami-373be459" },
-      "sa-east-1": { "HourlyPricing": "ami-30167c5c" }
+      "us-east-1": { "HourlyPricing": "ami-611bd01b" },
+      "us-east-2": { "HourlyPricing": "ami-aa4569cf" },
+      "us-west-1": { "HourlyPricing": "ami-f5271595" },
+      "us-west-2": { "HourlyPricing": "ami-b79f5ecf" },
+      "ca-central-1": { "HourlyPricing": "ami-43ec5427" },
+      "eu-central-1": { "HourlyPricing": "ami-843a85eb" },
+      "eu-west-1": { "HourlyPricing": "ami-fa6dbf83" },
+      "eu-west-2": { "HourlyPricing": "ami-52a8ba36" },
+      "ap-southeast-1": { "HourlyPricing": "ami-faa4df99" },
+      "ap-southeast-2": { "HourlyPricing": "ami-2d46a44f" },
+      "ap-south-1": { "HourlyPricing": "ami-66450609" },
+      "ap-northeast-1": { "HourlyPricing": "ami-3fc81659" },
+      "ap-northeast-2": { "HourlyPricing": "ami-1ecf6a70" },
+      "sa-east-1": { "HourlyPricing": "ami-f1b0ce9d" }
     }
   },
   "Resources": {
