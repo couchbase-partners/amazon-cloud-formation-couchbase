@@ -7,13 +7,13 @@ adminPassword=$2
 services=$3
 stackName=$4
 
-yum -y update
-yum -y install jq
-
 source util.sh
 turnOffTransparentHugepages
 setSwappinessToZero
 formatDataDisk
+
+yum -y update
+yum -y install jq
 
 if [ -z "$5" ]
 then
