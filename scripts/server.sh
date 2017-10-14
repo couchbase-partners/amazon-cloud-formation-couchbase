@@ -11,9 +11,9 @@ yum -y update
 yum -y install jq
 
 source util.sh
-formatDataDisk
 turnOffTransparentHugepages
 setSwappinessToZero
+formatDataDisk
 
 if [ -z "$5" ]
 then
