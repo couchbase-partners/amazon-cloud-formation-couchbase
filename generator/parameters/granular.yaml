@@ -1,5 +1,5 @@
-serverVersion: 4.6.3
-syncGatewayVersion: 1.4.1-3
+serverVersion: 5.0.0
+syncGatewayVersion: 1.5.0
 cluster:
   - group: data
     nodeCount: 2

@@ -1,6 +1,6 @@
 # generator
 
-This is an CFT generator for Couchbase.  It creates templates that leverage MDS.  This template can be deployed in different regions for XDCR.
+This is a CFT generator for Couchbase.  It creates templates that leverage MDS.  This template can be deployed in different regions for XDCR.
 
 ## Creating a Stack
 
