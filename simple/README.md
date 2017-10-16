@@ -47,7 +47,11 @@ If you don't have a key, you'll also need to create one.  That can be done with 
     REGION=`aws configure get region`
     KEY_NAME="couchbase-${REGION}"
     KEY_FILENAME=~/.ssh/${KEY_NAME}.pem
-    aws ec2 create-key-pair --region ${REGION} --key-name ${KEY_NAME} --query 'KeyMaterial' --output text > ${KEY_FILENAME}
+    aws ec2 create-key-pair \
+      --region ${REGION} \
+      --key-name ${KEY_NAME} \
+      --query 'KeyMaterial' \
+      --output text > ${KEY_FILENAME}
     chmod 600 ${KEY_FILENAME}
     echo "Key saved to ${KEY_FILENAME}"
 
