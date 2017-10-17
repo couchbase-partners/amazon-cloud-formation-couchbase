@@ -20,7 +20,13 @@
     "InstanceType": {
       "Description": "Instance type for Couchbase Nodes",
       "Type": "String",
-      "Default": "m4.xlarge"
+      "Default": "m4.xlarge",
+      "AllowedValues": [
+        "t2.medium", "t2.large", "t2.xlarge", "t2.2xlarge",
+        "m4.large", "m4.xlarge", "m4.2xlarge", "m4.4xlarge", "m4.10xlarge", "m4.16xlarge",
+        "c4.large", "c4.xlarge", "c4.2xlarge", "c4.4xlarge", "c4.8xlarge",
+        "r4.large", "r4.xlarge", "r4.2xlarge", "r4.4xlarge", "r4.8xlarge", "r4.16xlarge"
+      ]
     },
     "Username": {
       "Description": "Username for Couchbase administrator",
@@ -46,36 +52,36 @@
   },
   "Mappings": {
     "CouchbaseServer": {
-      "us-east-1": { "BYOL": "ami-48f6d033" },
-      "us-east-2": { "BYOL": "ami-2fe2c24a" },
-      "us-west-1": { "BYOL": "ami-92a48cf2" },
-      "us-west-2": { "BYOL": "ami-4ac92e32" },
-      "ca-central-1": { "BYOL": "ami-98ee50fc" },
-      "eu-central-1": { "BYOL": "ami-f761ce98" },
-      "eu-west-1": { "BYOL": "ami-e4ee1a9d" },
-      "eu-west-2": { "BYOL": "ami-c82736ac" },
-      "ap-southeast-1": { "BYOL": "ami-536af530" },
-      "ap-southeast-2": { "BYOL": "ami-4a948a29" },
-      "ap-south-1": { "BYOL": "ami-87bdc6e8 " },
-      "ap-northeast-1": { "BYOL": "ami-07da3461" },
-      "ap-northeast-2": { "BYOL": "ami-0de53c63" },
-      "sa-east-1": { "BYOL": "ami-301f695c" }
+      "us-east-1": { "BYOL": "ami-bf4791c5" },
+      "us-east-2": { "BYOL": "ami-af361aca" },
+      "us-west-1": { "BYOL": "ami-4fbd8f2f" },
+      "us-west-2": { "BYOL": "ami-db5f9fa3" },
+      "ca-central-1": { "BYOL": "ami-eec8708a" },
+      "eu-central-1": { "BYOL": "ami-7c289613" },
+      "eu-west-1": { "BYOL": "ami-09b06f70" },
+      "eu-west-2": { "BYOL": "ami-806d70e4" },
+      "ap-southeast-1": { "BYOL": "ami-946b2ef7" },
+      "ap-southeast-2": { "BYOL": "ami-292fc24b" },
+      "ap-south-1": { "BYOL": "ami-99c380f6" },
+      "ap-northeast-1": { "BYOL": "ami-236eb645" },
+      "ap-northeast-2": { "BYOL": "ami-38ba1f56" },
+      "sa-east-1": { "BYOL": "ami-37c4ba5b" }
     },
     "CouchbaseSyncGateway": {
-      "us-east-1": { "BYOL": "ami-4219d238" },
-      "us-east-2": { "BYOL": "ami-33456956" },
-      "us-west-1": { "BYOL": "ami-b52715d5" },
-      "us-west-2": { "BYOL": "ami-dfa263a7" },
-      "ca-central-1": { "BYOL": "ami-42ec5426" },
-      "eu-central-1": { "BYOL": "ami-c83a85a7" },
-      "eu-west-1": { "BYOL": "ami-306dbf49" },
-      "eu-west-2": { "BYOL": "ami-cca8baa8" },
-      "ap-southeast-1": { "BYOL": "ami-47a6dd24" },
-      "ap-southeast-2": { "BYOL": "ami-cc40a2ae" },
-      "ap-south-1": { "BYOL": "ami-a54506ca" },
-      "ap-northeast-1": { "BYOL": "ami-74c61812" },
-      "ap-northeast-2": { "BYOL": "ami-d4cd68ba" },
-      "sa-east-1": { "BYOL": "ami-42b3cd2e" }
+      "us-east-1": { "BYOL": "ami-4440963e" },
+      "us-east-2": { "BYOL": "ami-62361a07" },
+      "us-west-1": { "BYOL": "ami-47bd8f27" },
+      "us-west-2": { "BYOL": "ami-c25e9eba" },
+      "ca-central-1": { "BYOL": "ami-e6ca7282" },
+      "eu-central-1": { "BYOL": "ami-5e2c9231" },
+      "eu-west-1": { "BYOL": "ami-05b06f7c" },
+      "eu-west-2": { "BYOL": "ami-d9726fbd" },
+      "ap-southeast-1": { "BYOL": "ami-96682df5" },
+      "ap-southeast-2": { "BYOL": "ami-5c2cc13e" },
+      "ap-south-1": { "BYOL": "ami-39b8fb56" },
+      "ap-northeast-1": { "BYOL": "ami-d862babe" },
+      "ap-northeast-2": { "BYOL": "ami-b2ba1fdc" },
+      "sa-east-1": { "BYOL": "ami-c8c4baa4" }
     }
   },
   "Resources": {
