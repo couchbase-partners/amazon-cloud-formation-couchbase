@@ -27,4 +27,4 @@ ParameterKey=InstanceType,ParameterValue=${InstanceType} \
 ParameterKey=Username,ParameterValue=${Username} \
 ParameterKey=Password,ParameterValue=${Password} \
 ParameterKey=KeyName,ParameterValue=${KeyName} \
-ParameterKey=SSHCIDR,ParameterValue=${SSHCIDR} \
+ParameterKey=SSHCIDR,ParameterValue=${SSHCIDR}
