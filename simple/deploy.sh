@@ -12,7 +12,7 @@ InstanceType="m4.xlarge"
 Username="couchbase"
 Password="foo123!"
 KeyName="couchbase-${REGION}"
-License="HourlyPricing"
+License="BYOL"
 
 aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM \
