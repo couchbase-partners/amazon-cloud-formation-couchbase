@@ -4,6 +4,6 @@ These are Amazon CloudFormation Templates (CFT) that install Couchbase Enterpris
 
 [marketplace](marketplace) is the template used in the [Couchbase AWS Marketplace offers](https://aws.amazon.com/marketplace/seller-profile?id=1a064a14-5ac2-4980-9167-15746aabde72) and probably best deployed directly from Marketplace.
 
-Some best practices are covered [here](documentation/bestPractices.md).
+Documentation that covers deploying from Marketplace as well as some best practices is available [here](https://developer.couchbase.com/documentation/server/5.0/cloud/couchbase-aws.html).
 
 Useful links are [here](https://github.com/couchbase-partners/links/blob/master/amazon.md).
