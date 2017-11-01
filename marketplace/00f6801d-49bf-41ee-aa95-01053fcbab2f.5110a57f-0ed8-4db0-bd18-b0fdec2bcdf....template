@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "AWS Deployment for Couchbase Enterprise -- AWSMP::7ab3d84d-7989-48d7-8bca-19b9aa17b8fb::3af29531-0f44-4fba-8317-ceed888bb317",
+  "Description": "AWS Deployment for Couchbase Enterprise -- AWSMP::00f6801d-49bf-41ee-aa95-01053fcbab2f::5110a57f-0ed8-4db0-bd18-b0fdec2bcdf8",
   "Parameters": {
     "ServerInstanceCount": {
       "Description": "Number of Couchbase Server Nodes",
@@ -17,10 +17,11 @@
       "Type": "String",
       "Default": "m4.xlarge",
   	  "AllowedValues": [
-        "t2.medium", "t2.large", "t2.xlarge", "t2.2xlarge",
-        "m4.large", "m4.xlarge", "m4.2xlarge", "m4.4xlarge", "m4.10xlarge", "m4.16xlarge",
-        "c4.large", "c4.xlarge", "c4.2xlarge", "c4.4xlarge", "c4.8xlarge",
-        "r4.large", "r4.xlarge", "r4.2xlarge", "r4.4xlarge", "r4.8xlarge", "r4.16xlarge"
+          "t2.medium", "t2.large", "t2.xlarge", "t2.2xlarge",
+          "m4.large", "m4.xlarge", "m4.2xlarge", "m4.4xlarge", "m4.10xlarge", "m4.16xlarge",
+          "c4.large", "c4.xlarge", "c4.2xlarge", "c4.4xlarge", "c4.8xlarge",
+          "r4.large", "r4.xlarge", "r4.2xlarge", "r4.4xlarge", "r4.8xlarge", "r4.16xlarge"
+          "i3.large", "i3.xlarge", "i3.2xlarge", "i3.4xlarge", "i3.8xlarge", "i3.16xlarge",
         ]
     },
     "Username": {
@@ -47,20 +48,20 @@
   },
   "Mappings": {
     "CouchbaseServer": {
-      "us-east-1": { "BYOL": "ami-1642856c" },
-      "us-east-2": { "BYOL": "ami-17c3ee72" },
-      "us-west-1": { "BYOL": "ami-2f41724f" },
-      "us-west-2": { "BYOL": "ami-e5c6039d" },
-      "ca-central-1": { "BYOL": "ami-64259c00" },
-      "eu-central-1": { "BYOL": "ami-979a27f8" },
-      "eu-west-1": { "BYOL": "ami-f99b4d80" },
-      "eu-west-2": { "BYOL": "ami-762f3d12" },
-      "ap-southeast-1": { "BYOL": "ami-1aed9279" },
-      "ap-southeast-2": { "BYOL": "ami-0adf3c68" },
-      "ap-south-1": { "BYOL": "ami-934f0ffc" },
-      "ap-northeast-1": { "BYOL": "ami-8966b6ef" },
-      "ap-northeast-2": { "BYOL": "ami-152df77b" },
-      "sa-east-1": { "BYOL": "ami-b0a7d8dc" }
+      "us-east-1": { "HourlyPricing": "ami-d64186ac" },
+      "us-east-2": { "HourlyPricing": "ami-30c0ed55" },
+      "us-west-1": { "HourlyPricing": "ami-964675f6" },
+      "us-west-2": { "HourlyPricing": "ami-43c3063b" },
+      "ca-central-1": { "HourlyPricing": "ami-e9239a8d" },
+      "eu-central-1": { "HourlyPricing": "ami-48942927" },
+      "eu-west-1": { "HourlyPricing": "ami-fb9b4d82" },
+      "eu-west-2": { "HourlyPricing": "ami-3d2c3e59" },
+      "ap-southeast-1": { "HourlyPricing": "ami-5eec933d" },
+      "ap-southeast-2": { "HourlyPricing": "ami-78de3d1a" },
+      "ap-south-1": { "HourlyPricing": "ami-7e4d0d11" },
+      "ap-northeast-1": { "HourlyPricing": "ami-0367b765" },
+      "ap-northeast-2": { "HourlyPricing": "ami-942ff5fa" },
+      "sa-east-1": { "HourlyPricing": "ami-87acd3eb" }
     }
   },
   "Resources": {
@@ -77,7 +78,7 @@
     "ServerLaunchConfiguration": {
       "Type": "AWS::AutoScaling::LaunchConfiguration",
       "Properties": {
-        "ImageId": { "Fn::FindInMap": [ "CouchbaseServer", { "Ref": "AWS::Region" }, "BYOL" ] },
+        "ImageId": { "Fn::FindInMap": [ "CouchbaseServer", { "Ref": "AWS::Region" }, "HourlyPricing" ] },
         "InstanceType": { "Ref": "InstanceType" },
         "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
         "KeyName": { "Ref": "KeyName" },
