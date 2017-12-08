@@ -2,7 +2,7 @@
 
 STACK_NAME=$1
 
-TEMPLATE_BODY="file://261a9b6d-4be2-40b3-bb5f-80930a4a9570.4aab5718-ead0-47e5-b882-b3b0ff7b1aa1.template"
+TEMPLATE_BODY="file://261a9b6d-4be2-40b3-bb5f-80930a4a9570.458010ec-a1ef-41de-b2bc-377eaf74f1c5.template"
 REGION=`aws configure get region`
 
 ServerInstanceCount="4"
