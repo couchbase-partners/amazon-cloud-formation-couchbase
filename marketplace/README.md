@@ -21,7 +21,7 @@ Click to upload the RPM.  Note it takes several minutes to be reflected in the U
 For AMI description use one of:
 * Couchbase Server Enterprise Edition 4.6.4
 * Couchbase Server Enterprise Edition 5.0.0
-* Couchbase Sync Gateway Enterprise Edition 1.5.0
+* Couchbase Sync Gateway Enterprise Edition 1.5.1
 
 For the base AMI select Amazon Linux.
 
