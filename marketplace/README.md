@@ -10,11 +10,11 @@ Login to the AWS Marketplace Management Portal and click on Packages.  [Here](ht
 
 For the package name enter one of:
 
-* Couchbase_Server_5-0-1_Amazon_Linux
-* Couchbase_Server_4-6-4_Amazon_Linux
-* Couchbase_Sync_Gateway_1-5-1_Amazon_Linux
+* Couchbase_Server_5-0-1
+* Couchbase_Server_4-6-4
+* Couchbase_Sync_Gateway_1-5-1
 
-Click to upload the either installServer.sh or installSyncGateway.sh.
+Click to upload the either installServer.sh or installSyncGateway.sh and select "Set as installer."
 
 For the base AMI select Amazon Linux 2017.09.
 
