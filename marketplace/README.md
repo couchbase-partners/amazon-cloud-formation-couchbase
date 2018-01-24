@@ -6,7 +6,7 @@ This template is used by the Couchbase Amazon Marketplace offer.  It is not inte
 
 This describes how we build the AMIs for the Couchbase AWS Marketplace offers.  This is provided for background.  A user of these templates does not need to complete this process.
 
-Get a local copy of the Couchbase Server and Sync Gateway RPMs:
+You'll need to get a local copy of the Couchbase Server and Sync Gateway RPMs:
 
     wget https://packages.couchbase.com/releases/4.6.4/couchbase-server-enterprise-4.6.4-centos6.x86_64.rpm
     wget https://packages.couchbase.com/releases/5.0.1/couchbase-server-enterprise-5.0.1-centos6.x86_64.rpm
@@ -14,21 +14,27 @@ Get a local copy of the Couchbase Server and Sync Gateway RPMs:
 
 Note that the Amazon Linux image we're using runs best with the CentOS 6 version of Couchbase Server.
 
-Login to the AWS Marketplace Management Portal and click on AMI.  [Here](https://aws.amazon.com/marketplace/management/manage-products) is a direct link.
+Login to the AWS Marketplace Management Portal and click on Packages.  [Here](https://aws.amazon.com/marketplace/management/manage-packages/) is a direct link.
 
-Click to upload the RPM.  Note it takes several minutes to be reflected in the UI.  The progress meter doesn't work in Chrome on the Mac, so use Safari instead.
+For the package name enter one of:
 
-For AMI description use one of:
-* Couchbase Server Enterprise Edition 4.6.4
-* Couchbase Server Enterprise Edition 5.0.1
-* Couchbase Sync Gateway Enterprise Edition 1.5.1
+* Couchbase_Server_5-0-1_Amazon_Linux
+* Couchbase_Server_4-6-4_Amazon_Linux
+* Couchbase_Sync_Gateway_1-5-1_Amazon_Linux
 
-For the base AMI select Amazon Linux.
+Click to upload the RPM and the install.sh script.  Set install.sh as the installer package.
 
-Then click build.
+For the base AMI select Amazon Linux 2017.09.
 
-The new package builder is here:
-https://aws.amazon.com/marketplace/management/manage-packages
+Then click submit.
+
+## Test AMIs
+
+The AMIs are in us-east-1.  You can test deploying them using the AWS CLI and the command:
+
+    aws blah blah
+
+You'll want to ensure THP and swappiness are set and that Server is running on 8091 or Sync Gateway is running on 4985.
 
 ## Clone AMIs
 
