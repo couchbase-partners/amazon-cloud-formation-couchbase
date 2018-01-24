@@ -33,6 +33,7 @@ The AMIs are in us-east-1.  You can test deploying them using the AWS CLI and th
       --security-group-ids sg-91bf0ff6
 
 You'll want to ensure THP and swappiness are set to never by running the commands:
+
     cat /sys/kernel/mm/\*transparent_hugepage/enabled
     cat /sys/kernel/mm/\*transparent_hugepage/enabled
     cat /sys/kernel/mm/\*transparent_hugepage/defrag
