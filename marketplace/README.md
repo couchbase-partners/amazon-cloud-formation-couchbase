@@ -32,7 +32,7 @@ Then click submit.
 
 The AMIs are in us-east-1.  You can test deploying them using the AWS CLI and the command:
 
-    aws blah blah
+    aws ec2 run-instances --image-id ami-bf0838c5 --count 1 --instance-type m4.xlarge --key-name couchbase-us-east-1
 
 You'll want to ensure THP and swappiness are set and that Server is running on 8091 or Sync Gateway is running on 4985.
 
