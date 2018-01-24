@@ -22,10 +22,10 @@ Then click submit.
 
 ## Test AMIs
 
-The AMIs are in us-east-1.  You can test deploying them using the AWS CLI and the command:
+The AMIs will be in us-east-1.  You can test deploying them using the AWS CLI and the command:
 
     aws ec2 run-instances \
-      --image-id ami-a4f4c4de \
+      --image-id ami-38f4c442 \
       --count 1 \
       --instance-type m4.xlarge \
       --key-name partnership-us-east-1 \
@@ -38,9 +38,9 @@ You'll want to ensure THP and swappiness are set to never by running the command
     cat /sys/kernel/mm/&ast;transparent_hugepage/enabled
     cat /sys/kernel/mm/&ast;transparent_hugepage/defrag
 
-You'll also want to check that either Server is running on 8091 or Sync Gateway is running on 4985.
+You'll also want to check that either Server is running on 8091 or Sync Gateway is running on 4984.
 
-Be sure to delete the instances and their drives when done.
+Be sure to delete the instances when done.
 
 ## Clone AMIs
 
@@ -50,4 +50,4 @@ They'll need to know the version number and release notes.
 
 ## Update Listings
 
-The offer is updated in the portal [here](https://aws.amazon.com/marketplace/management/).  The portal has a GUI to do updates, but we've had some issues with it.  For that reason, we've been using the product load form.  AWS can provide the latest product load form for what is "on site."  That can then be modified and loading into the portal.  This is the process we currently recommend.
+There's a GUI to update listings but it doesn't support the new style offers yet.  As of now the best way to do this seems to be to mail Amazon and work through it manually.
