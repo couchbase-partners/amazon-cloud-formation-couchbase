@@ -24,9 +24,16 @@ Then click submit.
 
 The AMIs are in us-east-1.  You can test deploying them using the AWS CLI and the command:
 
-    aws ec2 run-instances --image-id ami-bf0838c5 --count 1 --instance-type m4.xlarge --key-name couchbase-us-east-1
+    aws ec2 run-instances \
+      --image-id ami-a4f4c4de \
+      --count 1 \
+      --instance-type m4.xlarge \
+      --key-name partnership-us-east-1 \
+      --subnet-id subnet-00d1e577
 
 You'll want to ensure THP and swappiness are set and that Server is running on 8091 or Sync Gateway is running on 4985.
+
+Be sure to delete the instances and their drives when done.
 
 ## Clone AMIs
 
