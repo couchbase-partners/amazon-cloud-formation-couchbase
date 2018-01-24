@@ -32,7 +32,12 @@ The AMIs are in us-east-1.  You can test deploying them using the AWS CLI and th
       --subnet-id subnet-00d1e577 \
       --security-group-ids sg-91bf0ff6
 
-You'll want to ensure THP and swappiness are set and that Server is running on 8091 or Sync Gateway is running on 4985.
+You'll want to ensure THP and swappiness are set to never by running the commands:
+    `cat /sys/kernel/mm/*transparent_hugepage/enabled`
+    `cat /sys/kernel/mm/*transparent_hugepage/enabled`
+    `cat /sys/kernel/mm/*transparent_hugepage/defrag`
+
+You'll also want to check that either Server is running on 8091 or Sync Gateway is running on 4985.
 
 Be sure to delete the instances and their drives when done.
 
