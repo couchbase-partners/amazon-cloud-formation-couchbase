@@ -6,4 +6,4 @@ These are Amazon CloudFormation Templates (CFT) that install Couchbase Enterpris
 
 Documentation that covers deploying from Marketplace as well as some best practices is available [here](https://developer.couchbase.com/documentation/server/5.0/cloud/couchbase-aws.html).
 
-Useful links are [here](https://github.com/couchbase-partners/links/blob/master/amazon.md).
+More information on the Couchbase and Amazon partnership is available [here](https://www.couchbase.com/partners/amazon).
