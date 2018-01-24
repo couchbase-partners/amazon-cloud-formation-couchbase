@@ -3,7 +3,8 @@
 #######################################################"
 echo "Installing Couchbase..."
 
-rpm --install couchbase-server-enterprise-5.0.1-centos6.x86_64.rpm
+version=5.0.1
+rpm --install couchbase-server-enterprise-${version}-centos6.x86_64.rpm
 
 #######################################################"
 ############ Turn Off Transparent Hugepages ###########"
