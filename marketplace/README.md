@@ -9,7 +9,7 @@ This describes how we build the AMIs for the Couchbase AWS Marketplace offers.  
 Get a local copy of the Couchbase Server and Sync Gateway RPMs:
 
     wget https://packages.couchbase.com/releases/4.6.4/couchbase-server-enterprise-4.6.4-centos6.x86_64.rpm
-    wget https://packages.couchbase.com/releases/5.0.0/couchbase-server-enterprise-5.0.1-centos6.x86_64.rpm
+    wget https://packages.couchbase.com/releases/5.0.1/couchbase-server-enterprise-5.0.1-centos6.x86_64.rpm
     wget https://packages.couchbase.com/releases/couchbase-sync-gateway/1.5.1/couchbase-sync-gateway-enterprise_1.5.1_x86_64.rpm
 
 Note that the Amazon Linux image we're using runs best with the CentOS 6 version of Couchbase Server.
@@ -26,6 +26,9 @@ For AMI description use one of:
 For the base AMI select Amazon Linux.
 
 Then click build.
+
+The new package builder is here:
+https://aws.amazon.com/marketplace/management/manage-packages
 
 ## Clone AMIs
 
