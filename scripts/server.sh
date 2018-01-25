@@ -8,8 +8,6 @@ services=$3
 stackName=$4
 
 source util.sh
-turnOffTransparentHugepages
-setSwappinessToZero
 formatDataDisk
 
 yum -y update
