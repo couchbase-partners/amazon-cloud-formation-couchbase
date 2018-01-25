@@ -1,0 +1,426 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Couchbase Enterprise",
+  "Parameters": {
+    "ServerInstanceCount": {
+      "Description": "Number of Couchbase Server Nodes",
+      "Type": "Number",
+      "Default": 4
+    },
+    "ServerDiskSize": {
+      "Description": "Size in GB of the EBS gp2 volume on each Couchbase node",
+      "Type": "Number",
+      "Default": 100
+    },
+    "SyncGatewayInstanceCount": {
+      "Description": "Number of Couchbase Sync Gateway Nodes",
+      "Type": "Number",
+      "Default": 2
+    },
+    "InstanceType": {
+      "Description": "Instance type for Couchbase Nodes",
+      "Type": "String",
+      "Default": "m4.xlarge",
+      "AllowedValues": [
+        "m4.large", "m4.xlarge", "m4.2xlarge", "m4.4xlarge", "m4.10xlarge", "m4.16xlarge",
+        "c4.large", "c4.xlarge", "c4.2xlarge", "c4.4xlarge", "c4.8xlarge",
+        "r4.large", "r4.xlarge", "r4.2xlarge", "r4.4xlarge", "r4.8xlarge", "r4.16xlarge",
+        "i3.large", "i3.xlarge", "i3.2xlarge", "i3.4xlarge", "i3.8xlarge", "i3.16xlarge"
+      ]
+    },
+    "Username": {
+      "Description": "Username for Couchbase administrator",
+      "Type": "String"
+    },
+    "Password": {
+      "Description": "Password for Couchbase administrator",
+      "Type": "String",
+      "NoEcho": true
+    },
+    "KeyName": {
+      "Description": "Name of an existing EC2 KeyPair",
+      "Type": "AWS::EC2::KeyPair::KeyName"
+    },
+    "SSHCIDR": {
+      "Description": "SSH CIDR",
+      "Type": "String",
+      "MinLength": 9,
+      "MaxLength": 18,
+      "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+      "ConstraintDescription": "must be a valid CIDR range of the form x.x.x.x/x."
+    }
+  },
+  "Mappings": {
+    "CouchbaseServer": {
+      "us-east-1": { "HourlyPricing": "ami-ef95a595" },
+      "us-east-2": { "HourlyPricing": "ami-62764307" },
+      "us-west-1": { "HourlyPricing": "ami-c08c81a0" },
+      "us-west-2": { "HourlyPricing": "ami-49a11e31" },
+      "ca-central-1": { "HourlyPricing": "ami-2e22a74a" },
+      "eu-central-1": { "HourlyPricing": "ami-9939a0f6" },
+      "eu-west-1": { "HourlyPricing": "ami-7797f00e" },
+      "eu-west-2": { "HourlyPricing": "ami-be7b61da" },
+      "eu-west-3": { "HourlyPricing": "ami-5bc77126" },
+      "ap-southeast-1": { "HourlyPricing": "ami-13eb936f" },
+      "ap-southeast-2": { "HourlyPricing": "ami-ec11ef8e" },
+      "ap-south-1": { "HourlyPricing": "ami-5db1e032" },
+      "ap-northeast-1": { "HourlyPricing": "ami-47e48921" },
+      "ap-northeast-2": { "HourlyPricing": "ami-e78c2f89" },
+      "sa-east-1": { "HourlyPricing": "ami-f5551999" }
+    },
+    "CouchbaseSyncGateway": {
+      "us-east-1": { "HourlyPricing": "ami-6d93a317" },
+      "us-east-2": { "HourlyPricing": "ami-0f75406a" },
+      "us-west-1": { "HourlyPricing": "ami-76f2ff16" },
+      "us-west-2": { "HourlyPricing": "ami-41a01f39" },
+      "ca-central-1": { "HourlyPricing": "ami-c22da8a6" },
+      "eu-central-1": { "HourlyPricing": "ami-d5069fba" },
+      "eu-west-1": { "HourlyPricing": "ami-c293f4bb" },
+      "eu-west-2": { "HourlyPricing": "ami-11445e75" },
+      "eu-west-3": { "HourlyPricing": "ami-58c77125" },
+      "ap-southeast-1": { "HourlyPricing": "ami-a4ed95d8" },
+      "ap-southeast-2": { "HourlyPricing": "ami-2911ef4b" },
+      "ap-south-1": { "HourlyPricing": "ami-058cdd6a" },
+      "ap-northeast-1": { "HourlyPricing": "ami-b3e588d5" },
+      "ap-northeast-2": { "HourlyPricing": "ami-648c2f0a" },
+      "sa-east-1": { "HourlyPricing": "ami-b95a16d5" }
+    }
+  },
+  "Resources": {
+    "ServerAutoScalingGroup": {
+      "Type": "AWS::AutoScaling::AutoScalingGroup",
+      "Properties": {
+        "AvailabilityZones": { "Fn::GetAZs": "" },
+        "LaunchConfigurationName": { "Ref": "ServerLaunchConfiguration" },
+        "MinSize": 1,
+        "MaxSize": 100,
+        "DesiredCapacity": { "Ref": "ServerInstanceCount" }
+      }
+    },
+    "ServerLaunchConfiguration": {
+      "Type": "AWS::AutoScaling::LaunchConfiguration",
+      "Properties": {
+        "ImageId": { "Fn::FindInMap": [ "CouchbaseServer", { "Ref": "AWS::Region" }, "HourlyPricing" ] },
+        "InstanceType": { "Ref": "InstanceType" },
+        "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
+        "KeyName": { "Ref": "KeyName" },
+        "EbsOptimized": true,
+        "IamInstanceProfile": { "Ref": "CouchbaseInstanceProfile" },
+        "BlockDeviceMappings":
+        [
+          {
+            "DeviceName" : "/dev/xvda",
+            "Ebs" : { "DeleteOnTermination" : true }
+          },
+          {
+            "DeviceName" : "/dev/sdk",
+            "Ebs" : {
+              "VolumeSize": { "Ref": "ServerDiskSize" },
+              "VolumeType": "gp2"
+            }
+          }
+        ],
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [ "",
+              [
+                "#!/bin/bash\n",
+                "echo 'Running startup script...'\n",
+                "adminUsername=", { "Ref": "Username" }, "\n",
+                "adminPassword=", { "Ref": "Password" }, "\n",
+                "stackName=", { "Ref": "AWS::StackName" }, "\n",
+
+                "#######################################################\n",
+                "##################### Format Disk #####################\n",
+                "#######################################################\n",
+                "echo \"Formatting disk...\"\n",
+
+                "DEVICE=/dev/sdk\n",
+                "MOUNTPOINT=/mnt/datadisk\n",
+
+                "echo \"Creating the filesystem.\"\n",
+                "mkfs -t ext4 ${DEVICE}\n",
+
+                "echo \"Updating fstab\"\n",
+                "LINE=\"${DEVICE}\t${MOUNTPOINT}\text4\tdefaults,nofail\t0\t2\"\n",
+                "echo -e ${LINE} >> /etc/fstab\n",
+
+                "echo \"Mounting the disk\"\n",
+                "mkdir $MOUNTPOINT\n",
+                "mount -a\n",
+
+                "echo \"Changing permissions\"\n",
+                "chown couchbase $MOUNTPOINT\n",
+                "chgrp couchbase $MOUNTPOINT\n",
+
+                "#######################################################\n",
+                "################# Configure Couchbase #################\n",
+                "#######################################################\n",
+                "echo \"Configuring Couchbase...\"\n",
+
+                "yum -y update\n",
+                "yum -y install jq\n",
+
+                "region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \\\n",
+                "  | jq '.region'  \\\n",
+                "  | sed 's/^\"\\(.*\\)\"$/\\1/' )\n",
+
+                "instanceID=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \\\n",
+                "  | jq '.instanceId' \\\n",
+                "  | sed 's/^\"\\(.*\\)\"$/\\1/' )\n",
+
+                "rallyAutoscalingGroup=$(aws ec2 describe-instances \\\n",
+                "  --region ${region} \\\n",
+                "  --instance-ids ${instanceID} \\\n",
+                "  | jq '.Reservations[0]|.Instances[0]|.Tags[] | select( .Key == \"aws:autoscaling:groupName\") | .Value' \\\n",
+                "  | sed 's/^\"\\(.*\\)\"$/\\1/' )\n",
+
+                "rallyAutoscalingGroupInstanceIDs=$(aws autoscaling describe-auto-scaling-groups \\\n",
+                "  --region ${region} \\\n",
+                "  --query 'AutoScalingGroups[*].Instances[*].InstanceId' \\\n",
+                "  --auto-scaling-group-name ${rallyAutoscalingGroup} \\\n",
+                "  | grep \"i-\" | sed 's/ //g' | sed 's/\"//g' |sed 's/,//g' | sort)\n",
+
+                "rallyInstanceID=`echo ${rallyAutoscalingGroupInstanceIDs} | cut -d \" \" -f1`\n",
+
+                "# Check if any IDs are already the rally point and overwrite rallyInstanceID if so\n",
+                "rallyAutoscalingGroupInstanceIDsArray=(`echo $rallyAutoscalingGroupInstanceIDs`)\n",
+                "for i in ${rallyAutoscalingGroupInstanceIDsArray[@]}; do\n",
+                "  tags=`aws ec2 describe-tags --region ${region}  --filter \"Name=tag:Name,Values=*Rally\" \"Name=resource-id,Values=$i\"`\n",
+                "  tags=`echo $tags | jq '.Tags'`\n",
+                "  if [ \"$tags\" != \"[]\" ]\n",
+                "  then\n",
+                "    rallyInstanceID=$i\n",
+                "  fi\n",
+                "done\n",
+
+                "rallyPublicDNS=$(aws ec2 describe-instances \\\n",
+                "    --region ${region} \\\n",
+                "    --query  'Reservations[0].Instances[0].NetworkInterfaces[0].Association.PublicDnsName' \\\n",
+                "    --instance-ids ${rallyInstanceID} \\\n",
+                "    --output text)\n",
+
+                "nodePublicDNS=`curl http://169.254.169.254/latest/meta-data/public-hostname`\n",
+
+                "echo \"Using the settings:\"\n",
+                "echo adminUsername \\'$adminUsername\\'\n",
+                "echo adminPassword \\'$adminPassword\\'\n",
+                "echo stackName \\'$stackName\\'\n",
+                "echo rallyPublicDNS \\'$rallyPublicDNS\\'\n",
+                "echo region \\'$region\\'\n",
+                "echo instanceID \\'$instanceID\\'\n",
+                "echo nodePublicDNS \\'$nodePublicDNS\\'\n",
+
+                "if [[ ${rallyPublicDNS} == ${nodePublicDNS} ]]\n",
+                "then\n",
+                "  aws ec2 create-tags \\\n",
+                "    --region ${region} \\\n",
+                "    --resources ${instanceID} \\\n",
+                "    --tags Key=Name,Value=${stackName}-ServerRally\n",
+                "else\n",
+                "  aws ec2 create-tags \\\n",
+                "    --region ${region} \\\n",
+                "    --resources ${instanceID} \\\n",
+                "    --tags Key=Name,Value=${stackName}-Server\n",
+                "fi\n",
+
+                "cd /opt/couchbase/bin/\n",
+
+                "echo \"Running couchbase-cli node-init\"\n",
+                "output=\"\"\n",
+                "while [[ ! $output =~ \"SUCCESS\" ]]\n",
+                "do\n",
+                "  output=`./couchbase-cli node-init \\\n",
+                "    --cluster=$nodePublicDNS \\\n",
+                "    --node-init-hostname=$nodePublicDNS \\\n",
+                "    --node-init-data-path=/mnt/datadisk/data \\\n",
+                "    --node-init-index-path=/mnt/datadisk/index \\\n",
+                "    --user=$adminUsername \\\n",
+                "    --pass=$adminPassword`\n",
+                "  echo node-init output \\'$output\\'\n",
+                "  sleep 10\n",
+                "done\n",
+
+                "if [[ $rallyPublicDNS == $nodePublicDNS ]]\n",
+                "then\n",
+                "  totalRAM=$(grep MemTotal /proc/meminfo | awk '{print $2}')\n",
+                "  dataRAM=$((50 * $totalRAM / 100000))\n",
+                "  indexRAM=$((25 * $totalRAM / 100000))\n",
+
+                "  echo \"Running couchbase-cli cluster-init\"\n",
+                "  ./couchbase-cli cluster-init \\\n",
+                "    --cluster=$nodePublicDNS \\\n",
+                "    --cluster-username=$adminUsername \\\n",
+                "    --cluster-password=$adminPassword \\\n",
+                "    --cluster-ramsize=$dataRAM \\\n",
+                "    --cluster-index-ramsize=$indexRAM \\\n",
+                "    --services=data,index,query,fts\n",
+                "else\n",
+                "  echo \"Running couchbase-cli server-add\"\n",
+                "  output=\"\"\n",
+                "  while [[ $output != \"Server $nodePublicDNS:8091 added\" && ! $output =~ \"Node is already part of cluster.\" ]]\n",
+                "  do\n",
+                "    output=`./couchbase-cli server-add \\\n",
+                "      --cluster=$rallyPublicDNS \\\n",
+                "      --user=$adminUsername \\\n",
+                "      --pass=$adminPassword \\\n",
+                "      --server-add=$nodePublicDNS \\\n",
+                "      --server-add-username=$adminUsername \\\n",
+                "      --server-add-password=$adminPassword \\\n",
+                "      --services=data,index,query,fts`\n",
+                "    echo server-add output \\'$output\\'\n",
+                "    sleep 10\n",
+                "  done\n",
+
+                "  echo \"Running couchbase-cli rebalance\"\n",
+                "  output=\"\"\n",
+                "  while [[ ! $output =~ \"SUCCESS\" ]]\n",
+                "  do\n",
+                "    output=`./couchbase-cli rebalance \\\n",
+                "    --cluster=$rallyPublicDNS \\\n",
+                "    --user=$adminUsername \\\n",
+                "    --pass=$adminPassword`\n",
+                "    echo rebalance output \\'$output\\'\n",
+                "    sleep 10\n",
+                "  done\n",
+                "fi\n"
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "SyncGatewayAutoScalingGroup": {
+      "Type": "AWS::AutoScaling::AutoScalingGroup",
+      "Properties": {
+        "AvailabilityZones": { "Fn::GetAZs": "" },
+        "LaunchConfigurationName": { "Ref": "SyncGatewayLaunchConfiguration" },
+        "MinSize": 0,
+        "MaxSize": 100,
+        "DesiredCapacity": { "Ref": "SyncGatewayInstanceCount" }
+      }
+    },
+    "SyncGatewayLaunchConfiguration": {
+      "Type": "AWS::AutoScaling::LaunchConfiguration",
+      "Properties": {
+        "ImageId": { "Fn::FindInMap": [ "CouchbaseSyncGateway", { "Ref": "AWS::Region" }, "HourlyPricing" ] },
+        "InstanceType": { "Ref": "InstanceType" },
+        "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
+        "KeyName": { "Ref": "KeyName" },
+        "EbsOptimized": true,
+        "IamInstanceProfile": { "Ref": "CouchbaseInstanceProfile" },
+        "BlockDeviceMappings":
+        [
+          {
+            "DeviceName" : "/dev/xvda",
+            "Ebs" : { "DeleteOnTermination" : true }
+          }
+        ],
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [ "",
+              [
+                "#!/bin/bash\n",
+                "echo 'Running startup script...'\n",
+                "stackName=", { "Ref": "AWS::StackName" }, "\n",
+
+                "yum -y update\n",
+                "yum -y install jq\n",
+
+                "region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \\\n",
+                "  | jq '.region'  \\\n",
+                "  | sed 's/^\"\\(.*\\)\"$/\\1/' )\n",
+
+                "instanceID=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \\\n",
+                "  | jq '.instanceId' \\\n",
+                "  | sed 's/^\"\\(.*\\)\"$/\\1/' )\n",
+
+                "echo \"Using the settings:\"\n",
+                "echo stackName \\'$stackName\\'\n",
+                "echo region \\'$region\\'\n",
+                "echo instanceID \\'$instanceID\\'\n",
+
+                "aws ec2 create-tags \\\n",
+                "  --region ${region} \\\n",
+                "  --resources ${instanceID} \\\n",
+                "  --tags Key=Name,Value=${stackName}-SyncGateway\n",
+
+                "file=\"/opt/sync_gateway/etc/sync_gateway.json\"\n",
+                "echo '\n",
+                "{\n",
+                "  \"interface\": \"0.0.0.0:4984\",\n",
+                "  \"adminInterface\": \"0.0.0.0:4985\",\n",
+                "  \"log\": [\"*\"]\n",
+                "}\n",
+                "' > ${file}\n",
+                "chmod 755 ${file}\n",
+                "chown sync_gateway ${file}\n",
+                "chgrp sync_gateway ${file}\n",
+
+                "# Need to restart to load the changes\n",
+                "service sync_gateway stop\n",
+                "service sync_gateway start\n"
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "CouchbaseInstanceProfile": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {"Roles": [{"Ref": "CouchbaseRole"}]}
+    },
+    "CouchbaseRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {"Service": ["ec2.amazonaws.com"]},
+              "Action": ["sts:AssumeRole"]
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": "CouchbasePolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "ec2:CreateTags",
+                    "ec2:DescribeTags",
+                    "ec2:DescribeInstances",
+                    "autoscaling:DescribeAutoScalingGroups"
+                  ],
+                  "Resource": "*"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "CouchbaseSecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription" : "Enable SSH and Couchbase Ports",
+        "SecurityGroupIngress": [
+          { "IpProtocol": "tcp", "FromPort": 22, "ToPort": 22, "CidrIp": { "Ref": "SSHCIDR" } },
+          { "IpProtocol": "tcp", "FromPort": 4369, "ToPort": 4369, "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": 4984, "ToPort": 4985, "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": 8091, "ToPort": 8094, "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": 9100, "ToPort": 9105, "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": 9998, "ToPort": 9999, "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": 11207, "ToPort": 11215, "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": 18091, "ToPort": 18093, "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": 21100, "ToPort": 21299, "CidrIp": "0.0.0.0/0" }
+        ]
+      }
+    }
+  }
+}

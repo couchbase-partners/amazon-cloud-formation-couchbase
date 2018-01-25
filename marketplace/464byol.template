@@ -52,36 +52,37 @@
   },
   "Mappings": {
     "CouchbaseServer": {
-      "us-east-1": { "HourlyPricing": "ami-28439552" },
-      "us-east-2": { "HourlyPricing": "ami-1f35197a" },
-      "us-west-1": { "HourlyPricing": "ami-59bc8e39" },
-      "us-west-2": { "HourlyPricing": "ami-9e5e9ee6" },
-      "ca-central-1": { "HourlyPricing": "ami-4bc8702f" },
-      "eu-central-1": { "HourlyPricing": "ami-052d936a" },
-      "eu-west-1": { "HourlyPricing": "ami-e6b16e9f" },
-      "eu-west-2": { "HourlyPricing": "ami-8c6c71e8" },
-      "ap-southeast-1": { "HourlyPricing": "ami-94682df7" },
-      "ap-southeast-2": { "HourlyPricing": "ami-e02fc282" },
-      "ap-south-1": { "HourlyPricing": "ami-13bffc7c" },
-      "ap-northeast-1": { "HourlyPricing": "ami-6962ba0f" },
-      "ap-northeast-2": { "HourlyPricing": "ami-66852008" },
-      "sa-east-1": { "HourlyPricing": "ami-b6c4bada" }
+      "us-east-1": { "BYOL": "ami-bf4791c5" },
+      "us-east-2": { "BYOL": "ami-af361aca" },
+      "us-west-1": { "BYOL": "ami-4fbd8f2f" },
+      "us-west-2": { "BYOL": "ami-db5f9fa3" },
+      "ca-central-1": { "BYOL": "ami-eec8708a" },
+      "eu-central-1": { "BYOL": "ami-7c289613" },
+      "eu-west-1": { "BYOL": "ami-09b06f70" },
+      "eu-west-2": { "BYOL": "ami-806d70e4" },
+      "ap-southeast-1": { "BYOL": "ami-946b2ef7" },
+      "ap-southeast-2": { "BYOL": "ami-292fc24b" },
+      "ap-south-1": { "BYOL": "ami-99c380f6" },
+      "ap-northeast-1": { "BYOL": "ami-236eb645" },
+      "ap-northeast-2": { "BYOL": "ami-38ba1f56" },
+      "sa-east-1": { "BYOL": "ami-37c4ba5b" }
     },
     "CouchbaseSyncGateway": {
-      "us-east-1": { "HourlyPricing": "ami-944492ee" },
-      "us-east-2": { "HourlyPricing": "ami-bd371bd8" },
-      "us-west-1": { "HourlyPricing": "ami-58bc8e38" },
-      "us-west-2": { "HourlyPricing": "ami-4860a030" },
-      "ca-central-1": { "HourlyPricing": "ami-40c97124" },
-      "eu-central-1": { "HourlyPricing": "ami-7b2d9314" },
-      "eu-west-1": { "HourlyPricing": "ami-e3b26d9a" },
-      "eu-west-2": { "HourlyPricing": "ami-146c7170" },
-      "ap-southeast-1": { "HourlyPricing": "ami-8f6b2eec" },
-      "ap-southeast-2": { "HourlyPricing": "ami-dd2dc0bf" },
-      "ap-south-1": { "HourlyPricing": "ami-79bffc16" },
-      "ap-northeast-1": { "HourlyPricing": "ami-0660b860" },
-      "ap-northeast-2": { "HourlyPricing": "ami-8eba1fe0" },
-      "sa-east-1": { "HourlyPricing": "ami-d9c7b9b5" }
+      "us-east-1": { "BYOL": "ami-8294a4f8" },
+      "us-east-2": { "BYOL": "ami-0877426d" },
+      "us-west-1": { "BYOL": "ami-288c8148" },
+      "us-west-2": { "BYOL": "ami-589c2320" },
+      "ca-central-1": { "BYOL": "ami-ad20a5c9" },
+      "eu-central-1": { "BYOL": "ami-103aa37f" },
+      "eu-west-1": { "BYOL": "ami-b696f1cf" },
+      "eu-west-2": { "BYOL": "ami-6c445e08" },
+      "eu-west-3": { "BYOL": "ami-c9d86eb4" },
+      "ap-southeast-1": { "BYOL": "ami-10eb936c" },
+      "ap-southeast-2": { "BYOL": "ami-a610eec4" },
+      "ap-south-1": { "BYOL": "ami-898cdde6" },
+      "ap-northeast-1": { "BYOL": "ami-b9e588df" },
+      "ap-northeast-2": { "BYOL": "ami-38933056" },
+      "sa-east-1": { "BYOL": "ami-3654185a" }
     }
   },
   "Resources": {
@@ -98,7 +99,7 @@
     "ServerLaunchConfiguration": {
       "Type": "AWS::AutoScaling::LaunchConfiguration",
       "Properties": {
-        "ImageId": { "Fn::FindInMap": [ "CouchbaseServer", { "Ref": "AWS::Region" }, "HourlyPricing" ] },
+        "ImageId": { "Fn::FindInMap": [ "CouchbaseServer", { "Ref": "AWS::Region" }, "BYOL" ] },
         "InstanceType": { "Ref": "InstanceType" },
         "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
         "KeyName": { "Ref": "KeyName" },
@@ -301,7 +302,7 @@
     "SyncGatewayLaunchConfiguration": {
       "Type": "AWS::AutoScaling::LaunchConfiguration",
       "Properties": {
-        "ImageId": { "Fn::FindInMap": [ "CouchbaseSyncGateway", { "Ref": "AWS::Region" }, "HourlyPricing" ] },
+        "ImageId": { "Fn::FindInMap": [ "CouchbaseSyncGateway", { "Ref": "AWS::Region" }, "BYOL" ] },
         "InstanceType": { "Ref": "InstanceType" },
         "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
         "KeyName": { "Ref": "KeyName" },
