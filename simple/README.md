@@ -28,6 +28,7 @@ You will need an AWS account with these permissions:
 * ec2:DescribeSubnets
 * ec2:DescribeVpcs
 * ec2:DescribeAccountAttributes
+* ec2:iam:PutRolePolicy
 * ec2:RunInstances
 * ec2:StartInstances
 * ec2:StopInstances
