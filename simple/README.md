@@ -28,11 +28,13 @@ You will need an AWS account with these permissions:
 * ec2:DescribeSubnets
 * ec2:DescribeVpcs
 * ec2:DescribeAccountAttributes
-* ec2:iam:PutRolePolicy
 * ec2:RunInstances
 * ec2:StartInstances
 * ec2:StopInstances
 * ec2:TerminateInstances
+* iam:CreateInstanceProfile
+* iam:DeleteRolePolicy
+* iam:PutRolePolicy
 
 First we need to install and configure the AWS CLI.  Follow the instructions Amazon provides [here](http://docs.aws.amazon.com/cli/latest/userguide/installing.html).  Basically all you need to do is:
 
