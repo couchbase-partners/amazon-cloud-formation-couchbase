@@ -32,9 +32,12 @@ You will need an AWS account with these permissions:
 * ec2:StartInstances
 * ec2:StopInstances
 * ec2:TerminateInstances
+* iam:AddRoleToInstanceProfile
 * iam:CreateInstanceProfile
+* iam:DeleteRole
 * iam:DeleteRolePolicy
 * iam:PutRolePolicy
+* iam:RemoveRoleFromInstanceProfile
 
 First we need to install and configure the AWS CLI.  Follow the instructions Amazon provides [here](http://docs.aws.amazon.com/cli/latest/userguide/installing.html).  Basically all you need to do is:
 
