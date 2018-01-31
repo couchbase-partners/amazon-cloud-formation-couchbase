@@ -34,8 +34,10 @@ You will need an AWS account with these permissions:
 * ec2:TerminateInstances
 * iam:AddRoleToInstanceProfile
 * iam:CreateInstanceProfile
+* iam:DeleteInstanceProfile
 * iam:DeleteRole
 * iam:DeleteRolePolicy
+* iam:PassRole
 * iam:PutRolePolicy
 * iam:RemoveRoleFromInstanceProfile
 
