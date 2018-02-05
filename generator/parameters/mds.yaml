@@ -8,7 +8,7 @@ cluster:
     services:
       - data
   - group: group2
-    nodeCount: 5
+    nodeCount: 3
     nodeType: m4.4xlarge
     dataDiskSize: 100
     services:
