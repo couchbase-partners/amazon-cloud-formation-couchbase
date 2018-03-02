@@ -3,7 +3,7 @@
 #######################################################"
 echo "Installing Couchbase Server..."
 
-version=5.0.1
+version=5.1.0
 wget https://packages.couchbase.com/releases/${version}/couchbase-server-enterprise-${version}-centos6.x86_64.rpm
 rpm --install couchbase-server-enterprise-${version}-centos6.x86_64.rpm
 

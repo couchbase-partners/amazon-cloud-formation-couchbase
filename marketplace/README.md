@@ -10,7 +10,7 @@ Login to the AWS Marketplace Management Portal and click on Packages.  [Here](ht
 
 For the package name enter one of:
 
-* Couchbase_Server_5-0-1
+* Couchbase_Server_5-1-0
 * Couchbase_Server_4-6-4
 * Couchbase_Sync_Gateway_1-5-1
 
