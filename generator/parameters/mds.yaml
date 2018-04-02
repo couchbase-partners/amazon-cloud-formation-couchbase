@@ -1,4 +1,4 @@
-serverVersion: 5.0.1
+serverVersion: 5.1.0
 syncGatewayVersion: 1.5.1
 cluster:
   - group: group1
