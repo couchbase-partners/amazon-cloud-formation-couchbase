@@ -17,12 +17,6 @@ echo stackName \'$stackName\'
 echo license \'$license\'
 echo version \'$version\'
 
-source util.sh
-formatDataDisk
-
-yum -y update
-yum -y install jq
-
 if [[ $license = "NULL" ]]
 then
   #######################################################"
@@ -67,6 +61,12 @@ then
   vm.swappiness = 0
   " >> /etc/sysctl.conf
 fi
+
+source util.sh
+formatDataDisk
+
+yum -y update
+yum -y install jq
 
 if [ -z "$7" ]
 then

@@ -11,15 +11,15 @@ echo stackName \'$stackName\'
 echo license \'$license\'
 echo version \'$version\'
 
-yum -y update
-yum -y install jq
-
 if [[ $license = "NULL" ]]
 then
   echo "Installing Couchbase Sync Gateway..."
   wget https://packages.couchbase.com/releases/couchbase-sync-gateway/${version}/couchbase-sync-gateway-enterprise_${version}_x86_64.rpm
   rpm --install couchbase-sync-gateway-enterprise_${version}_x86_64.rpm
 fi
+
+yum -y update
+yum -y install jq
 
 region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
   | jq '.region'  \

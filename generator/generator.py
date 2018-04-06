@@ -182,6 +182,7 @@ def generateMiscResources():
                             "Effect": "Allow",
                             "Action": [
                                 "ec2:CreateTags",
+                                "ec2:DescribeTags",
                                 "ec2:DescribeInstances",
                                 "autoscaling:DescribeAutoScalingGroups"
                             ],
@@ -265,6 +266,8 @@ def generateSyncGateway(license, syncGatewayVersion, group, rallyAutoScalingGrou
                             "#!/bin/bash\n",
                             "echo 'Running startup script...'\n",
                             "stackName=", { "Ref": "AWS::StackName" }, "\n",
+                            "license=" + license + "\n",
+                            "syncGatewayVersion=" + syncGatewayVersion + "\n",
                             "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                             "wget ${baseURL}syncGateway.sh\n",
                             "chmod +x *.sh\n",
@@ -296,6 +299,8 @@ def generateServer(license, serverVersion, group, rallyAutoScalingGroup):
         "adminPassword=", { "Ref": "Password" }, "\n",
         "services=" + servicesParameter + "\n",
         "stackName=", { "Ref": "AWS::StackName" }, "\n",
+        "license=" + license + "\n",
+        "serverVersion=" + serverVersion + "\n",
         "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
         "wget ${baseURL}server.sh\n",
         "wget ${baseURL}util.sh\n",
