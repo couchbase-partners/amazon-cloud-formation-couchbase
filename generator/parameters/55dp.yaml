@@ -1,0 +1,18 @@
+serverVersion: 5.5.0-Mar
+syncGatewayVersion: 2.0.0
+license: NULL
+cluster:
+  - group: group1
+    nodeCount: 5
+    nodeType: m4.4xlarge
+    dataDiskSize: 100
+    services:
+      - data
+      - query
+      - index
+      - fts
+  - group: syncgateway
+    nodeCount: 2
+    nodeType: m4.4xlarge
+    services:
+      - syncGateway
