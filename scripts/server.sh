@@ -9,13 +9,21 @@ stackName=$4
 license=$5
 version=$6
 
+echo "Got the parameters:"
+echo adminUsername \'$adminUsername\'
+echo adminPassword \'$adminPassword\'
+echo services \'$services\'
+echo stackName \'$stackName\'
+echo license \'$license\'
+echo version \'$version\'
+
 source util.sh
 formatDataDisk
 
 yum -y update
 yum -y install jq
 
-if [ "$license" == "NULL" ]
+if [ "$license" -eq "NULL" ]
 then
   echo "Installing Couchbase Server..."
   wget https://packages.couchbase.com/releases/${version}/couchbase-server-enterprise-${version}-centos6.x86_64.rpm

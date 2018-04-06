@@ -6,10 +6,15 @@ stackName=$1
 license=$2
 version=$3
 
+echo "Got the parameters:"
+echo stackName \'$stackName\'
+echo license \'$license\'
+echo version \'$version\'
+
 yum -y update
 yum -y install jq
 
-if [ "$license" == "NULL" ]
+if [ "$license" -eq "NULL" ]
 then
   echo "Installing Couchbase Sync Gateway..."
   wget https://packages.couchbase.com/releases/couchbase-sync-gateway/${version}/couchbase-sync-gateway-enterprise_${version}_x86_64.rpm
