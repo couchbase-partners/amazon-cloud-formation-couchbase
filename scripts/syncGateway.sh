@@ -3,9 +3,18 @@
 echo "Running syncGateway.sh"
 
 stackName=$1
+license=$2
+version=$3
 
 yum -y update
 yum -y install jq
+
+if [ "$license" == "NULL" ]
+then
+  echo "Installing Couchbase Sync Gateway..."
+  wget https://packages.couchbase.com/releases/couchbase-sync-gateway/${version}/couchbase-sync-gateway-enterprise_${version}_x86_64.rpm
+  rpm --install couchbase-sync-gateway-enterprise_${version}_x86_64.rpm
+fi
 
 region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
   | jq '.region'  \

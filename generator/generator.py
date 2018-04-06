@@ -38,7 +38,7 @@ def main():
 
     template['Mappings'] = dict(template['Mappings'].items() + generateMappings(license, serverVersion, syncGatewayVersion).items())
     template['Resources'] = dict(template['Resources'].items() + generateMiscResources().items())
-    template['Resources'] = dict(template['Resources'].items() + generateCluster(cluster).items())
+    template['Resources'] = dict(template['Resources'].items() + generateCluster(license, serverVersion, syncGatewayVersion, cluster).items())
 
     file = open('generated.template', 'w')
     file.write(json.dumps(template, sort_keys=True, indent=4, separators=(',', ': ')) + '\n')
@@ -211,23 +211,23 @@ def generateMiscResources():
     }
     return resources
 
-def generateCluster(cluster):
+def generateCluster(license, serverVersion, syncGatewayVersion, cluster):
     resources = {}
     rallyAutoScalingGroup=cluster[0]['group']
     for group in cluster:
-        groupResources=generateGroup(group, rallyAutoScalingGroup)
+        groupResources=generateGroup(license, serverVersion, syncGatewayVersion, group, rallyAutoScalingGroup)
         resources = dict(resources.items() + groupResources.items())
     return resources
 
-def generateGroup(group, rallyAutoScalingGroup):
+def generateGroup(license, serverVersion, syncGatewayVersion, group, rallyAutoScalingGroup):
     resources = {}
     if 'syncGateway' in group['services']:
-        resources = dict(resources.items() + generateSyncGateway(group, rallyAutoScalingGroup).items())
+        resources = dict(resources.items() + generateSyncGateway(license, syncGatewayVersion, group, rallyAutoScalingGroup).items())
     else:
-        resources = dict(resources.items() + generateServer(group, rallyAutoScalingGroup).items())
+        resources = dict(resources.items() + generateServer(license, serverVersion, group, rallyAutoScalingGroup).items())
     return resources
 
-def generateSyncGateway(group, rallyAutoScalingGroup):
+def generateSyncGateway(license, syncGatewayVersion, group, rallyAutoScalingGroup):
     groupName = group['group']
     nodeCount = group['nodeCount']
     nodeType = group['nodeType']
@@ -268,7 +268,7 @@ def generateSyncGateway(group, rallyAutoScalingGroup):
                             "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                             "wget ${baseURL}syncGateway.sh\n",
                             "chmod +x *.sh\n",
-                            "./syncGateway.sh ${stackName}\n"
+                            "./syncGateway.sh ${stackName} ${license} ${syncGatewayVersion}\n"
                         ]]
                     }
                 }
@@ -277,7 +277,7 @@ def generateSyncGateway(group, rallyAutoScalingGroup):
     }
     return resources
 
-def generateServer(group, rallyAutoScalingGroup):
+def generateServer(license, serverVersion, group, rallyAutoScalingGroup):
     groupName = group['group']
     nodeCount = group['nodeCount']
     nodeType = group['nodeType']
@@ -302,12 +302,12 @@ def generateServer(group, rallyAutoScalingGroup):
         "chmod +x *.sh\n",
     ]
     if groupName==rallyAutoScalingGroup:
-        command.append("./server.sh ${adminUsername} ${adminPassword} ${services} ${stackName}\n")
+        command.append("./server.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${license} ${serverVersion}\n")
     else:
         command.append("rallyAutoScalingGroup=")
         command.append({ "Ref": rallyAutoScalingGroup + "AutoScalingGroup" })
         command.append("\n")
-        command.append("./server.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${rallyAutoScalingGroup}\n")
+        command.append("./server.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${license} ${serverVersion} ${rallyAutoScalingGroup}\n")
 
     resources = {
         groupName + "AutoScalingGroup": {

@@ -1,6 +1,6 @@
 serverVersion: 5.5.0-Mar
 syncGatewayVersion: 2.0.0
-license: NULL
+license: "NULL"
 cluster:
   - group: group1
     nodeCount: 5

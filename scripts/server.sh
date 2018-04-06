@@ -6,6 +6,8 @@ adminUsername=$1
 adminPassword=$2
 services=$3
 stackName=$4
+license=$5
+version=$6
 
 source util.sh
 formatDataDisk
@@ -13,12 +15,19 @@ formatDataDisk
 yum -y update
 yum -y install jq
 
-if [ -z "$5" ]
+if [ "$license" == "NULL" ]
+then
+  echo "Installing Couchbase Server..."
+  wget https://packages.couchbase.com/releases/${version}/couchbase-server-enterprise-${version}-centos6.x86_64.rpm
+  rpm --install couchbase-server-enterprise-${version}-centos6.x86_64.rpm
+fi
+
+if [ -z "$7" ]
 then
   echo "This node is part of the autoscaling group that contains the rally point."
   rallyPublicDNS=`getRallyPublicDNS`
 else
-  rallyAutoScalingGroup=$5
+  rallyAutoScalingGroup=$7
   echo "This node is not the rally point and not part of the autoscaling group that contains the rally point."
   echo rallyAutoScalingGroup \'$rallyAutoScalingGroup\'
   rallyPublicDNS=`getRallyPublicDNS ${rallyAutoScalingGroup}`
