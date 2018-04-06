@@ -11,6 +11,8 @@ cluster:
       - query
       - index
       - fts
+      - cbas
+      - eventing
   - group: syncgateway
     nodeCount: 2
     nodeType: m4.4xlarge
