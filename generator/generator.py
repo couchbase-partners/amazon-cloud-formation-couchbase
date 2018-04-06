@@ -25,11 +25,6 @@ def main():
             "KeyName": {
                 "Description": "Name of an existing EC2 KeyPair",
                 "Type": "AWS::EC2::KeyPair::KeyName"
-            },
-            "License": {
-              "Description": "License model can be BYOL or HourlyPricing",
-              "Type": "String",
-              "Default": "HourlyPricing"
             }
         },
         "Mappings": {},
@@ -38,9 +33,10 @@ def main():
 
     serverVersion = parameters['serverVersion']
     syncGatewayVersion = parameters['syncGatewayVersion']
+    license = parameters['license']
     cluster = parameters['cluster']
 
-    template['Mappings'] = dict(template['Mappings'].items() + generateMappings(serverVersion, syncGatewayVersion).items())
+    template['Mappings'] = dict(template['Mappings'].items() + generateMappings(license, serverVersion, syncGatewayVersion).items())
     template['Resources'] = dict(template['Resources'].items() + generateMiscResources().items())
     template['Resources'] = dict(template['Resources'].items() + generateCluster(cluster).items())
 
@@ -48,26 +44,26 @@ def main():
     file.write(json.dumps(template, sort_keys=True, indent=4, separators=(',', ': ')) + '\n')
     file.close()
 
-def generateMappings(serverVersion, syncGatewayVersion):
+def generateMappings(license, serverVersion, syncGatewayVersion):
     allMappings = {
         "AmazonLinux": {
                 "2017.09.1.20180307": {
-                "us-east-1": { "NULL": "ami-1853ac65" },
-                "us-east-2": { "NULL": "ami-25615740" },
-                "us-west-1": { "NULL": "ami-bf5540df" },
-                "us-west-2": { "NULL": "ami-d874e0a0" },
-                "ca-central-1": { "NULL": "ami-5b55d23f" },
-                "eu-central-1": { "NULL": "ami-ac442ac3" },
-                "eu-west-1": { "NULL": "ami-3bfab942" },
-                "eu-west-2": { "NULL": "ami-dff017b8" },
-                "eu-west-3": { "NULL": "ami-4f55e332" },
-                "ap-southeast-1": { "NULL": "ami-e2adf99e" },
-                "ap-southeast-2": { "NULL": "ami-43874721" },
-                "ap-northeast-1": { "NULL": "ami-a77c30c1" },
-                "ap-northeast-2": { "NULL": "ami-5e1ab730" }
-                "ap-south-1": { "NULL": "ami-7c87d913" },
-                "sa-east-1": { "NULL": "ami-5339733f" },
-                "us-gov-west-1": { "NULL": "ami-2b39b24a" }
+                "us-east-1": { "AMI": "ami-1853ac65" },
+                "us-east-2": { "AMI": "ami-25615740" },
+                "us-west-1": { "AMI": "ami-bf5540df" },
+                "us-west-2": { "AMI": "ami-d874e0a0" },
+                "ca-central-1": { "AMI": "ami-5b55d23f" },
+                "eu-central-1": { "AMI": "ami-ac442ac3" },
+                "eu-west-1": { "AMI": "ami-3bfab942" },
+                "eu-west-2": { "AMI": "ami-dff017b8" },
+                "eu-west-3": { "AMI": "ami-4f55e332" },
+                "ap-southeast-1": { "AMI": "ami-e2adf99e" },
+                "ap-southeast-2": { "AMI": "ami-43874721" },
+                "ap-northeast-1": { "AMI": "ami-a77c30c1" },
+                "ap-northeast-2": { "AMI": "ami-5e1ab730" },
+                "ap-south-1": { "AMI": "ami-7c87d913" },
+                "sa-east-1": { "AMI": "ami-5339733f" },
+                "us-gov-west-1": { "AMI": "ami-2b39b24a" }
             }
         },
         "CouchbaseServer": {
@@ -143,10 +139,22 @@ def generateMappings(serverVersion, syncGatewayVersion):
             }
         }
     }
-    mappings = {
-        "CouchbaseServer": allMappings["CouchbaseServer"][serverVersion],
-        "CouchbaseSyncGateway": allMappings["CouchbaseSyncGateway"][syncGatewayVersion]
-    }
+    if license=="NULL":
+        mappings = {
+            "CouchbaseServer": allMappings["AmazonLinux"]["2017.09.1.20180307"],
+            "CouchbaseSyncGateway": allMappings["AmazonLinux"]["2017.09.1.20180307"]
+        }
+    else:
+        mappings={
+            "CouchbaseServer": {},
+            "CouchbaseSyncGateway": {}
+        }
+        for region in allMappings["CouchbaseServer"][serverVersion]:
+            mappings["CouchbaseServer"][region]={}
+            mappings["CouchbaseServer"][region]["AMI"]=allMappings["CouchbaseServer"][serverVersion][region][license]
+        for region in allMappings["CouchbaseSyncGateway"][syncGatewayVersion]:
+            mappings["CouchbaseSyncGateway"][region]={}
+            mappings["CouchbaseSyncGateway"][region]["AMI"]=allMappings["CouchbaseSyncGateway"][syncGatewayVersion][region][license]
     return mappings
 
 def generateMiscResources():
