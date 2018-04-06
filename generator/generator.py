@@ -246,7 +246,7 @@ def generateSyncGateway(group, rallyAutoScalingGroup):
         groupName + "LaunchConfiguration": {
             "Type": "AWS::AutoScaling::LaunchConfiguration",
             "Properties": {
-                "ImageId": { "Fn::FindInMap": [ "CouchbaseSyncGateway", { "Ref": "AWS::Region" }, { "Ref": "License" } ] },
+                "ImageId": { "Fn::FindInMap": [ "CouchbaseSyncGateway", { "Ref": "AWS::Region" }, "AMI" ] },
                 "InstanceType": nodeType,
                 "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
                 "KeyName": { "Ref": "KeyName" },
@@ -323,7 +323,7 @@ def generateServer(group, rallyAutoScalingGroup):
         groupName + "LaunchConfiguration": {
             "Type": "AWS::AutoScaling::LaunchConfiguration",
             "Properties": {
-                "ImageId": { "Fn::FindInMap": [ "CouchbaseServer", { "Ref": "AWS::Region" }, { "Ref": "License" } ] },
+                "ImageId": { "Fn::FindInMap": [ "CouchbaseServer", { "Ref": "AWS::Region" }, "AMI" ] },
                 "InstanceType": nodeType,
                 "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
                 "KeyName": { "Ref": "KeyName" },
