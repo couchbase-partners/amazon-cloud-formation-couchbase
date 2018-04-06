@@ -14,7 +14,7 @@ echo version \'$version\'
 yum -y update
 yum -y install jq
 
-if [ "$license" -eq "NULL" ]
+if [[ $license = "NULL" ]]
 then
   echo "Installing Couchbase Sync Gateway..."
   wget https://packages.couchbase.com/releases/couchbase-sync-gateway/${version}/couchbase-sync-gateway-enterprise_${version}_x86_64.rpm

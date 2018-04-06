@@ -23,7 +23,7 @@ formatDataDisk
 yum -y update
 yum -y install jq
 
-if [ "$license" -eq "NULL" ]
+if [[ $license = "NULL" ]]
 then
   echo "Installing Couchbase Server..."
   wget https://packages.couchbase.com/releases/${version}/couchbase-server-enterprise-${version}-centos6.x86_64.rpm
