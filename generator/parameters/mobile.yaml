@@ -1,5 +1,6 @@
 serverVersion: 5.1.0
 syncGatewayVersion: 1.5.1
+license: HourlyPricing
 cluster:
   - group: server
     nodeCount: 3

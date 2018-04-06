@@ -50,6 +50,26 @@ def main():
 
 def generateMappings(serverVersion, syncGatewayVersion):
     allMappings = {
+        "AmazonLinux": {
+                "2017.09.1.20180307": {
+                "us-east-1": { "NULL": "ami-1853ac65" },
+                "us-east-2": { "NULL": "ami-25615740" },
+                "us-west-1": { "NULL": "ami-bf5540df" },
+                "us-west-2": { "NULL": "ami-d874e0a0" },
+                "ca-central-1": { "NULL": "ami-5b55d23f" },
+                "eu-central-1": { "NULL": "ami-ac442ac3" },
+                "eu-west-1": { "NULL": "ami-3bfab942" },
+                "eu-west-2": { "NULL": "ami-dff017b8" },
+                "eu-west-3": { "NULL": "ami-4f55e332" },
+                "ap-southeast-1": { "NULL": "ami-e2adf99e" },
+                "ap-southeast-2": { "NULL": "ami-43874721" },
+                "ap-northeast-1": { "NULL": "ami-a77c30c1" },
+                "ap-northeast-2": { "NULL": "ami-5e1ab730" }
+                "ap-south-1": { "NULL": "ami-7c87d913" },
+                "sa-east-1": { "NULL": "ami-5339733f" },
+                "us-gov-west-1": { "NULL": "ami-2b39b24a" }
+            }
+        },
         "CouchbaseServer": {
             "4.6.4": {
                 "us-east-1": { "BYOL": "ami-63af9f19", "HourlyPricing": "ami-279faf5d" },
@@ -63,9 +83,9 @@ def generateMappings(serverVersion, syncGatewayVersion):
                 "eu-west-3": { "BYOL": "ami-86d96ffb", "HourlyPricing": "ami-d3dd6bae" },
                 "ap-southeast-1": { "BYOL": "ami-6fed9513", "HourlyPricing": "ami-17ed956b" },
                 "ap-southeast-2": { "BYOL": "ami-3b0ef059", "HourlyPricing": "ami-c30ef0a1" },
-                "ap-south-1": { "BYOL": "ami-83b1e0ec", "HourlyPricing": "ami-c8b0e1a7" },
                 "ap-northeast-1": { "BYOL": "ami-1eea8778", "HourlyPricing": "ami-75e78a13" },
                 "ap-northeast-2": { "BYOL": "ami-b19330df", "HourlyPricing": "ami-888e2de6" },
+                "ap-south-1": { "BYOL": "ami-83b1e0ec", "HourlyPricing": "ami-c8b0e1a7" },
                 "sa-east-1": { "BYOL": "ami-f4551998", "HourlyPricing": "ami-d3571bbf" }
             },
             "5.0.1": {
@@ -80,9 +100,9 @@ def generateMappings(serverVersion, syncGatewayVersion):
                 "eu-west-3": { "BYOL": "ami-d5dd6ba8", "HourlyPricing": "ami-5bc77126" },
                 "ap-southeast-1": { "BYOL": "ami-33ec944f", "HourlyPricing": "ami-13eb936f" },
                 "ap-southeast-2": { "BYOL": "ami-8910eeeb", "HourlyPricing": "ami-ec11ef8e" },
-                "ap-south-1": { "BYOL": "aami-0d8ddc62", "HourlyPricing": "ami-5db1e032" },
                 "ap-northeast-1": { "BYOL": "ami-b0e489d6", "HourlyPricing": "ami-47e48921" },
                 "ap-northeast-2": { "BYOL": "ami-ec8d2e82", "HourlyPricing": "ami-e78c2f89" },
+                "ap-south-1": { "BYOL": "aami-0d8ddc62", "HourlyPricing": "ami-5db1e032" },
                 "sa-east-1": { "BYOL": "ami-995519f5", "HourlyPricing": "ami-f5551999" }
             },
             "5.1.0": {
@@ -97,9 +117,9 @@ def generateMappings(serverVersion, syncGatewayVersion):
                 "eu-west-3": { "BYOL": "ami-8954e2f4", "HourlyPricing": "ami-8854e2f5" },
                 "ap-southeast-1": { "BYOL": "ami-4f8dd933", "HourlyPricing": "ami-7b8cd807" },
                 "ap-southeast-2": { "BYOL": "ami-f975b49b", "HourlyPricing": "ami-fa75b498" },
-                "ap-south-1": { "BYOL": "ami-8f90cee0", "HourlyPricing": "ami-c690cea9" },
                 "ap-northeast-1": { "BYOL": "ami-fa430f9c", "HourlyPricing": "ami-92410df4" },
                 "ap-northeast-2": { "BYOL": "ami-ec1eb382", "HourlyPricing": "ami-8a1fb2e4" },
+                "ap-south-1": { "BYOL": "ami-8f90cee0", "HourlyPricing": "ami-c690cea9" },
                 "sa-east-1": { "BYOL": "ami-a42963c8", "HourlyPricing": "ami-a72963cb" }
             }
         },
@@ -116,9 +136,9 @@ def generateMappings(serverVersion, syncGatewayVersion):
                 "eu-west-3": { "BYOL": "ami-c9d86eb4", "HourlyPricing": "ami-58c77125" },
                 "ap-southeast-1": { "BYOL": "ami-10eb936c", "HourlyPricing": "ami-a4ed95d8" },
                 "ap-southeast-2": { "BYOL": "ami-a610eec4", "HourlyPricing": "ami-2911ef4b" },
-                "ap-south-1": { "BYOL": "ami-898cdde6", "HourlyPricing": "ami-058cdd6a" },
                 "ap-northeast-1": { "BYOL": "ami-b9e588df", "HourlyPricing": "ami-b3e588d5" },
                 "ap-northeast-2": { "BYOL": "ami-38933056", "HourlyPricing": "ami-648c2f0a" },
+                "ap-south-1": { "BYOL": "ami-898cdde6", "HourlyPricing": "ami-058cdd6a" },
                 "sa-east-1": { "BYOL": "ami-3654185a", "HourlyPricing": "ami-b95a16d5" }
             }
         }

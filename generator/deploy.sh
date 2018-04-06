@@ -22,5 +22,4 @@ aws cloudformation create-stack \
 --parameters \
 ParameterKey=Username,ParameterValue=${Username} \
 ParameterKey=Password,ParameterValue=${Password} \
-ParameterKey=KeyName,ParameterValue=${KeyName} \
-ParameterKey=License,ParameterValue=${License}
+ParameterKey=KeyName,ParameterValue=${KeyName}
