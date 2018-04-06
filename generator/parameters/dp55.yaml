@@ -11,7 +11,7 @@ cluster:
       - query
       - index
       - fts
-      - cbas
+      - analytics
       - eventing
   - group: syncgateway
     nodeCount: 2
