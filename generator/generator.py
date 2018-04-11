@@ -268,7 +268,7 @@ def generateSyncGateway(license, syncGatewayVersion, group, rallyAutoScalingGrou
                             "stackName=", { "Ref": "AWS::StackName" }, "\n",
                             "license=" + license + "\n",
                             "syncGatewayVersion=" + syncGatewayVersion + "\n",
-                            "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
+                            "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/dev/scripts/\n",
                             "wget ${baseURL}syncGateway.sh\n",
                             "chmod +x *.sh\n",
                             "./syncGateway.sh ${stackName} ${license} ${syncGatewayVersion}\n"
@@ -301,7 +301,7 @@ def generateServer(license, serverVersion, group, rallyAutoScalingGroup):
         "stackName=", { "Ref": "AWS::StackName" }, "\n",
         "license=" + license + "\n",
         "serverVersion=" + serverVersion + "\n",
-        "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
+        "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/dev/scripts/\n",
         "wget ${baseURL}server.sh\n",
         "wget ${baseURL}util.sh\n",
         "chmod +x *.sh\n",
