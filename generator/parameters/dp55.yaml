@@ -13,8 +13,3 @@ cluster:
       - fts
       - analytics
       - eventing
-  - group: syncgateway
-    nodeCount: 0
-    nodeType: m4.4xlarge
-    services:
-      - syncGateway
