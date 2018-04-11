@@ -14,7 +14,7 @@ cluster:
       - analytics
       - eventing
   - group: syncgateway
-    nodeCount: 2
+    nodeCount: 0
     nodeType: m4.4xlarge
     services:
       - syncGateway
