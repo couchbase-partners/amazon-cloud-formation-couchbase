@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Couchbase Enterprise Edition BYOL",
+  "Description": "Couchbase Enterprise Edition Hourly Pricing",
   "Parameters": {
     "ServerInstanceCount": {
       "Description": "Number of Couchbase Server Nodes",
