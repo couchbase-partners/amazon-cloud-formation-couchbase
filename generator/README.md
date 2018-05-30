@@ -2,7 +2,7 @@
 
 This is a CFT generator for Couchbase.  It creates templates that leverage MDS.  This template can be deployed in different regions for XDCR.
 
-You probably want to try [../simple](simple) and the instructions there before attempting this.
+You probably want to try [https://github.com/couchbase-partners/amazon-cloud-formation-couchbase/tree/master/simple](simple) and the instructions there before attempting this.
 
 ## Creating a Stack
 
