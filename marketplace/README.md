@@ -1,10 +1,10 @@
 # Marketplace
 
-This template is used by the Couchbase Amazon Marketplace offer.  It is not intended to be used outside the marketplace.  Unless you are working on updates to the Couchbase Marketplace offer, you probably want to be using a different template.
+These templates are used by the Couchbase AWS Marketplace offer.  They are not intended to be used outside the Marketplace.  Unless you are working on updates to the Couchbase Marketplace offer, you probably want to be using a different template.
 
 ## Select AMIs
 
-For the base AMI we're using Amazon Linux 2017.09.  We're no longer building our bits into the AMI, instead it exists merely for tracking purposes.
+For the base AMI we're using Amazon Linux 2017.09.  We're no longer building Couchbase bits into the AMI, instead it exists only for tracking purposes.
 
 ## Clone AMIs
 
