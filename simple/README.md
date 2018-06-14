@@ -75,11 +75,7 @@ The AWS word for a deployment is a stack.  [deploy.sh](deploy.sh) is a helper sc
 
     ./deploy.sh <STACK_NAME>
 
-When complete you can access the Couchbase web administrator tool on port 8091 of any Server node.  Some services like query and search will redirect over internal DNS records that aren't routable from the broader internet.  To work around this you can set up port forwarding for a particular machine with the command:
-
-    gcloud compute ssh --ssh-flag=-L8091:localhost:8091 --project=<your project> --zone <zone of the machine you want to connect to> <name of the machine>
-
-With that terminal running, you can open a web browser and connect on http://localhost:8091
+When complete you can access the Couchbase web administrator tool on port 8091 of any Server node.
 
 ## Deleting a Stack
 
