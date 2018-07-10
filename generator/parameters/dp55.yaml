@@ -1,4 +1,4 @@
-serverVersion: 5.5.0-Mar
+serverVersion: 5.5.0-beta
 syncGatewayVersion: 2.0.0
 license: "NULL"
 cluster:
