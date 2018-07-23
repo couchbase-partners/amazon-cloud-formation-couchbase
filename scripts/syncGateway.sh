@@ -3,20 +3,15 @@
 echo "Running syncGateway.sh"
 
 stackName=$1
-license=$2
-version=$3
+version=$2
 
 echo "Got the parameters:"
 echo stackName \'$stackName\'
-echo license \'$license\'
 echo version \'$version\'
 
-if [[ $license = "NULL" ]]
-then
-  echo "Installing Couchbase Sync Gateway..."
-  wget https://packages.couchbase.com/releases/couchbase-sync-gateway/${version}/couchbase-sync-gateway-enterprise_${version}_x86_64.rpm
-  rpm --install couchbase-sync-gateway-enterprise_${version}_x86_64.rpm
-fi
+echo "Installing Couchbase Sync Gateway..."
+wget https://packages.couchbase.com/releases/couchbase-sync-gateway/${version}/couchbase-sync-gateway-enterprise_${version}_x86_64.rpm
+rpm --install couchbase-sync-gateway-enterprise_${version}_x86_64.rpm
 
 yum -y update
 yum -y install jq

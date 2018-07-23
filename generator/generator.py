@@ -33,18 +33,17 @@ def main():
 
     serverVersion = parameters['serverVersion']
     syncGatewayVersion = parameters['syncGatewayVersion']
-    license = parameters['license']
     cluster = parameters['cluster']
 
-    template['Mappings'] = dict(template['Mappings'].items() + generateMappings(license, serverVersion, syncGatewayVersion).items())
+    template['Mappings'] = dict(template['Mappings'].items() + generateMappings().items())
     template['Resources'] = dict(template['Resources'].items() + generateMiscResources().items())
-    template['Resources'] = dict(template['Resources'].items() + generateCluster(license, serverVersion, syncGatewayVersion, cluster).items())
+    template['Resources'] = dict(template['Resources'].items() + generateCluster(serverVersion, syncGatewayVersion, cluster).items())
 
     file = open('generated.template', 'w')
     file.write(json.dumps(template, sort_keys=True, indent=4, separators=(',', ': ')) + '\n')
     file.close()
 
-def generateMappings(license, serverVersion, syncGatewayVersion):
+def generateMappings():
     mappings = {
         "CouchbaseServer": {
             "us-east-1": { "BYOL": "ami-1853ac65", "HourlyPricing": "ami-1853ac65" },
@@ -141,16 +140,17 @@ def generateMiscResources():
     }
     return resources
 
-def generateCluster(license, serverVersion, syncGatewayVersion, cluster):
+def generateCluster(serverVersion, syncGatewayVersion, cluster):
     resources = {}
     rallyAutoScalingGroup=cluster[0]['group']
     for group in cluster:
-        groupResources=generateGroup(license, serverVersion, syncGatewayVersion, group, rallyAutoScalingGroup)
+        groupResources=generateGroup(serverVersion, syncGatewayVersion, group, rallyAutoScalingGroup)
         resources = dict(resources.items() + groupResources.items())
     return resources
 
-def generateGroup(license, serverVersion, syncGatewayVersion, group, rallyAutoScalingGroup):
+def generateGroup(serverVersion, syncGatewayVersion, group, rallyAutoScalingGroup):
     resources = {}
+    license=group['license']
     if 'syncGateway' in group['services']:
         resources = dict(resources.items() + generateSyncGateway(license, syncGatewayVersion, group, rallyAutoScalingGroup).items())
     else:
