@@ -1,7 +1,7 @@
 serverVersion: 5.1.0
 syncGatewayVersion: 1.5.1
 cluster:
-  - group: group1
+  - group: baseline
     license: BYOL
     nodeCount: 5
     nodeType: m4.4xlarge
@@ -11,7 +11,7 @@ cluster:
       - query
       - index
       - fts
-  - group: group1
+  - group: bursting
     license: HourlyPricing
     nodeCount: 0
     nodeType: m4.4xlarge
