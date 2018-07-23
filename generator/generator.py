@@ -45,7 +45,7 @@ def main():
     file.close()
 
 def generateMappings(license, serverVersion, syncGatewayVersion):
-    allMappings = {
+    mappings = {
         "CouchbaseServer": {
             "us-east-1": { "BYOL": "ami-1853ac65", "HourlyPricing": "ami-1853ac65" },
             "us-east-2": { "BYOL": "ami-25615740", "HourlyPricing": "ami-25615740" },
@@ -83,22 +83,6 @@ def generateMappings(license, serverVersion, syncGatewayVersion):
             "us-gov-west-1": { "BYOL": "ami-2b39b24a", "HourlyPricing": "ami-2b39b24a" }
         }
     }
-    if license=="NULL":
-        mappings = {
-            "CouchbaseServer": allMappings["AmazonLinux"]["2017.09.1.20180307"],
-            "CouchbaseSyncGateway": allMappings["AmazonLinux"]["2017.09.1.20180307"]
-        }
-    else:
-        mappings={
-            "CouchbaseServer": {},
-            "CouchbaseSyncGateway": {}
-        }
-        for region in allMappings["CouchbaseServer"][serverVersion]:
-            mappings["CouchbaseServer"][region]={}
-            mappings["CouchbaseServer"][region]["AMI"]=allMappings["CouchbaseServer"][serverVersion][region][license]
-        for region in allMappings["CouchbaseSyncGateway"][syncGatewayVersion]:
-            mappings["CouchbaseSyncGateway"][region]={}
-            mappings["CouchbaseSyncGateway"][region]["AMI"]=allMappings["CouchbaseSyncGateway"][syncGatewayVersion][region][license]
     return mappings
 
 def generateMiscResources():
