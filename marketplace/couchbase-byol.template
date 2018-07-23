@@ -15,7 +15,10 @@
     "ServerVersion": {
       "Description": "Couchbase Server Version",
       "Type": "String",
-      "Default": "5.1.0"
+      "Default": "5.1.1",
+      "AllowedValues": [
+        "5.5.0-beta", "5.1.1", "5.1.0", "5.0.1", "4.6.5"
+      ]
     },
     "SyncGatewayInstanceCount": {
       "Description": "Number of Couchbase Sync Gateway Nodes",
@@ -25,7 +28,10 @@
     "SyncGatewayVersion": {
       "Description": "Couchbase Sync Gateway Version",
       "Type": "String",
-      "Default": "2.0.0"
+      "Default": "2.0.0",
+      "AllowedValues": [
+        "2.0.0"
+      ]
     },
     "InstanceType": {
       "Description": "Instance type for Couchbase Nodes",
