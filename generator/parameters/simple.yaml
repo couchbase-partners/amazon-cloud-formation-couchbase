@@ -1,5 +1,5 @@
-serverVersion: 5.1.0
-syncGatewayVersion: 1.5.1
+serverVersion: 5.5.0
+syncGatewayVersion: 2.0.0
 cluster:
   - group: group1
     license: HourlyPricing
@@ -11,3 +11,5 @@ cluster:
       - query
       - index
       - fts
+      - analytics
+      - eventing
