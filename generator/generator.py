@@ -245,7 +245,7 @@ def generateServer(license, serverVersion, group, rallyAutoScalingGroup):
             "Properties": {
                 "AvailabilityZones": { "Fn::GetAZs": "" },
                 "LaunchConfigurationName": { "Ref": groupName + "LaunchConfiguration" },
-                "MinSize": 1,
+                "MinSize": 0,
                 "MaxSize": 100,
                 "DesiredCapacity": nodeCount
             }
