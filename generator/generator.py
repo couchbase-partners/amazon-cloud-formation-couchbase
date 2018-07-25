@@ -174,7 +174,7 @@ def generateSyncGateway(license, syncGatewayVersion, group, rallyAutoScalingGrou
         groupName + "LaunchConfiguration": {
             "Type": "AWS::AutoScaling::LaunchConfiguration",
             "Properties": {
-                "ImageId": { "Fn::FindInMap": [ "CouchbaseSyncGateway", { "Ref": "AWS::Region" }, "AMI" ] },
+                "ImageId": { "Fn::FindInMap": [ "CouchbaseSyncGateway", { "Ref": "AWS::Region" }, license ] },
                 "InstanceType": nodeType,
                 "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
                 "KeyName": { "Ref": "KeyName" },
@@ -193,12 +193,11 @@ def generateSyncGateway(license, syncGatewayVersion, group, rallyAutoScalingGrou
                             "#!/bin/bash\n",
                             "echo 'Running startup script...'\n",
                             "stackName=", { "Ref": "AWS::StackName" }, "\n",
-                            "license=" + license + "\n",
                             "syncGatewayVersion=" + syncGatewayVersion + "\n",
                             "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                             "wget ${baseURL}syncGateway.sh\n",
                             "chmod +x *.sh\n",
-                            "./syncGateway.sh ${stackName} ${license} ${syncGatewayVersion}\n"
+                            "./syncGateway.sh ${stackName} ${syncGatewayVersion}\n"
                         ]]
                     }
                 }
@@ -226,7 +225,6 @@ def generateServer(license, serverVersion, group, rallyAutoScalingGroup):
         "adminPassword=", { "Ref": "Password" }, "\n",
         "services=" + servicesParameter + "\n",
         "stackName=", { "Ref": "AWS::StackName" }, "\n",
-        "license=" + license + "\n",
         "serverVersion=" + serverVersion + "\n",
         "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
         "wget ${baseURL}server.sh\n",
@@ -234,12 +232,12 @@ def generateServer(license, serverVersion, group, rallyAutoScalingGroup):
         "chmod +x *.sh\n",
     ]
     if groupName==rallyAutoScalingGroup:
-        command.append("./server.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${license} ${serverVersion}\n")
+        command.append("./server.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${serverVersion}\n")
     else:
         command.append("rallyAutoScalingGroup=")
         command.append({ "Ref": rallyAutoScalingGroup + "AutoScalingGroup" })
         command.append("\n")
-        command.append("./server.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${license} ${serverVersion} ${rallyAutoScalingGroup}\n")
+        command.append("./server.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${serverVersion} ${rallyAutoScalingGroup}\n")
 
     resources = {
         groupName + "AutoScalingGroup": {
@@ -255,7 +253,7 @@ def generateServer(license, serverVersion, group, rallyAutoScalingGroup):
         groupName + "LaunchConfiguration": {
             "Type": "AWS::AutoScaling::LaunchConfiguration",
             "Properties": {
-                "ImageId": { "Fn::FindInMap": [ "CouchbaseServer", { "Ref": "AWS::Region" }, "AMI" ] },
+                "ImageId": { "Fn::FindInMap": [ "CouchbaseServer", { "Ref": "AWS::Region" }, license ] },
                 "InstanceType": nodeType,
                 "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
                 "KeyName": { "Ref": "KeyName" },
