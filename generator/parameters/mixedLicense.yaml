@@ -1,27 +1,27 @@
 serverVersion: 5.5.0
 syncGatewayVersion: 2.0.0
 cluster:
-  - group: group1
-    license: HourlyPricing
+  - group: baseline
+    license: BYOL
     nodeCount: 5
     nodeType: m4.4xlarge
     dataDiskSize: 100
     services:
       - data
-  - group: group2
-    license: HourlyPricing
-    nodeCount: 3
-    nodeType: m4.4xlarge
-    dataDiskSize: 100
-    services:
       - query
       - index
       - fts
-  - group: group3
+      - analytics
+      - eventing
+  - group: bursting
     license: HourlyPricing
-    nodeCount: 3
+    nodeCount: 0
     nodeType: m4.4xlarge
     dataDiskSize: 100
     services:
+      - data
+      - query
+      - index
+      - fts
       - analytics
       - eventing

@@ -1,32 +1,50 @@
-serverVersion: 5.1.0
-syncGatewayVersion: 1.5.1
-license: HourlyPricing
+serverVersion: 5.5.0
+syncGatewayVersion: 2.0.0
 cluster:
   - group: data
+    license: HourlyPricing
     nodeCount: 2
     nodeType: m4.4xlarge
     dataDiskSize: 100
     services:
       - data
   - group: query
+    license: HourlyPricing
     nodeCount: 2
     nodeType: m4.4xlarge
     dataDiskSize: 100
     services:
       - query
   - group: index
+    license: HourlyPricing
     nodeCount: 2
     nodeType: m4.4xlarge
     dataDiskSize: 100
     services:
       - index
   - group: fts
+    license: HourlyPricing
     nodeCount: 2
     nodeType: m4.4xlarge
     dataDiskSize: 100
     services:
       - fts
+  - group: analytics
+    license: HourlyPricing
+    nodeCount: 2
+    nodeType: m4.4xlarge
+    dataDiskSize: 100
+    services:
+      - analytics
+  - group: eventing
+    license: HourlyPricing
+    nodeCount: 2
+    nodeType: m4.4xlarge
+    dataDiskSize: 100
+    services:
+      - eventing
   - group: syncgateway
+    license: HourlyPricing
     nodeCount: 2
     nodeType: m4.4xlarge
     services:

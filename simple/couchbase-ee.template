@@ -12,10 +12,26 @@
       "Type": "Number",
       "Default": 100
     },
+    "ServerVersion": {
+      "Description": "Couchbase Server Version",
+      "Type": "String",
+      "Default": "5.5.0",
+      "AllowedValues": [
+        "5.5.0", "5.1.1", "5.1.0", "5.0.1", "4.6.5"
+      ]
+    },
     "SyncGatewayInstanceCount": {
       "Description": "Number of Couchbase Sync Gateway Nodes",
       "Type": "Number",
       "Default": 2
+    },
+    "SyncGatewayVersion": {
+      "Description": "Couchbase Sync Gateway Version",
+      "Type": "String",
+      "Default": "2.0.0",
+      "AllowedValues": [
+        "2.0.0"
+      ]
     },
     "InstanceType": {
       "Description": "Instance type for Couchbase Nodes",
@@ -43,38 +59,38 @@
   },
   "Mappings": {
     "CouchbaseServer": {
-      "us-east-1": { "BYOL": "ami-33ea154e", "HourlyPricing": "ami-aeef10d3" },
-      "us-east-2": { "BYOL": "ami-a26751c7", "HourlyPricing": "ami-866650e3" },
-      "us-west-1": { "BYOL": "ami-12a5af72", "HourlyPricing": "ami-d0bab0b0" },
-      "us-west-2": { "BYOL": "ami-5fbb2f27", "HourlyPricing": "ami-acb92dd4" },
-      "ca-central-1": { "BYOL": "ami-7754d313", "HourlyPricing": "ami-9c57d0f8" },
-      "eu-central-1": { "BYOL": "ami-76670919", "HourlyPricing": "ami-57640a38" },
-      "eu-west-1": { "BYOL": "ami-d7b4f7ae", "HourlyPricing": "ami-f1b6f588" },
-      "eu-west-2": { "BYOL": "ami-30e80f57", "HourlyPricing": "ami-cff710a8" },
-      "eu-west-3": { "BYOL": "ami-8954e2f4", "HourlyPricing": "ami-8854e2f5" },
-      "ap-southeast-1": { "BYOL": "ami-4f8dd933", "HourlyPricing": "ami-7b8cd807" },
-      "ap-southeast-2": { "BYOL": "ami-f975b49b", "HourlyPricing": "ami-fa75b498" },
-      "ap-south-1": { "BYOL": "ami-8f90cee0", "HourlyPricing": "ami-c690cea9" },
-      "ap-northeast-1": { "BYOL": "ami-fa430f9c", "HourlyPricing": "ami-92410df4" },
-      "ap-northeast-2": { "BYOL": "ami-ec1eb382", "HourlyPricing": "ami-8a1fb2e4" },
-      "sa-east-1": { "BYOL": "ami-a42963c8", "HourlyPricing": "ami-a72963cb" }
+      "us-east-1": { "HourlyPricing": "ami-49e7e436", "BYOL": "ami-40dcdf3f" },
+      "us-east-2": { "HourlyPricing": "ami-17271d72", "BYOL": "ami-99271dfc" },
+      "us-west-1": { "HourlyPricing": "ami-edd03d8e", "BYOL": "ami-f5d13c96" },
+      "us-west-2": { "HourlyPricing": "ami-53ce902b", "BYOL": "ami-70ca9408" },
+      "ca-central-1": { "HourlyPricing": "ami-acaa27c8", "BYOL": "ami-92911cf6" },
+      "eu-central-1": { "HourlyPricing": "ami-3c7f7cd7", "BYOL": "ami-310201da" },
+      "eu-west-1": { "HourlyPricing": "ami-3c7f64d6", "BYOL": "ami-3a7f64d0" },
+      "eu-west-2": { "HourlyPricing": "ami-48ea002f", "BYOL": "ami-69ed070e" },
+      "eu-west-3": { "HourlyPricing": "ami-718f3f0c", "BYOL": "ami-9d8d3de0"},
+      "ap-southeast-1": { "HourlyPricing": "ami-ce7b3c24", "BYOL": "ami-8f85c265"},
+      "ap-southeast-2": { "HourlyPricing": "ami-cb298ea9", "BYOL": "ami-953394f7"},
+      "ap-northeast-1": { "HourlyPricing": "ami-0f1f6ae2", "BYOL": "ami-220376cf" },
+      "ap-northeast-2": { "HourlyPricing": "ami-8f8b3ce1", "BYOL": "ami-b9893ed7" },
+      "ap-south-1": { "HourlyPricing": "ami-4e8fbc21", "BYOL": "ami-658bb80a" },
+      "sa-east-1": { "HourlyPricing": "ami-4151702d", "BYOL": "ami-3e290852" }
     },
     "CouchbaseSyncGateway": {
-      "us-east-1": { "BYOL": "ami-8294a4f8", "HourlyPricing": "ami-6d93a317" },
-      "us-east-2": { "BYOL": "ami-0877426d", "HourlyPricing": "ami-0f75406a" },
-      "us-west-1": { "BYOL": "ami-288c8148", "HourlyPricing": "ami-76f2ff16" },
-      "us-west-2": { "BYOL": "ami-589c2320", "HourlyPricing": "ami-41a01f39" },
-      "ca-central-1": { "BYOL": "ami-ad20a5c9", "HourlyPricing": "ami-c22da8a6" },
-      "eu-central-1": { "BYOL": "ami-103aa37f", "HourlyPricing": "ami-d5069fba" },
-      "eu-west-1": { "BYOL": "ami-b696f1cf", "HourlyPricing": "ami-c293f4bb" },
-      "eu-west-2": { "BYOL": "ami-6c445e08", "HourlyPricing": "ami-11445e75" },
-      "eu-west-3": { "BYOL": "ami-c9d86eb4", "HourlyPricing": "ami-58c77125" },
-      "ap-southeast-1": { "BYOL": "ami-10eb936c", "HourlyPricing": "ami-a4ed95d8" },
-      "ap-southeast-2": { "BYOL": "ami-a610eec4", "HourlyPricing": "ami-2911ef4b" },
-      "ap-south-1": { "BYOL": "ami-898cdde6", "HourlyPricing": "ami-058cdd6a" },
-      "ap-northeast-1": { "BYOL": "ami-b9e588df", "HourlyPricing": "ami-b3e588d5" },
-      "ap-northeast-2": { "BYOL": "ami-38933056", "HourlyPricing": "ami-648c2f0a" },
-      "sa-east-1": { "BYOL": "ami-3654185a", "HourlyPricing": "ami-b95a16d5" }
+      "us-east-1": { "HourlyPricing": "ami-2ce5e653", "BYOL": "ami-f6e3e089" },
+      "us-east-2": { "HourlyPricing": "ami-bf251fda", "BYOL": "ami-10271d75" },
+      "us-west-1": { "HourlyPricing": "ami-cbd13ca8", "BYOL": "ami-f4d13c97" },
+      "us-west-2": { "HourlyPricing": "ami-ddcc92a5", "BYOL": "ami-dfcc92a7" },
+      "ca-central-1": { "HourlyPricing": "ami-adaa27c9", "BYOL": "ami-13aa2777" },
+      "eu-central-1": { "HourlyPricing": "ami-3e7f7cd5", "BYOL": "ami-7e070495" },
+      "eu-west-1": { "HourlyPricing": "ami-8a170c60", "BYOL": "ami-836a7169" },
+      "eu-west-2": { "HourlyPricing": "ami-d3eb01b4", "BYOL": "ami-49ea002e" },
+      "eu-west-3": { "HourlyPricing": "ami-9f8d3de2", "BYOL": "ami-9e8d3de3" },
+      "ap-southeast-1": { "HourlyPricing": "ami-0a783fe0", "BYOL": "ami-be7a3d54" },
+      "ap-southeast-2": { "HourlyPricing": "ami-49288f2b", "BYOL": "ami-5833943a" },
+      "ap-northeast-1": { "HourlyPricing": "ami-410b7eac", "BYOL": "ami-0b0174e6" },
+      "ap-northeast-2": { "HourlyPricing": "ami-37823559", "BYOL": "ami-ca8631a4" },
+      "ap-south-1": { "HourlyPricing": "ami-4174462e", "BYOL": "ami-628bb80d" },
+      "sa-east-1": { "HourlyPricing": "ami-457a5b29", "BYOL": "ami-14577678" }
     }
   },
   "Resources": {
@@ -125,7 +141,7 @@
                 "wget ${baseURL}server.sh\n",
                 "wget ${baseURL}util.sh\n",
                 "chmod +x *.sh\n",
-                "./server.sh ${adminUsername} ${adminPassword} ${services} ${stackName}\n"
+                "./server.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${serverVersion}\n"
               ]
             ]
           }
@@ -168,7 +184,7 @@
                 "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                 "wget ${baseURL}syncGateway.sh\n",
                 "chmod +x *.sh\n",
-                "./syncGateway.sh ${stackName}\n"
+                "./syncGateway.sh ${stackName} ${syncGatewayVersion}\n"
               ]
             ]
           }

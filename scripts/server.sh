@@ -6,61 +6,56 @@ adminUsername=$1
 adminPassword=$2
 services=$3
 stackName=$4
-license=$5
-version=$6
+version=$5
 
 echo "Got the parameters:"
 echo adminUsername \'$adminUsername\'
 echo adminPassword \'$adminPassword\'
 echo services \'$services\'
 echo stackName \'$stackName\'
-echo license \'$license\'
 echo version \'$version\'
 
-if [[ $license = "NULL" ]]
-then
-  #######################################################"
-  ############## Install Couchbase Server ###############"
-  #######################################################"
-  echo "Installing Couchbase Server..."
+#######################################################"
+############## Install Couchbase Server ###############"
+#######################################################"
+echo "Installing Couchbase Server..."
 
-  wget https://packages.couchbase.com/releases/${version}/couchbase-server-enterprise-${version}-centos6.x86_64.rpm
-  rpm --install couchbase-server-enterprise-${version}-centos6.x86_64.rpm
+wget https://packages.couchbase.com/releases/${version}/couchbase-server-enterprise-${version}-centos6.x86_64.rpm
+rpm --install couchbase-server-enterprise-${version}-centos6.x86_64.rpm
 
-  #######################################################"
-  ############ Turn Off Transparent Hugepages ###########"
-  #######################################################"
-  echo "Turning off transparent hugepages..."
+#######################################################"
+############ Turn Off Transparent Hugepages ###########"
+#######################################################"
+echo "Turning off transparent hugepages..."
 
-  echo "#!/bin/bash
-  ### BEGIN INIT INFO
-  # Provides:          disable-thp
-  # Required-Start:    $local_fs
-  # Required-Stop:
-  # X-Start-Before:    couchbase-server
-  # Default-Start:     2 3 4 5
-  # Default-Stop:      0 1 6
-  # Short-Description: Disable THP
-  # Description:       disables Transparent Huge Pages (THP) on boot
-  ### END INIT INFO
-  echo 'never' > /sys/kernel/mm/transparent_hugepage/enabled
-  echo 'never' > /sys/kernel/mm/transparent_hugepage/defrag
-  " > /etc/init.d/disable-thp
-  chmod 755 /etc/init.d/disable-thp
-  service disable-thp start
-  chkconfig disable-thp on
+echo "#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          disable-thp
+# Required-Start:    $local_fs
+# Required-Stop:
+# X-Start-Before:    couchbase-server
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Disable THP
+# Description:       disables Transparent Huge Pages (THP) on boot
+### END INIT INFO
+echo 'never' > /sys/kernel/mm/transparent_hugepage/enabled
+echo 'never' > /sys/kernel/mm/transparent_hugepage/defrag
+" > /etc/init.d/disable-thp
+chmod 755 /etc/init.d/disable-thp
+service disable-thp start
+chkconfig disable-thp on
 
-  #######################################################
-  ################# Set Swappiness to 0 #################
-  #######################################################
-  echo "Setting swappiness to 0..."
+#######################################################
+################# Set Swappiness to 0 #################
+#######################################################
+echo "Setting swappiness to 0..."
 
-  sysctl vm.swappiness=0
-  echo "
-  # Required for Couchbase
-  vm.swappiness = 0
-  " >> /etc/sysctl.conf
-fi
+sysctl vm.swappiness=0
+echo "
+# Required for Couchbase
+vm.swappiness = 0
+" >> /etc/sysctl.conf
 
 source util.sh
 formatDataDisk
@@ -68,12 +63,12 @@ formatDataDisk
 yum -y update
 yum -y install jq
 
-if [ -z "$7" ]
+if [ -z "$6" ]
 then
   echo "This node is part of the autoscaling group that contains the rally point."
   rallyPublicDNS=`getRallyPublicDNS`
 else
-  rallyAutoScalingGroup=$7
+  rallyAutoScalingGroup=$6
   echo "This node is not the rally point and not part of the autoscaling group that contains the rally point."
   echo rallyAutoScalingGroup \'$rallyAutoScalingGroup\'
   rallyPublicDNS=`getRallyPublicDNS ${rallyAutoScalingGroup}`
