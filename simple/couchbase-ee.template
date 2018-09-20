@@ -28,8 +28,9 @@
     "SyncGatewayVersion": {
       "Description": "Couchbase Sync Gateway Version",
       "Type": "String",
-      "Default": "2.0.0",
+      "Default": "2.1.0",
       "AllowedValues": [
+        "2.1.0",
         "2.0.0"
       ]
     },
@@ -117,13 +118,16 @@
         [
           {
             "DeviceName" : "/dev/xvda",
-            "Ebs" : { "DeleteOnTermination" : true }
+            "Ebs" : { 
+              "DeleteOnTermination" : true
+                  }
           },
           {
             "DeviceName" : "/dev/sdk",
             "Ebs" : {
               "VolumeSize": { "Ref": "ServerDiskSize" },
-              "VolumeType": "gp2"
+              "VolumeType": "gp2",
+              "Encrypted": true
             }
           }
         ],
@@ -137,6 +141,7 @@
                 "adminPassword=", { "Ref": "Password" }, "\n",
                 "services=data,index,query,fts\n",
                 "stackName=", { "Ref": "AWS::StackName" }, "\n",
+                "serverVersion=", { "Ref": "ServerVersion" }, "\n",
                 "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                 "wget ${baseURL}server.sh\n",
                 "wget ${baseURL}util.sh\n",
@@ -181,6 +186,7 @@
                 "#!/bin/bash\n",
                 "echo 'Running startup script...'\n",
                 "stackName=", { "Ref": "AWS::StackName" }, "\n",
+                "syncGatewayVersion=", { "Ref": "SyncGatewayVersion" }, "\n",
                 "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                 "wget ${baseURL}syncGateway.sh\n",
                 "chmod +x *.sh\n",

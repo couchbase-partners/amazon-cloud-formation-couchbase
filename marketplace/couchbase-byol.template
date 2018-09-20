@@ -28,8 +28,9 @@
     "SyncGatewayVersion": {
       "Description": "Couchbase Sync Gateway Version",
       "Type": "String",
-      "Default": "2.0.0",
+      "Default": "2.1.0",
       "AllowedValues": [
+        "2.1.0",
         "2.0.0"
       ]
     },
@@ -132,7 +133,8 @@
             "DeviceName" : "/dev/sdk",
             "Ebs" : {
               "VolumeSize": { "Ref": "ServerDiskSize" },
-              "VolumeType": "gp2"
+              "VolumeType": "gp2",
+              "Encrypted": true
             }
           }
         ],
