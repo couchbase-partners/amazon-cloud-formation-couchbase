@@ -269,7 +269,8 @@ def generateServer(license, serverVersion, group, rallyAutoScalingGroup):
                         "DeviceName" : "/dev/sdk",
                         "Ebs" : {
                             "VolumeSize": dataDiskSize,
-                            "VolumeType": "gp2"
+                            "VolumeType": "gp2",
+                            "Encrypted": True
                         }
                     }
                 ],
