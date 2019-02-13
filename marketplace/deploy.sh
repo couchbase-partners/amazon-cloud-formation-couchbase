@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 STACK_NAME=$1
-
-TEMPLATE_BODY="file://byol.template"
+PRICING_TYPE=$2 #byol or hourlypricing
+TEMPLATE_BODY="file://couchbase-$2.template"
 REGION=`aws configure get region`
 
 Username="couchbase"
