@@ -68,7 +68,7 @@ isRally ()
   then
     #TODO: handle this case where the rally check gave an error
     echo "Rally not found"
-    return ERROR_RALLY_NOT_FOUND
+    return $ERROR_RALLY_NOT_FOUND
   else
     echo "Not the rally server"
     return 1
