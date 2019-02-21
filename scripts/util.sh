@@ -2,8 +2,8 @@
 
 readonly CB_CLUSTER_TAG=cb:cluster-member
 readonly CB_RALLY_TAG=cb:rally-server
-readonly ERROR_RALLY_NOT_FOUND = 55
-readonly ERROR_CLUSTER_NOT_FOUND = 56
+readonly ERROR_RALLY_NOT_FOUND=55
+readonly ERROR_CLUSTER_NOT_FOUND=56
 
 getRegion ()
 {
@@ -83,8 +83,8 @@ getRallyInstanceID ()
   local region=$(getRegion)
   local $(stackName=getStackName)
 
-  count = 1
-  while [[ count <= 3 ]] 
+  count=1
+  while [[ count -le 3 ]] 
   do
     #the rally server is just the first server in the reservation
     local rallyInstanceID=$(aws ec2 describe-instances --query '(Reservations[*].Instances[0].{ID:InstanceId})[0]' \
@@ -171,7 +171,7 @@ getRallyPublicDNS ()
 
     rallyAutoScalingGroup=$(aws ec2 describe-instances \
       --region ${region} \
-      --instance-ids ${instanceID} 
+      --instance-ids ${instanceID})
      # \
      # | jq '.Reservations[0]|.Instances[0]|.Tags[] | select( .Key == "aws:autoscaling:groupName") | .Value' \
      # | sed 's/^"\(.*\)"$/\1/' )
