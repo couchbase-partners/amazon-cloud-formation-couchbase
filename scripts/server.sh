@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-
+#TODO: add tag when through util.sh to instance when completed.
+#TODO: remove or make tag false when terminating -- optional
+#TODO: possibly do not need to pass the stackName
+#TODO: possibly do not need to pass the autoscaling group
 echo "Running server.sh"
 
 adminUsername=$1
@@ -60,51 +63,51 @@ vm.swappiness = 0
 source util.sh
 formatDataDisk
 
-yum -y update
-yum -y install jq
+#All servers are now rally servers after they are added to the cluster.  Initially there is one pre-defined ally server when the cluster is being init.
 
-if [ -z "$6" ]
+
+region=$(getRegion)
+instanceID=$(getInstanceID)
+nodePrivateIP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
+
+rallyFlag=$(isRally $instanceID)
+
+if [ rallyFlag == 0 ] #is rallyServer
 then
-  echo "This node is part of the autoscaling group that contains the rally point."
-  rallyPublicDNS=`getRallyPublicDNS`
+  rallyPrivateIP=nodePrivateIP #This is the server that will create the cluster
 else
-  rallyAutoScalingGroup=$6
-  echo "This node is not the rally point and not part of the autoscaling group that contains the rally point."
-  echo rallyAutoScalingGroup \'$rallyAutoScalingGroup\'
-  rallyPublicDNS=`getRallyPublicDNS ${rallyAutoScalingGroup}`
+  rallyInstanceID=$(getClusterInstance)
+  rallyPrivateIP=$(aws ec2 describe-instances --region $region \ 
+                 --query 'Reservations[*].Instances[*].NetworkInterfaces[0].PrivateIpAddress' \
+                 --instance-ids $rallyInstanceID --output text)
 fi
-
-region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
-  | jq '.region'  \
-  | sed 's/^"\(.*\)"$/\1/' )
-
-instanceID=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
-  | jq '.instanceId' \
-  | sed 's/^"\(.*\)"$/\1/' )
-
-nodePublicDNS=`curl http://169.254.169.254/latest/meta-data/public-hostname`
 
 echo "Using the settings:"
 echo adminUsername \'$adminUsername\'
 echo adminPassword \'$adminPassword\'
 echo services \'$services\'
 echo stackName \'$stackName\'
-echo rallyPublicDNS \'$rallyPublicDNS\'
+echo rallyPrivateIP \'$rallyPrivateIP\'
 echo region \'$region\'
 echo instanceID \'$instanceID\'
-echo nodePublicDNS \'$nodePublicDNS\'
+echo nodePrivateIP \'$nodePrivateIP\'
+echo rallyFlag \'$rallyFlag\'
 
-if [[ ${rallyPublicDNS} == ${nodePublicDNS} ]]
+#if [[ ${rallyPrivateIP} == ${nodePrivateIP} ]]
+if [[ $rallyFlag == 0 ]] #true
 then
   aws ec2 create-tags \
     --region ${region} \
     --resources ${instanceID} \
     --tags Key=Name,Value=${stackName}-ServerRally
+
 else
   aws ec2 create-tags \
     --region ${region} \
     --resources ${instanceID} \
     --tags Key=Name,Value=${stackName}-Server
+
+  setCBClusterTag
 fi
 
 cd /opt/couchbase/bin/
@@ -114,8 +117,8 @@ output=""
 while [[ ! $output =~ "SUCCESS" ]]
 do
   output=`./couchbase-cli node-init \
-    --cluster=$nodePublicDNS \
-    --node-init-hostname=$nodePublicDNS \
+    --cluster=$nodePrivateIP \
+    --node-init-hostname=$nodePrivateIP \
     --node-init-data-path=/mnt/datadisk/data \
     --node-init-index-path=/mnt/datadisk/index \
     --user=$adminUsername \
@@ -124,7 +127,7 @@ do
   sleep 10
 done
 
-if [[ $rallyPublicDNS == $nodePublicDNS ]]
+if [[ rallyFlag == 0 ]]
 then
   totalRAM=$(grep MemTotal /proc/meminfo | awk '{print $2}')
   dataRAM=$((50 * $totalRAM / 100000))
@@ -132,22 +135,25 @@ then
 
   echo "Running couchbase-cli cluster-init"
   ./couchbase-cli cluster-init \
-    --cluster=$nodePublicDNS \
+    --cluster=$nodePrivateIP \
     --cluster-username=$adminUsername \
     --cluster-password=$adminPassword \
     --cluster-ramsize=$dataRAM \
     --cluster-index-ramsize=$indexRAM \
     --services=${services}
+
+  setCBRallyTag
+  setCBClusterTag
 else
   echo "Running couchbase-cli server-add"
   output=""
-  while [[ $output != "Server $nodePublicDNS:8091 added" && ! $output =~ "Node is already part of cluster." ]]
+  while [[ $output != "Server $nodePrivateIP:8091 added" && ! $output =~ "Node is already part of cluster." ]]
   do
     output=`./couchbase-cli server-add \
-      --cluster=$rallyPublicDNS \
+      --cluster=$rallyPrivateIP \
       --user=$adminUsername \
       --pass=$adminPassword \
-      --server-add=$nodePublicDNS \
+      --server-add=$nodePrivateIP \
       --server-add-username=$adminUsername \
       --server-add-password=$adminPassword \
       --services=${services}`
@@ -160,11 +166,13 @@ else
   while [[ ! $output =~ "SUCCESS" ]]
   do
     output=`./couchbase-cli rebalance \
-    --cluster=$rallyPublicDNS \
+    --cluster=$rallyPrivateIP \
     --user=$adminUsername \
     --pass=$adminPassword`
     echo rebalance output \'$output\'
     sleep 10
   done
-
+setCBClusterTag
 fi
+
+
