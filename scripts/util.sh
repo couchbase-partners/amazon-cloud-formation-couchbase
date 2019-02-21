@@ -60,11 +60,11 @@ isRally ()
   local stackName=$(getStackName)
   local rallyInstanceID=$(getRallyInstanceID)
 
-  if [[ $instanceID==$rallyInstanceID ]]
+  if [[ $instanceID == $rallyInstanceID ]]
   then
     echo "Rally found"
     return 0
-  elif [[ $rallyInstanceID==ERROR_RALLY_NOT_FOUND ]]
+  elif [[ $rallyInstanceID == $ERROR_RALLY_NOT_FOUND ]]
   then
     #TODO: handle this case where the rally check gave an error
     echo "Rally not found"
@@ -81,7 +81,7 @@ isRally ()
 getRallyInstanceID ()
 {
   local region=$(getRegion)
-  local $(stackName=getStackName)
+  local stackName=$(getStackName)
 
   count=1
   while [[ count -le 3 ]] 
@@ -93,7 +93,7 @@ getRallyInstanceID ()
 
     if [[ -z $rallyInstanceID ]]
     then
-      count = count + 1
+      count=$((count + 1))
       sleep 10
     else
       echo $rallyInstanceID
@@ -109,7 +109,7 @@ getClusterInstance (){
   # First look for tagged resources with CB_CLUSTER_TAG 
   local region=$(getRegion)
   local stackName=$(getStackName)
-  local cbInstanceID=$(aws ec2 describe-tags --query '(Tags[*].{id:ResourceId})[0]' \ 
+  local cbInstanceID=$(aws ec2 describe-tags --query '(Tags[*].{id:ResourceId})[0]' \
              --filters "Name=tag:aws:cloudformation:stack-name,Values=$stackName,Name=tag:$CB_CLUSTER_TAG,Values=true" \
              --region $region --output text)
 
@@ -122,7 +122,7 @@ getClusterInstance (){
     #as a way to wait for it to be ready.  This happens in the the cluster-init stage
 
     cbInstanceID=$(getRallyInstanceID)
-    if [ $cbInstanceID==$ERROR_RALLY_NOT_FOUND ] #need to wrap the error to distinguish the caller
+    if [ $cbInstanceID == $ERROR_RALLY_NOT_FOUND ] #need to wrap the error to distinguish the caller
     then
       echo $cbInstanceID
       return $ERROR_CLUSTER_NOT_FOUND
@@ -156,7 +156,7 @@ formatDataDisk ()
 
 getRallyPublicDNS ()
 {
-  region=`getRegion`
+  region=$(getRegion)
  # region=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
  #   | jq '.region'  \
  #   | sed 's/^"\(.*\)"$/\1/' )
@@ -164,7 +164,7 @@ getRallyPublicDNS ()
   # if no rallyAutoscalingGroup was passed then the node this is running on is part of the rallyAutoscalingGroup
   if [ -z "$1" ]
   then
-    instanceID=`getInstanceID`
+    instanceID=$(getInstanceID)
     #instanceID=$(curl -s http://169.254.169.254/latest/dynamic/instance-identity/document \
     #  | jq '.instanceId' \
     #  | sed 's/^"\(.*\)"$/\1/' )

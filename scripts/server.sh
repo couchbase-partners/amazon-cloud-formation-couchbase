@@ -71,19 +71,19 @@ instanceID=$(getInstanceID)
 nodePrivateIP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
 
 isRally $instanceID
-if [[ $? -eq 0 ]]
+if isRally $instanceID;
 then
   rallyFlag=0
 else
   rallyFlag=1
 fi
 
-if [ rallyFlag == 0 ] #is rallyServer
+if [ $rallyFlag -eq 0 ] #is rallyServer
 then
   rallyPrivateIP=nodePrivateIP #This is the server that will create the cluster
 else
   rallyInstanceID=$(getClusterInstance)
-  rallyPrivateIP=$(aws ec2 describe-instances --region $region \ 
+  rallyPrivateIP=$(aws ec2 describe-instances --region $region \
                  --query 'Reservations[*].Instances[*].NetworkInterfaces[0].PrivateIpAddress' \
                  --instance-ids $rallyInstanceID --output text)
 fi
@@ -122,18 +122,18 @@ echo "Running couchbase-cli node-init"
 output=""
 while [[ ! $output =~ "SUCCESS" ]]
 do
-  output=`./couchbase-cli node-init \
+  output=$(./couchbase-cli node-init \
     --cluster=$nodePrivateIP \
     --node-init-hostname=$nodePrivateIP \
     --node-init-data-path=/mnt/datadisk/data \
     --node-init-index-path=/mnt/datadisk/index \
     --user=$adminUsername \
-    --pass=$adminPassword`
+    --pass=$adminPassword)
   echo node-init output \'$output\'
   sleep 10
 done
 
-if [[ rallyFlag == 0 ]]
+if [[ $rallyFlag -eq 0 ]]
 then
   totalRAM=$(grep MemTotal /proc/meminfo | awk '{print $2}')
   dataRAM=$((50 * $totalRAM / 100000))
@@ -155,14 +155,14 @@ else
   output=""
   while [[ $output != "Server $nodePrivateIP:8091 added" && ! $output =~ "Node is already part of cluster." ]]
   do
-    output=`./couchbase-cli server-add \
+    output=(./couchbase-cli server-add \
       --cluster=$rallyPrivateIP \
       --user=$adminUsername \
       --pass=$adminPassword \
       --server-add=$nodePrivateIP \
       --server-add-username=$adminUsername \
       --server-add-password=$adminPassword \
-      --services=${services}`
+      --services=${services})
     echo server-add output \'$output\'
     sleep 10
   done
