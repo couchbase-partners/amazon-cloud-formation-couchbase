@@ -58,19 +58,19 @@ isRally ()
   local instanceID=$1
   local region=$(getRegion)
   local stackName=$(getStackName)
-  local rallyInstanceID=$(getRallyInstance)
+  local rallyInstanceID=$(getRallyInstanceID)
 
   if [[ $instanceID==$rallyInstanceID ]]
   then
-    echo $instanceID
+    echo "Rally found"
     return 0
   elif [[ $rallyInstanceID==ERROR_RALLY_NOT_FOUND ]]
   then
     #TODO: handle this case where the rally check gave an error
-    echo $instanceID
-    return 1
+    echo "Rally not found"
+    return ERROR_RALLY_NOT_FOUND
   else
-    echo $instanceID
+    echo "Not the rally server"
     return 1
   fi
 }
@@ -78,7 +78,7 @@ isRally ()
 # Get the instance that is used to initialize the cluster.  This will instance will be required at the initial startup of the cluster/stack where
 # potential members have to join a cluster or this instance has to return a cluster.
 # it is jus the first instance returned from the query.
-getRallyInstance ()
+getRallyInstanceID ()
 {
   local region=$(getRegion)
   local $(stackName=getStackName)
@@ -121,7 +121,7 @@ getClusterInstance (){
     #Now check for a Rally server - A rallyServer would also have the tag, but potentially it hasn't set it yet, so we use this 
     #as a way to wait for it to be ready.  This happens in the the cluster-init stage
 
-    cbInstanceID=$(getRallyInstance)
+    cbInstanceID=$(getRallyInstanceID)
     if [ $cbInstanceID==$ERROR_RALLY_NOT_FOUND ] #need to wrap the error to distinguish the caller
     then
       echo $cbInstanceID

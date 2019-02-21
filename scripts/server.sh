@@ -70,7 +70,13 @@ region=$(getRegion)
 instanceID=$(getInstanceID)
 nodePrivateIP=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
 
-rallyFlag=$(isRally $instanceID)
+isRally $instanceID
+if [[ $? -eq 0 ]]
+then
+  rallyFlag=0
+else
+  rallyFlag=1
+fi
 
 if [ rallyFlag == 0 ] #is rallyServer
 then
