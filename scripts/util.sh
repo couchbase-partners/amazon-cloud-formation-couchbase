@@ -84,17 +84,18 @@ getRallyInstanceID ()
   local stackName=$(getStackName)
 
   count=1
-  while [[ count -le 3 ]] 
+  while [[ count -le 5 ]] 
   do
     #the rally server is just the first server in the reservation
     local rallyInstanceID=$(aws ec2 describe-instances --query '(Reservations[*].Instances[0].{ID:InstanceId})[0]' \
                   --filter "Name=tag-key,Values=aws:cloudformation:stack-name" "Name=tag-value,Values=$stackName" \
                   --region $region --output text)
 
-    if [[ -z $rallyInstanceID ]]
+    echo "rallyInstanceID in func: $rallyInstanceID"
+    if [[ -z $rallyInstanceID || $rallyInstanceID == "None" ]]
     then
       count=$((count + 1))
-      sleep 10
+      sleep 20
     else
       echo $rallyInstanceID
       return 0
@@ -113,7 +114,7 @@ getClusterInstance (){
              --filters "Name=tag:aws:cloudformation:stack-name,Values=$stackName,Name=tag:$CB_CLUSTER_TAG,Values=true" \
              --region $region --output text)
 
-  if [ ! -z "$cbInstanceID" ] #found an eligible server
+  if [ ! -z $cbInstanceID && $cbInstanceID != "None"  ] #found an eligible server
   then
     echo $cbInstanceID
     return 0
@@ -122,7 +123,7 @@ getClusterInstance (){
     #as a way to wait for it to be ready.  This happens in the the cluster-init stage
 
     cbInstanceID=$(getRallyInstanceID)
-    if [ $cbInstanceID == $ERROR_RALLY_NOT_FOUND ] #need to wrap the error to distinguish the caller
+    if [ $? == $ERROR_RALLY_NOT_FOUND ] #need to wrap the error to distinguish the caller
     then
       echo $cbInstanceID
       return $ERROR_CLUSTER_NOT_FOUND
@@ -191,7 +192,7 @@ getRallyPublicDNS ()
   rallyAutoscalingGroupInstanceIDsArray=(`echo $rallyAutoscalingGroupInstanceIDs`)
   for instanceID in ${rallyAutoscalingGroupInstanceIDsArray[@]}; do
     tags=`aws ec2 describe-tags --region ${region}  --filter "Name=tag:Name,Values=*Rally" "Name=resource-id,Values=$instanceID"`
-    tags=`echo $tags # | jq '.Tags'`
+#    tags=`echo $tags # | jq '.Tags'`
     if [ "$tags" != "[]" ]
     then
       rallyInstanceID=$instanceID
