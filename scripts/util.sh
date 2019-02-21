@@ -124,8 +124,8 @@ getClusterInstance (){
     cbInstanceID=$(getRallyInstanceID)
     if [ $? == $ERROR_RALLY_NOT_FOUND ] #need to wrap the error to distinguish the caller
     then
-      echo $cbInstanceID
-      return $ERROR_CLUSTER_NOT_FOUND
+      echo "None" 
+      return $ERROR_CLUSTER_NOT_FOUND #TODO: Need to handle this unlikely case
     else
       echo $cbInstanceID 
       return 0
