@@ -91,8 +91,7 @@ getRallyInstanceID ()
                   --filter "Name=tag-key,Values=aws:cloudformation:stack-name" "Name=tag-value,Values=$stackName" \
                   --region $region --output text)
 
-    echo "rallyInstanceID in func: $rallyInstanceID"
-    if [[ -z $rallyInstanceID || $rallyInstanceID == "None" ]]
+    if [[ $rallyInstanceID == "None" ]]
     then
       count=$((count + 1))
       sleep 20
@@ -111,10 +110,10 @@ getClusterInstance (){
   local region=$(getRegion)
   local stackName=$(getStackName)
   local cbInstanceID=$(aws ec2 describe-tags --query '(Tags[*].{id:ResourceId})[0]' \
-             --filters "Name=tag:aws:cloudformation:stack-name,Values=$stackName,Name=tag:$CB_CLUSTER_TAG,Values=true" \
+             --filters "Name=tag:aws:cloudformation:stack-name,Values=$stackName,Name=tag:$CB_CLUSTER_TAG,Values=$stackName" \
              --region $region --output text)
 
-  if [ ! -z $cbInstanceID && $cbInstanceID != "None"  ] #found an eligible server
+  if [[ (! -z $cbInstanceID) && ($cbInstanceID != "None") ]] #found an eligible server
   then
     echo $cbInstanceID
     return 0
