@@ -178,7 +178,7 @@ else
     echo rebalance output \'$output\'
     sleep 10
   done
-setCBClusterTag
+  setCBClusterTag
 fi
 
 
