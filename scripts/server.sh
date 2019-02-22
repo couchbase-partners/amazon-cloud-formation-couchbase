@@ -82,7 +82,7 @@ if [[ $rallyFlag -eq 0 ]] #is rallyServer
 then
   rallyPrivateIP=$nodePrivateIP #This is the server that will create the cluster
 else
-  rallyInstanceID=$(getClusterInstance)
+  rallyInstanceID=$(getRallyInstanceID)
   rallyPrivateIP=$(aws ec2 describe-instances --region $region \
                  --query 'Reservations[*].Instances[*].NetworkInterfaces[0].PrivateIpAddress' \
                  --instance-ids $rallyInstanceID --output text)
