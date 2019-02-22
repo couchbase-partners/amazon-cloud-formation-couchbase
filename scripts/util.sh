@@ -87,7 +87,7 @@ getRallyInstanceID ()
   while [[ count -le 3 ]] 
   do
     #the rally server is just the first server in the reservation
-    local rallyInstanceID=$(aws ec2 describe-instances --query '(Reservations[0].Instances[0].{ID:InstanceId})[0]' \
+    local rallyInstanceID=$(aws ec2 describe-instances --query '(Reservations[0].Instances[0].{ID:InstanceId})' \
                   --filter "Name=tag-key,Values=aws:cloudformation:stack-name" "Name=tag-value,Values=$stackName" \
                   --region $region --output text)
 
