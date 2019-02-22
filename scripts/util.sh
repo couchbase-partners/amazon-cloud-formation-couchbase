@@ -84,7 +84,7 @@ getRallyInstanceID ()
   local stackName=$(getStackName)
 
   count=1
-  while [[ count -le 5 ]] 
+  while [[ count -le 3 ]] 
   do
     #the rally server is just the first server in the reservation
     local rallyInstanceID=$(aws ec2 describe-instances --query '(Reservations[0].Instances[0].{ID:InstanceId})[0]' \
@@ -94,7 +94,7 @@ getRallyInstanceID ()
     if [[ $rallyInstanceID == "None" ]]
     then
       count=$((count + 1))
-      sleep 20
+      sleep 60 
     else
       echo $rallyInstanceID
       return 0
