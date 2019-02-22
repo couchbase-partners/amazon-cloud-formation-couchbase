@@ -98,7 +98,7 @@ echo region \'$region\'
 echo instanceID \'$instanceID\'
 echo nodePrivateIP \'$nodePrivateIP\'
 echo rallyFlag \'$rallyFlag\'
-
+echo rallyInstanceID \'$rallyInstanceID\'
 #if [[ ${rallyPrivateIP} == ${nodePrivateIP} ]]
 if [[ $rallyFlag -eq 0 ]] #true
 then
@@ -112,8 +112,6 @@ else
     --region ${region} \
     --resources ${instanceID} \
     --tags Key=Name,Value=${stackName}-Server
-
-  setCBClusterTag
 fi
 
 cd /opt/couchbase/bin/

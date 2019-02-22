@@ -109,28 +109,18 @@ getClusterInstance (){
   # First look for tagged resources with CB_CLUSTER_TAG 
   local region=$(getRegion)
   local stackName=$(getStackName)
+  while
   local cbInstanceID=$(aws ec2 describe-tags --query '(Tags[*].{id:ResourceId})[0]' \
              --filters "Name=tag:aws:cloudformation:stack-name,Values=$stackName,Name=tag:$CB_CLUSTER_TAG,Values=$stackName" \
              --region $region --output text)
 
-  if [[ (! -z $cbInstanceID) && ($cbInstanceID != "None") ]] #found an eligible server
-  then
+   [[ ($cbInstanceID == "None") ]] #loop until you find the server you need.  This means the rally must be done first.
+  do
+    sleep 30 #TODO: add a timeout to trigger in the while instead as well.  This can be a variable that is used in Rall
+             #TODO: getRallyInstance
+  done
     echo $cbInstanceID
     return 0
-  else
-    #Now check for a Rally server - A rallyServer would also have the tag, but potentially it hasn't set it yet, so we use this 
-    #as a way to wait for it to be ready.  This happens in the the cluster-init stage
-
-    cbInstanceID=$(getRallyInstanceID)
-    if [ $? == $ERROR_RALLY_NOT_FOUND ] #need to wrap the error to distinguish the caller
-    then
-      echo "None" 
-      return $ERROR_CLUSTER_NOT_FOUND #TODO: Need to handle this unlikely case
-    else
-      echo $cbInstanceID 
-      return 0
-    fi
-  fi
 }
 
 formatDataDisk ()
