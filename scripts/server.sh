@@ -78,7 +78,7 @@ else
   rallyFlag=1
 fi
 
-if [ $rallyFlag -eq 0 ] #is rallyServer
+if [[ $rallyFlag -eq 0 ]] #is rallyServer
 then
   rallyPrivateIP=$nodePrivateIP #This is the server that will create the cluster
 else
@@ -100,7 +100,7 @@ echo nodePrivateIP \'$nodePrivateIP\'
 echo rallyFlag \'$rallyFlag\'
 
 #if [[ ${rallyPrivateIP} == ${nodePrivateIP} ]]
-if [[ $rallyFlag == 0 ]] #true
+if [[ $rallyFlag -eq 0 ]] #true
 then
   aws ec2 create-tags \
     --region ${region} \
