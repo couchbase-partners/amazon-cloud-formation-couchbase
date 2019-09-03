@@ -127,8 +127,8 @@ done
 if [[ $rallyPublicDNS == $nodePublicDNS ]]
 then
   totalRAM=$(grep MemTotal /proc/meminfo | awk '{print $2}')
-  dataRAM=$((50 * $totalRAM / 100000))
-  indexRAM=$((25 * $totalRAM / 100000))
+  dataRAM=$((40 * $totalRAM / 100000))
+  indexRAM=$((8 * $totalRAM / 100000))
 
   echo "Running couchbase-cli cluster-init"
   ./couchbase-cli cluster-init \
@@ -136,7 +136,11 @@ then
     --cluster-username=$adminUsername \
     --cluster-password=$adminPassword \
     --cluster-ramsize=$dataRAM \
+    --index-storage-setting=memopt \
     --cluster-index-ramsize=$indexRAM \
+    --cluster-analytics-ramsize=$indexRAM \
+    --cluster-fts-ramsize=$indexRAM \
+    --cluster-eventing-ramsize=$indexRAM \
     --services=${services}
 else
   echo "Running couchbase-cli server-add"

@@ -1,10 +1,10 @@
-serverVersion: 5.5.0
-syncGatewayVersion: 2.0.0
+serverVersion: 6.0.1
+syncGatewayVersion: 2.6.0
 cluster:
   - group: group1
     license: HourlyPricing
-    nodeCount: 5
-    nodeType: m4.4xlarge
+    nodeCount: 3
+    nodeType: m5.4xlarge
     dataDiskSize: 100
     services:
       - data
