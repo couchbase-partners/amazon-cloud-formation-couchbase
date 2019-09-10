@@ -118,8 +118,8 @@ do
     --node-init-hostname=$nodePublicDNS \
     --node-init-data-path=/mnt/datadisk/data \
     --node-init-index-path=/mnt/datadisk/index \
-    --user=$adminUsername \
-    --pass=$adminPassword`
+    -u=$adminUsername \
+    -p=$adminPassword`
   echo node-init output \'$output\'
   sleep 10
 done
@@ -149,8 +149,8 @@ else
   do
     output=`./couchbase-cli server-add \
       --cluster=$rallyPublicDNS \
-      --user=$adminUsername \
-      --pass=$adminPassword \
+      -u=$adminUsername \
+      -p=$adminPassword \
       --server-add=$nodePublicDNS \
       --server-add-username=$adminUsername \
       --server-add-password=$adminPassword \
@@ -165,8 +165,8 @@ else
   do
     output=`./couchbase-cli rebalance \
     --cluster=$rallyPublicDNS \
-    --user=$adminUsername \
-    --pass=$adminPassword`
+    -u=$adminUsername \
+    -p=$adminPassword`
     echo rebalance output \'$output\'
     sleep 10
   done
