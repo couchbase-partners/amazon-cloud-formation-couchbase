@@ -23,7 +23,7 @@ echo "Installing Couchbase Server..."
 wget https://tassttedftestmad.s3-us-west-2.amazonaws.com/couchbase-server-enterprise-6.5.0-4960-centos7.x86_64.rpm
 #wget https://packages.couchbase.com/releases/${version}/couchbase-server-enterprise-${version}-centos6.x86_64.rpm
 #rpm --install couchbase-server-enterprise-${version}-centos6.x86_64.rpm
-rpm --install couchbase-server-enterprise-6.5.0-4960-centos6.x86_64.rpm
+rpm --install couchbase-server-enterprise-6.5.0-4960-centos7.x86_64.rpm
 
 #######################################################"
 ############ Turn Off Transparent Hugepages ###########"
