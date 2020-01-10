@@ -1,5 +1,5 @@
-serverVersion: 6.0.1
-syncGatewayVersion: 2.6.0
+serverVersion: 6.0.3
+syncGatewayVersion: 1.5.3
 cluster:
   - group: group1
     license: HourlyPricing
@@ -13,3 +13,10 @@ cluster:
       - fts
       - analytics
       - eventing
+  - group: syncgateway
+    license: BYOL6
+    nodeCount: 1
+    nodeType: m5.large
+    services:
+      - syncGateway
+

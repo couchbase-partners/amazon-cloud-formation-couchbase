@@ -5,14 +5,16 @@ STACK_NAME=$1
 TEMPLATE_BODY="file://couchbase-ee.template"
 REGION=`aws configure get region`
 
-ServerInstanceCount="4"
+ServerInstanceCount="3"
 ServerDiskSize="100"
-SyncGatewayInstanceCount="2"
-InstanceType="m4.xlarge"
+SyncGatewayInstanceCount="0"
+InstanceType="m5.xlarge"
 Username="couchbase"
 Password="foo123!"
 KeyName="couchbase-${REGION}"
-License="BYOL"
+License=BYOL #BYOL or HourlyPricing
+LicenseSelect=BYOL6 #BYOL or HourlyPricing for lower than server 6.0.0.  For greater than 6.0.0 or to use Amazon Linux 2 BYOL6 or HourlyPricing6
+
 
 aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM \
@@ -27,4 +29,4 @@ ParameterKey=InstanceType,ParameterValue=${InstanceType} \
 ParameterKey=Username,ParameterValue=${Username} \
 ParameterKey=Password,ParameterValue=${Password} \
 ParameterKey=KeyName,ParameterValue=${KeyName} \
-ParameterKey=License,ParameterValue=${License}
+ParameterKey=License,ParameterValue=${LicenseSelect}
