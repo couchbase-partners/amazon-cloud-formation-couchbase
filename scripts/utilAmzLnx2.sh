@@ -91,3 +91,12 @@ turnOffTransparentHugepages ()
   service disable-thp start
   update-rc.d disable-thp defaults
 }
+
+setSwappinessToZero ()
+{
+  sysctl vm.swappiness=0
+  echo "
+  # Required for Couchbase
+  vm.swappiness = 0
+  " >> /etc/sysctl.conf
+}

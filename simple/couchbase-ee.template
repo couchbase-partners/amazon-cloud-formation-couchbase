@@ -274,7 +274,7 @@
                 "serverVersion=", { "Ref": "ServerVersion" }, "\n",
                 "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/6.5Test/scripts/\n",
                 "wget ${baseURL}server_beta.sh\n",
-                "wget ${baseURL}util.sh\n",
+                "wget ${baseURL}utilAmzLnx2.sh\n",
                 "chmod +x *.sh\n",
                 "./server_beta.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${serverVersion}\n"
               ]

@@ -25,41 +25,15 @@ wget https://tassttedftestmad.s3-us-west-2.amazonaws.com/couchbase-server-enterp
 #rpm --install couchbase-server-enterprise-${version}-centos6.x86_64.rpm
 rpm --install couchbase-server-enterprise-6.5.0-4960-centos7.x86_64.rpm
 
-#######################################################"
-############ Turn Off Transparent Hugepages ###########"
-#######################################################"
-echo "Turning off transparent hugepages..."
+source utilAmzLnx2.sh
 
-echo "#!/bin/bash
-### BEGIN INIT INFO
-# Provides:          disable-thp
-# Required-Start:    $local_fs
-# Required-Stop:
-# X-Start-Before:    couchbase-server
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: Disable THP
-# Description:       disables Transparent Huge Pages (THP) on boot
-### END INIT INFO
-echo 'never' > /sys/kernel/mm/transparent_hugepage/enabled
-echo 'never' > /sys/kernel/mm/transparent_hugepage/defrag
-" > /etc/init.d/disable-thp
-chmod 755 /etc/init.d/disable-thp
-service disable-thp start
-chkconfig disable-thp on
+echo "Turning off transparent huge pages"
+turnOffTransparentHugepages
 
-#######################################################
-################# Set Swappiness to 0 #################
-#######################################################
 echo "Setting swappiness to 0..."
+setSwappinessToZero
 
-sysctl vm.swappiness=0
-echo "
-# Required for Couchbase
-vm.swappiness = 0
-" >> /etc/sysctl.conf
-
-source util.sh
+echo "Formatting disk"
 formatDataDisk
 
 yum -y update
