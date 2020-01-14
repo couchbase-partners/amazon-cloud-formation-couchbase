@@ -14,8 +14,8 @@ cluster:
       - analytics
       - eventing
   - group: syncgateway
-    license: BYOL6
-    nodeCount: 1
+    license: BYOL
+    nodeCount: 0
     nodeType: m5.large
     services:
       - syncGateway
