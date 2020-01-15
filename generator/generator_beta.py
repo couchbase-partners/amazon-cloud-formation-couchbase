@@ -376,13 +376,13 @@ def generateServer(license, serverVersion, group, rallyAutoScalingGroup):
         "chmod +x *.sh\n",
     ]
     if groupName == rallyAutoScalingGroup:
-        command.append("server_beta.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${serverVersion}\n")
+        command.append("./server_beta.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${serverVersion}\n")
     else:
         command.append("rallyAutoScalingGroup=")
         command.append({"Ref": rallyAutoScalingGroup + "AutoScalingGroup"})
         command.append("\n")
         command.append(
-            "server_beta.sh " +
+            "./server_beta.sh " +
             "${adminUsername} ${adminPassword} ${services} ${stackName} ${serverVersion} ${rallyAutoScalingGroup}\n")
 
     resources = {
