@@ -338,7 +338,7 @@ def generateServer(license, serverVersion, group, rallyAutoScalingGroup):
         "services=" + servicesParameter + "\n",
         "stackName=", {"Ref": "AWS::StackName"}, "\n",
         "serverVersion=" + serverVersion + "\n",
-        "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/6.5Test/scripts/\n",
+        "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
         "wget ${baseURL}server.sh\n",
         "wget ${baseURL}utilAmzLnx2.sh\n",
         "chmod +x *.sh\n",
