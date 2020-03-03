@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "Running server_beta.sh"
+echo "Running server.sh"
 
 adminUsername=$1
 adminPassword=$2
@@ -20,20 +20,44 @@ echo version \'$version\'
 #######################################################"
 echo "Installing Couchbase Server..."
 
-wget https://tassttedftestmad.s3-us-west-2.amazonaws.com/couchbase-server-enterprise-6.5.0-4960-amzn2.x86_64.rpm
-#wget https://packages.couchbase.com/releases/${version}/couchbase-server-enterprise-${version}-centos6.x86_64.rpm
-#rpm --install couchbase-server-enterprise-${version}-centos6.x86_64.rpm
-rpm --install couchbase-server-enterprise-6.5.0-4960-amzn2.x86_64.rpm
+wget https://packages.couchbase.com/releases/${version}/couchbase-server-enterprise-${version}-centos6.x86_64.rpm
+rpm --install couchbase-server-enterprise-${version}-centos6.x86_64.rpm
 
-source utilAmzLnx2.sh
+#######################################################"
+############ Turn Off Transparent Hugepages ###########"
+#######################################################"
+echo "Turning off transparent hugepages..."
 
-echo "Turning off transparent huge pages"
-turnOffTransparentHugepages
+echo "#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          disable-thp
+# Required-Start:    $local_fs
+# Required-Stop:
+# X-Start-Before:    couchbase-server
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Disable THP
+# Description:       disables Transparent Huge Pages (THP) on boot
+### END INIT INFO
+echo 'never' > /sys/kernel/mm/transparent_hugepage/enabled
+echo 'never' > /sys/kernel/mm/transparent_hugepage/defrag
+" > /etc/init.d/disable-thp
+chmod 755 /etc/init.d/disable-thp
+service disable-thp start
+chkconfig disable-thp on
 
+#######################################################
+################# Set Swappiness to 0 #################
+#######################################################
 echo "Setting swappiness to 0..."
-setSwappinessToZero
 
-echo "Formatting disk"
+sysctl vm.swappiness=0
+echo "
+# Required for Couchbase
+vm.swappiness = 0
+" >> /etc/sysctl.conf
+
+source util.sh
 formatDataDisk
 
 yum -y update

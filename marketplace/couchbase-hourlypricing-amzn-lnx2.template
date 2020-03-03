@@ -1,67 +1,67 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Couchbase Enterprise Edition - BYOL",
+  "Description": "Couchbase Enterprise Edition - Hourly Pricing with Server on Amazon Linux 2",
   "Mappings": {
       "CouchbaseServer": {
           "ap-northeast-1": {
-              "BYOL": "ami-220376cf",
-              "HourlyPricing": "ami-0f1f6ae2"
+              "BYOL": "ami-0167ba3c266acfd63",
+              "HourlyPricing": "ami-0b40b05ad9d54cbc3"
           },
           "ap-northeast-2": {
-              "BYOL": "ami-b9893ed7",
-              "HourlyPricing": "ami-8f8b3ce1"
+              "BYOL": "ami-048f48645e2fc112a",
+              "HourlyPricing": "ami-03a3705fdda4b9436"
           },
           "ap-south-1": {
-              "BYOL": "ami-658bb80a",
-              "HourlyPricing": "ami-4e8fbc21"
+              "BYOL": "ami-06fe2c3f72b82a4a3",
+              "HourlyPricing": "ami-065d1a1771bb3a897"
           },
           "ap-southeast-1": {
-              "BYOL": "ami-8f85c265",
-              "HourlyPricing": "ami-ce7b3c24"
+              "BYOL": "ami-04a3f9837dc9bae0d",
+              "HourlyPricing": "ami-07c8a5c9daa5d378b"
           },
           "ap-southeast-2": {
-              "BYOL": "ami-953394f7",
-              "HourlyPricing": "ami-cb298ea9"
+              "BYOL": "ami-08a684bfacbeb32cd",
+              "HourlyPricing": "ami-0ed38d65d72290bce"
           },
           "ca-central-1": {
-              "BYOL": "ami-92911cf6",
-              "HourlyPricing": "ami-acaa27c8"
+              "BYOL": "ami-0cf562b37f8aba1a3",
+              "HourlyPricing": "ami-01134c53172e1e6ff"
           },
           "eu-central-1": {
-              "BYOL": "ami-310201da",
-              "HourlyPricing": "ami-3c7f7cd7"
+              "BYOL": "ami-06bdd2efe3aa977f9",
+              "HourlyPricing": "ami-06bdd2efe3aa977f9"
           },
           "eu-west-1": {
-              "BYOL": "ami-3a7f64d0",
-              "HourlyPricing": "ami-3c7f64d6"
+              "BYOL": "ami-09214027564070c45",
+              "HourlyPricing": "ami-06937b6ae4710e42f"
           },
           "eu-west-2": {
-              "BYOL": "ami-69ed070e",
-              "HourlyPricing": "ami-48ea002f"
+              "BYOL": "ami-0ba9accab1515252c",
+              "HourlyPricing": "ami-0516a8ccb788e0542"
           },
           "eu-west-3": {
-              "BYOL": "ami-9d8d3de0",
-              "HourlyPricing": "ami-718f3f0c"
+              "BYOL": "ami-03bb90cb881172c51",
+              "HourlyPricing": "ami-0b7026377a8881250"
           },
           "sa-east-1": {
-              "BYOL": "ami-3e290852",
-              "HourlyPricing": "ami-4151702d"
+              "BYOL": "ami-07726ffcc71bbac59",
+              "HourlyPricing": "ami-00dc52838b61f577f"
           },
           "us-east-1": {
-              "BYOL": "ami-40dcdf3f",
-              "HourlyPricing": "ami-49e7e436"
+              "BYOL": "ami-0875b7c9f9efaafbd",
+              "HourlyPricing": "ami-027e465eec366030a"
           },
           "us-east-2": {
-              "BYOL": "ami-99271dfc",
-              "HourlyPricing": "ami-17271d72"
+              "BYOL": "ami-01c42180217e37eb1",
+              "HourlyPricing": "ami-04afd1f6579a29e1d"
           },
           "us-west-1": {
-              "BYOL": "ami-f5d13c96",
-              "HourlyPricing": "ami-edd03d8e"
+              "BYOL": "ami-0794b581b4a10c0d1",
+              "HourlyPricing": "ami-0a80456c26588e950"
           },
           "us-west-2": {
-              "BYOL": "ami-70ca9408",
-              "HourlyPricing": "ami-53ce902b"
+              "BYOL": "ami-027781b130e8252ff",
+              "HourlyPricing": "ami-0e408a9a88a43609f"
           }
       },
       "CouchbaseSyncGateway": {
@@ -141,25 +141,13 @@
       "ServerVersion": {
           "Description": "Couchbase Server Version",
           "Type": "String",
-          "Default": "6.0.3",
+          "Default": "6.5.0",
           "AllowedValues": [
+              "6.5.0",
               "6.0.3",
               "6.0.2",
               "6.0.1",
-              "6.0.0",
-              "5.5.6",
-              "5.5.5",
-              "5.5.4",
-              "5.5.3",
-              "5.5.2",
-              "5.5.1",
-              "5.5.0",
-              "5.1.3",
-              "5.1.2",
-              "5.1.1",
-              "5.1.0",
-              "5.0.1",
-              "5.0.0"
+              "6.0.0"
           ]
       },
       "SyncGatewayInstanceCount": {
@@ -188,7 +176,7 @@
           ]
       },
       "InstanceType": {
-          "Description": "Instance type for Couchbase Server Nodes",
+          "Description": "Instance type for Couchbase Nodes",
           "Type": "String",
           "Default": "m5.xlarge",
           "AllowedValues": [
@@ -262,18 +250,17 @@
               "c4.xlarge",
               "c4.2xlarge",
               "c4.4xlarge",
-              "c4.8xlarge",
               "c5.large",
               "c5.xlarge",
               "c5.2xlarge",
               "c5.4xlarge",
+              "r5.large",
+              "r5.xlarge",
+              "r4.large",
+              "r4.xlarge",
               "m5a.large",
               "m5a.xlarge",
               "m5a.2xlarge",
-              "m5a.4xlarge",
-              "m5a.12xlarge",
-              "r4.large",
-              "r4.xlarge",
               "r5a.large",
               "r5a.xlarge",
               "i3.large",
@@ -328,7 +315,7 @@
                       {
                           "Ref": "AWS::Region"
                       },
-                      "BYOL"
+                      "HourlyPricing"
                   ]
               },
               "InstanceType": {
@@ -369,7 +356,7 @@
                       "Fn::Join": [
                           "",
                           [
-                              "#!/bin/bash\n",
+                              "#!/bin/bash/env bash\n",
                               "echo 'Running startup script...'\n",
                               "adminUsername=",
                               {
@@ -381,27 +368,23 @@
                                   "Ref": "Password"
                               },
                               "\n",
-                              "version=",
-                              {
-                                  "Ref": "ServerVersion"
-                              },
-                              "\n",
                               "stackName=",
                               {
                                   "Ref": "AWS::StackName"
+                              },
+                              "\n",
+                              "version=",
+                              {
+                                  "Ref": "ServerVersion"
                               },
                               "\n",
                               "#######################################################\n",
                               "############## Install Couchbase Server ###############\n",
                               "#######################################################\n",
                               "echo \"Installing Couchbase Server...\"\n",
-                              "wget https://packages.couchbase.com/releases/${version}/couchbase-server-enterprise-${version}-centos6.x86_64.rpm\n",
-                              "rpm --install couchbase-server-enterprise-${version}-centos6.x86_64.rpm\n",
-                              "#######################################################\n",
-                              "############ Turn Off Transparent Hugepages ###########\n",
-                              "#######################################################\n",
+                              "wget https://packages.couchbase.com/releases/${version}/couchbase-server-enterprise-${version}-amzn2.x86_64.rpm\n",
+                              "rpm --install couchbase-server-enterprise-${version}-amzn2.x86_64.rpm\n",
                               "echo \"Turning off transparent hugepages...\"\n",
-                              "echo \"#!/bin/bash\n",
                               "### BEGIN INIT INFO\n",
                               "# Provides:          disable-thp\n",
                               "# Required-Start:    $local_fs\n",
@@ -417,19 +400,13 @@
                               "\" > /etc/init.d/disable-thp\n",
                               "chmod 755 /etc/init.d/disable-thp\n",
                               "service disable-thp start\n",
-                              "chkconfig disable-thp on\n",
-                              "#######################################################\n",
-                              "################# Set Swappiness to 0 #################\n",
-                              "#######################################################\n",
+                              "update-rc.d disable-thp defaults\n",
                               "echo \"Setting swappiness to 0...\"\n",
                               "sysctl vm.swappiness=0\n",
                               "echo \"\n",
                               "# Required for Couchbase\n",
                               "vm.swappiness = 0\n",
                               "\" >> /etc/sysctl.conf\n",
-                              "#######################################################\n",
-                              "##################### Format Disk #####################\n",
-                              "#######################################################\n",
                               "echo \"Formatting disk...\"\n",
                               "DEVICE=/dev/sdk\n",
                               "MOUNTPOINT=/mnt/datadisk\n",
@@ -513,8 +490,8 @@
                               "    --node-init-hostname=$nodePublicDNS \\\n",
                               "    --node-init-data-path=/mnt/datadisk/data \\\n",
                               "    --node-init-index-path=/mnt/datadisk/index \\\n",
-                              "    --user=$adminUsername \\\n",
-                              "    --pass=$adminPassword`\n",
+                              "    -u=$adminUsername \\\n",
+                              "    -p=$adminPassword`\n",
                               "  echo node-init output \\'$output\\'\n",
                               "  sleep 10\n",
                               "done\n",
@@ -542,8 +519,8 @@
                               "  do\n",
                               "    output=`./couchbase-cli server-add \\\n",
                               "      --cluster=$rallyPublicDNS \\\n",
-                              "      --user=$adminUsername \\\n",
-                              "      --pass=$adminPassword \\\n",
+                              "      -u=$adminUsername \\\n",
+                              "      -p=$adminPassword \\\n",
                               "      --server-add=$nodePublicDNS \\\n",
                               "      --server-add-username=$adminUsername \\\n",
                               "      --server-add-password=$adminPassword \\\n",
@@ -557,8 +534,8 @@
                               "  do\n",
                               "    output=`./couchbase-cli rebalance \\\n",
                               "    --cluster=$rallyPublicDNS \\\n",
-                              "    --user=$adminUsername \\\n",
-                              "    --pass=$adminPassword`\n",
+                              "    -u=$adminUsername \\\n",
+                              "    -p=$adminPassword`\n",
                               "    echo rebalance output \\'$output\\'\n",
                               "    sleep 10\n",
                               "  done\n",
@@ -594,7 +571,7 @@
                       {
                           "Ref": "AWS::Region"
                       },
-                      "BYOL"
+                      "HourlyPricing"
                   ]
               },
               "InstanceType": {
