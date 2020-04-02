@@ -205,7 +205,11 @@ def generateMiscResources():
                                 "ec2:CreateTags",
                                 "ec2:DescribeTags",
                                 "ec2:DescribeInstances",
-                                "autoscaling:DescribeAutoScalingGroups"
+                                "autoscaling:DescribeTags",
+                                "autoscaling:DescribeAutoScalingGroups",
+                                "cloudformation:DescribeStackResources",
+                                "cloudformation:DescribeStacks",
+                                "autoscaling:DescribeAutoScalingInstances"
                             ],
                             "Resource": "*"
                         }]

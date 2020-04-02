@@ -2,6 +2,11 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "Couchbase Enterprise",
   "Parameters": {
+    "Services": {
+      "Description": "The services you want to run on all nodes (the data service must be present)",
+      "Type": "String",
+      "Default": "data,index,query,fts,eventing,analytics"
+    },
     "ServerInstanceCount": {
       "Description": "Number of Couchbase Server Nodes",
       "Type": "Number",
@@ -290,7 +295,13 @@
         "LaunchConfigurationName": { "Ref": "ServerLaunchConfiguration" },
         "MinSize": 0,
         "MaxSize": 100,
-        "DesiredCapacity": { "Ref": "ServerInstanceCount" }
+        "DesiredCapacity": { "Ref": "ServerInstanceCount" },
+        "Tags": [
+          {
+            "Key": "cb:services",
+            "Value":  { "Ref": "Services" }
+          }
+        ]
       }
     },
     "ServerLaunchConfiguration": {
@@ -327,7 +338,7 @@
                 "echo 'Running startup script...'\n",
                 "adminUsername=", { "Ref": "Username" }, "\n",
                 "adminPassword=", { "Ref": "Password" }, "\n",
-                "services=data,index,query,fts,eventing,analytics\n",
+                "services=", { "Ref": "Services" }, "\n",
                 "stackName=", { "Ref": "AWS::StackName" }, "\n",
                 "serverVersion=", { "Ref": "ServerVersion" }, "\n",
                 "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/6.5Test/scripts/\n",
@@ -414,7 +425,11 @@
                     "ec2:CreateTags",
                     "ec2:DescribeTags",
                     "ec2:DescribeInstances",
-                    "autoscaling:DescribeAutoScalingGroups"
+                    "autoscaling:DescribeAutoScalingGroups",
+                    "autoscaling:DescribeAutoScalingInstances",
+                    "cloudformation:ListStackInstances",
+                    "cloudformation:DescribeStack*",
+                    "cloudformation:ListStackResources"
                   ],
                   "Resource": "*"
                 }

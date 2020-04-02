@@ -326,7 +326,11 @@
                     "ec2:CreateTags",
                     "ec2:DescribeTags",
                     "ec2:DescribeInstances",
-                    "autoscaling:DescribeAutoScalingGroups"
+                    "autoscaling:DescribeAutoScalingGroups",
+                    "autoscaling:DescribeAutoScalingInstances",
+                    "cloudformation:ListStackInstances",
+                    "cloudformation:DescribeStack*",
+                    "cloudformation:ListStackResources"
                   ],
                   "Resource": "*"
                 }

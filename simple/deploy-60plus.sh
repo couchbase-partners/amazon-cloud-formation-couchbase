@@ -13,6 +13,8 @@ SyncGatewayInstanceType="m5.large"
 Username="couchbase"
 Password="foo123!"
 KeyName="couchbase-${REGION}"
+#Uncomment below if you want to edit the services running on the nodes.  The data service is a minimum requirement
+#Services"data,index,query,fts,eventing,analytics" 
 License=HourlyPricing #BYOL or HourlyPricing
 
 
@@ -29,4 +31,6 @@ ParameterKey=InstanceType,ParameterValue=${InstanceType} \
 ParameterKey=Username,ParameterValue=${Username} \
 ParameterKey=Password,ParameterValue=${Password} \
 ParameterKey=KeyName,ParameterValue=${KeyName} \
+#Uncomment below you uncommented Services in the variable definitions
+#ParameterKey=KeyName,ParameterValue=${Services} \
 ParameterKey=License,ParameterValue=${License}
