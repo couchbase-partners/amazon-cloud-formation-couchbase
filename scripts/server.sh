@@ -36,7 +36,8 @@ setSwappinessToZero
 
 echo "Formatting disk"
 formatDataDisk
-
+yum -y update
+#yum -y install jq #TODO: May need jq later
 #All servers that join the cluster successfully can allow others to be added the cluster using server-add.
 #Initially there is one pre-defined rally server when the cluster is being initialized which is chosen based on the earliest LaunchTime node.
 
@@ -46,7 +47,7 @@ nodePrivateDNS=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
 rallyPrivateIP="$nodePrivateDNS" #Defaulting to this node but it will be overwritten (possibly with the same value) later 
 nodePublicDNS=$(curl http://169.254.169.254/latest/meta-data/public-hostname) 
 rallyPublicDNS="$nodePublicDNS" #Defaulting to this node but it will be overwritten (possibly with the same value) later
-$rallyInstanceID=$(getRallyInstanceID)
+rallyInstanceID=$(getRallyInstanceID)
 rallyFlag=$?
 if [[ $rallyFlag -eq 0 ]] #exit 0 means it is the rally server (i.e. cluster initializing node)
 then
