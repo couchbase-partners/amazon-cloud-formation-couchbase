@@ -102,7 +102,7 @@ getPublicIp ()
   while [[ count -le $LOOP_COUNT_CREATOR ]] 
   do
     local publicIp=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' \
-          --filters "Name=instance-id,Values=$instanceId" "Name=instance-state-name,Values=running" --output text)
+          --filters "Name=instance-id,Values=$instanceId" "Name=instance-state-name,Values=running" --region $region --output text)
     if [[ -z "$publicIp"  ]]
     then
       ((++count))
@@ -134,7 +134,7 @@ getDNS ()
   while [[ count -le $LOOP_COUNT_CREATOR ]] 
   do
     local DNS=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].[PrivateDnsName,PublicDnsName]' \
-              --filters "Name=instance-id,Values=$instanceId" "Name=instance-state-name,Values=running" --output text)
+              --filters "Name=instance-id,Values=$instanceId" "Name=instance-state-name,Values=running" --region $region --output text)
     if [[ -z "$DNS"  ]]
     then
       ((++count))
@@ -164,7 +164,7 @@ getPrivateIp ()
   while [[ count -le $LOOP_COUNT_CREATOR ]] 
   do
     local privateIp=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PrivateIpAddress' \
-          --filters "Name=instance-id,Values=$instanceId" "Name=instance-state-name,Values=running" --output text)
+          --filters "Name=instance-id,Values=$instanceId" "Name=instance-state-name,Values=running" --region $region --output text)
     if [[ -z "$privateIp"  ]]
     then
       ((++count))
@@ -189,7 +189,7 @@ getRallyInstanceID ()
   do
     local rallyInstanceID=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].LaunchTime' \
               --filters "Name=tag:aws:cloudformation:stack-name,Values=$stackName" "Name=instance-state-name,Values=running" \
-              --output text | tr '\t' '\n' | sort -n | head -1)
+              --region $region --output text | tr '\t' '\n' | sort -n | head -1)
 
     if [[ $rallyInstanceID -eq "" ]]
     then
