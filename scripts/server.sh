@@ -12,19 +12,19 @@ stackName=$4
 version=$5
 
 echo "Got the parameters:"
-echo adminUsername \'$adminUsername\'
-echo adminPassword \'$adminPassword\'
-echo services \'$services\'
-echo stackName \'$stackName\'
-echo version \'$version\'
+echo adminUsername \'"$adminUsername"\'
+echo adminPassword \'"$adminPassword"\'
+echo services \'"$services"\'
+echo stackName \'"$stackName"\'
+echo version \'"$version"\'
 
 #######################################################"
 ############## Install Couchbase Server ###############"
 #######################################################"
 echo "Installing Couchbase Server..."
 
-wget https://packages.couchbase.com/releases/${version}/couchbase-server-enterprise-${version}-amzn2.x86_64.rpm
-rpm --install couchbase-server-enterprise-${version}-amzn2.x86_64.rpm
+wget https://packages.couchbase.com/releases/"${version}"/couchbase-server-enterprise-"${version}"-amzn2.x86_64.rpm
+rpm --install couchbase-server-enterprise-"${version}"-amzn2.x86_64.rpm
 
 source util.sh
 
@@ -49,18 +49,18 @@ nodePublicDNS=$(curl http://169.254.169.254/latest/meta-data/public-hostname)
 rallyPublicDNS="$nodePublicDNS" #Defaulting to this node but it will be overwritten (possibly with the same value) later
 rallyInstanceID=$(getRallyInstanceID)
 rallyFlag=$?
-if [[ $rallyFlag -eq 0 ]] #exit 0 means it is the rally server (i.e. cluster initializing node)
+if [[ $rallyFlag ]] #exit 0 means it is the rally server (i.e. cluster initializing node)
 then
-  if [[ rallyInstanceID==instanceID]] #If true this server is the cluster creator
+  if [[ "$rallyInstanceID" == "$instanceID" ]] #If true this server is the cluster creator
   then
     rallyPrivateDNS="$nodePrivateDNS" 
     rallyPublicDNS="$nodePublicDNS"
   else
     DNSResult=$(getDNS "$rallyInstanceID") 
     DNSFlag=$?
-    if [[ $? -eq 0 ]]
+    if [[ $?  ]]
     then
-      read -a DNSarr <<< $DNSResult  # privateDNS [0] publicDNS [1]
+      read -a DNSarr <<< "$DNSResult"  # privateDNS [0] publicDNS [1]
     else
       echo "Can't continue because DNS can't be retrieved."
       exit 1
@@ -72,9 +72,9 @@ else
   rallyInstanceID=$(getClusterInstance) #Any cluster with the $CB_RALLY_TAG tag
   DNSResult=$(getDNS "$rallyInstanceID") 
   DNSFlag=$?
-  if [[ $? -eq 0 ]]
+  if [[ "$DNSFlag" ]]
   then
-    read -a DNSarr <<< $DNSResult  # privateDNS [0] publicDNS [1]
+    read -a DNSarr <<< "$DNSResult"  # privateDNS [0] publicDNS [1]
   else
     echo "Can't continue because DNS can't be retrieved."
     exit 1
@@ -84,82 +84,83 @@ else
 fi
 
 echo "Using the settings:"
-echo adminUsername \'$adminUsername\'
-echo adminPassword \'$adminPassword\'
-echo services \'$services\'
-echo stackName \'$stackName\'
-echo rallyPrivateIP \'$rallyPrivateIP\'
-echo rallyPublicDNS \'$rallyPublicDNS\'
-echo region \'$region\'
-echo instanceID \'$instanceID\'
-echo nodePublicDNS \'$nodePublicDNS\'
-echo nodePrivateDNS \'$nodePrivateDNS\'
+echo adminUsername \'"$adminUsername"\'
+echo adminPassword \'"$adminPassword"\'
+echo services \'"$services"\'
+echo stackName \'"$stackName"\'
+echo rallyPrivateIP \'"$rallyPrivateIP"\'
+echo rallyPublicDNS \'"$rallyPublicDNS"\'
+echo region \'"$region"\'
+echo instanceID \'"$instanceID"\'
+echo nodePublicDNS \'"$nodePublicDNS"\'
+echo nodePrivateDNS \'"$nodePrivateDNS"\'
 echo rallyFlag \'$rallyFlag\'
-echo rallyInstanceID \'$rallyInstanceID\'
+echo rallyInstanceID \'"$rallyInstanceID"\'
 
-cd /opt/couchbase/bin/
+echo "Switching to couchbase installation directory"
+cd /opt/couchbase/bin/ || exit
 
 echo "Running couchbase-cli node-init"
 output=""
 while [[ ! $output =~ "SUCCESS" ]]
 do
   output=$(./couchbase-cli node-init \ #TODO: Handle different services and their folders based on the running services
-    --cluster=$rallyPrivateDNS \
-    # --node-init-hostname=$rallyPrivateDNS \ TODO: May not be needed
+    --cluster="$rallyPrivateDNS" \
+  # --node-init-hostname=$rallyPrivateDNS \ TODO: May not be needed retun to the node-init line if needed
     --node-init-data-path=/mnt/datadisk/data \
     --node-init-index-path=/mnt/datadisk/index \
-    -u=$adminUsername \
-    -p=$adminPassword`
-  echo node-init output \'$output\'
+    -u="$adminUsername" \
+    -p="$adminPassword")
+  echo node-init output \'"$output"\'
   sleep 10
 done
 
-if [[ $rallyFlag -eq 0 ]] #Rally
+if [[ $rallyFlag ]] #Rally
 then
   echo "Creating node tag for Rally (cluster initialization) Node Name"
   aws ec2 create-tags \
-  --region ${region} \
-  --resources ${rallyInstanceID} \
-  --tags Key=Name,Value=${stackName}-ServerRally
+  --region "${region}" \
+  --resources "${rallyInstanceID}" \
+  --tags Key=Name,Value="${stackName}"-ServerRally
 
   totalRAM=$(grep MemTotal /proc/meminfo | awk '{print $2}')
-  dataRAM=$((40 * $totalRAM / 100000))
-  indexRAM=$((8 * $totalRAM / 100000))
+  dataRAM=(40 * "$totalRAM" / 100000)
+  indexRAM=(8 * "$totalRAM" / 100000)
 
   echo "Running couchbase-cli cluster-init"
   ./couchbase-cli cluster-init \
-    --cluster=$rallyPrivateDNS \
-    --cluster-username=$adminUsername \
-    --cluster-password=$adminPassword \
+    --cluster="$rallyPrivateDNS" \
+    --cluster-username="$adminUsername" \
+    --cluster-password="$adminPassword" \
     --cluster-ramsize=$dataRAM \
     #--index-storage-setting=memopt \ TODO: may not need to set memopt
     --cluster-index-ramsize=$indexRAM \
     --cluster-analytics-ramsize=$indexRAM \
     --cluster-fts-ramsize=$indexRAM \
     --cluster-eventing-ramsize=$indexRAM \
-    --services=${services}
+    --services="${services}"
 
   setCBRallyTag
   setCBClusterTag
 else
   echo "Creating node tag for Node Name"
   aws ec2 create-tags \
-    --region ${region} \
-    --resources ${instanceID} \
-    --tags Key=Name,Value=${stackName}-Server
+    --region "${region}" \
+    --resources "${instanceID}" \
+    --tags Key=Name,Value="${stackName}"-Server
   echo "Running couchbase-cli server-add"
   output=""
   while [[ $output != "Server $nodePrivateDNS:8091 added" && ! $output =~ 'Node is already part of cluster' ]]
   do
-    output=`./couchbase-cli server-add \
-      --cluster=$rallyPrivateDNS \
-      -u=$adminUsername \
-      -p=$adminPassword \
-      --server-add=$nodePrivateDNS \
-      --server-add-username=$adminUsername \
-      --server-add-password=$adminPassword \
-      --services=${services})
-    echo server-add output \'$output\'
+    output=$(./couchbase-cli server-add \
+      --cluster="$rallyPrivateDNS" \
+      -u="$adminUsername" \
+      -p="$adminPassword" \
+      --server-add="$nodePrivateDNS" \
+      --server-add-username="$adminUsername" \
+      --server-add-password="$adminPassword" \
+      --services="${services}")
+    echo server-add output \'"$output"\'
     sleep 10
   done
 
@@ -167,11 +168,11 @@ else
   output=""
   while [[ ! $output =~ "SUCCESS" ]]
   do
-    output=`./couchbase-cli rebalance \
-    --cluster=$rallyPrivateDNS \
-    -u=$adminUsername \
-    -p=$adminPassword`
-    echo rebalance output \'$output\'
+    output=$(./couchbase-cli rebalance \
+    --cluster="$rallyPrivateDNS" \
+    -u="$adminUsername" \
+    -p="$adminPassword")
+    echo rebalance output \'"$output"\'
     sleep 10
   done
   setCBClusterTag

@@ -36,7 +36,7 @@ getStackID ()
   local region=$(getRegion)
   local instanceId=$(getInstanceId)
   local stackID=$(aws cloudformation describe-stack-resources --physical-resource-id $instanceId --query 'StackResources[0].StackId' --output text --region $region)
-  echo $stackID
+  echo "$stackID"
 }
 
 setCBClusterTag ()
@@ -45,7 +45,7 @@ setCBClusterTag ()
   local region=$(getRegion)
   local instanceId=$(getInstanceId)
   local stackName=$(getStackName)
-  aws ec2 create-tags --resources $instanceId --tags Key=$CB_CLUSTER_TAG,Value=$stackName --region $region
+  aws ec2 create-tags --resources "$instanceId" --tags Key=$CB_CLUSTER_TAG,Value=$stackName --region $region
 }
 
 setCBRallyTag ()
@@ -67,7 +67,7 @@ isClusterCreator ()
   local rallyInstanceID=$(getRallyInstanceID)
   local getRallyReturnCode="$?"
   
-  if [[ getRallyReturnCode -eq 0 ]]
+  if [[ $getRallyReturnCode ]]
   then
     if [[ $instanceId == $rallyInstanceID ]]
     then
@@ -90,7 +90,7 @@ getPublicIp ()
 {
   local region=$(getRegion)
   local stackName=$(getStackName)
-  if [ -z $1 ]; then
+  if [ -z "$1" ]; then
     local instanceId=$(getInstanceId)
   else
     local instanceId="$1"
@@ -101,9 +101,8 @@ getPublicIp ()
   #TODO: handle the above edge case that may be from the caller
   while [[ count -le $LOOP_COUNT_CREATOR ]] 
   do
-    local publicIp=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' \
-          --filters "Name=instance-id,Values=$instanceId" "Name=instance-state-name,Values=running" --region $region --output text)
-    if [[ -z "$publicIp"  ]]
+    local publicIp=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=instance-id,Values=$instanceId" "Name=instance-state-name,Values=running" --region $region --output text)
+    if [[ -z "$publicIp" ]] || [[ "$publicIp" == "None" ]]
     then
       ((++count))
       sleep $GENERAL_SLEEP_TIMEOUT 
@@ -133,9 +132,8 @@ getDNS ()
   #TODO: handle the above edge case that may be from the caller
   while [[ count -le $LOOP_COUNT_CREATOR ]] 
   do
-    local DNS=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].[PrivateDnsName,PublicDnsName]' \
-              --filters "Name=instance-id,Values=$instanceId" "Name=instance-state-name,Values=running" --region $region --output text)
-    if [[ -z "$DNS"  ]]
+    local DNS=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].[PrivateDnsName,PublicDnsName]' --filters "Name=instance-id,Values=$instanceId" "Name=instance-state-name,Values=running" --region $region --output text)
+    if [[ -z "$DNS" ]] || [[ "$DNS" == "None" ]]
     then
       ((++count))
       sleep $GENERAL_SLEEP_TIMEOUT 
@@ -163,9 +161,8 @@ getPrivateIp ()
   #TODO: handle the above edge case that may be from the caller
   while [[ count -le $LOOP_COUNT_CREATOR ]] 
   do
-    local privateIp=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PrivateIpAddress' \
-          --filters "Name=instance-id,Values=$instanceId" "Name=instance-state-name,Values=running" --region $region --output text)
-    if [[ -z "$privateIp"  ]]
+    local privateIp=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PrivateIpAddress' --filters "Name=instance-id,Values=$instanceId" "Name=instance-state-name,Values=running" --region $region --output text)
+    if [[ -z "$privateIp" ]] || [[ "$privateIp" == "None" ]]
     then
       ((++count))
       sleep $GENERAL_SLEEP_TIMEOUT 
@@ -187,11 +184,8 @@ getRallyInstanceID ()
   local count=1
   while [[ count -le $LOOP_COUNT_CREATOR ]] 
   do
-    local rallyInstanceID=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].LaunchTime' \
-              --filters "Name=tag:aws:cloudformation:stack-name,Values=$stackName" "Name=instance-state-name,Values=running" \
-              --region $region --output text | tr '\t' '\n' | sort -n | head -1)
-
-    if [[ $rallyInstanceID -eq "" ]]
+    local rallyInstanceID=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].LaunchTime' --filters "Name=tag:aws:cloudformation:stack-name,Values=$stackName" "Name=instance-state-name,Values=running" --region $region --output text | tr '\t' '\n' | sort -n | head -1)
+    if [[ -z $rallyInstanceID ]]
     then
       ((++count))
       sleep $GENERAL_SLEEP_TIMEOUT 
@@ -213,10 +207,8 @@ getClusterInstance (){
   while
    [[ -z $cbInstanceID && count -le $LOOP_COUNT_CREATOR ]] 
   do
-    local cbInstanceID=$(aws ec2 describe-instances --query '(Reservations[*].Instances[*].InstanceId)[0]' \
-             --filters "Name=tag:aws:cloudformation:stack-name,Values=$stackName" "Name=instance-state-name,Values=running" \ 
-             "Name=tag-key,Values=$CB_CLUSTER_TAG" --region $region --output text)
-    if [[ -z $cbInstanceID ]]
+    local cbInstanceID=$(aws ec2 describe-instances --query '(Reservations[*].Instances[*].InstanceId)[0]' --filters "Name=tag:aws:cloudformation:stack-name,Values=$stackName" "Name=instance-state-name,Values=running,Name=tag-key,Values=$CB_CLUSTER_TAG" --region $region --output text)
+    if [[ $cbInstanceID == "None" ]]
     then
       ((++count))
       sleep $GENERAL_SLEEP_TIMEOUT 
@@ -281,12 +273,12 @@ getRallyPublicDNS ()
     --query 'AutoScalingGroups[*].Instances[*].InstanceId' \
     | grep "i-" | sed 's/ //g' | sed 's/"//g' |sed 's/,//g' | sort)
 
-  rallyInstanceID=`echo ${rallyAutoscalingGroupInstanceIDs} | cut -d " " -f1`
+  rallyInstanceID=$(echo ${rallyAutoscalingGroupInstanceIDs} | cut -d " " -f1)
 
   # Check if any IDs are already the rally point and overwrite rallyInstanceID if so
-  rallyAutoscalingGroupInstanceIDsArray=(`echo $rallyAutoscalingGroupInstanceIDs`)
-  for instanceId in ${rallyAutoscalingGroupInstanceIDsArray[@]}; do
-    tags=`aws ec2 describe-tags --region ${region}  --filter "Name=tag:Name,Values=*Rally" "Name=resource-id,Values=$instanceId"`
+  rallyAutoscalingGroupInstanceIDsArray=$(echo $rallyAutoscalingGroupInstanceIDs)
+  for instanceId in "${rallyAutoscalingGroupInstanceIDsArray[@]}"; do
+    tags=i$(aws ec2 describe-tags --region ${region}  --filter "Name=tag:Name,Values=*Rally" "Name=resource-id,Values=$instanceId")
 #    tags=`echo $tags # | jq '.Tags'`
     if [ "$tags" != "[]" ]
     then
