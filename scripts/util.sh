@@ -184,7 +184,7 @@ getRallyInstanceID ()
   local count=1
   while [[ count -le $LOOP_COUNT_CREATOR ]] 
   do
-    local rallyInstanceID=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].LaunchTime' --filters "Name=tag:aws:cloudformation:stack-name,Values=$stackName" "Name=instance-state-name,Values=running" --region $region --output text | tr '\t' '\n' | sort -n | head -1)
+    local rallyInstanceID=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=tag:aws:cloudformation:stack-name,Values=$stackName" "Name=instance-state-name,Values=running" --region $region --output text | tr '\t' '\n' | sort -n | head -1)
     if [[ -z $rallyInstanceID ]]
     then
       ((++count))

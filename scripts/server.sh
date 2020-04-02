@@ -44,7 +44,7 @@ yum -y update
 region=$(getRegion)
 instanceID=$(getInstanceID)
 nodePrivateDNS=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
-rallyPrivateIP="$nodePrivateDNS" #Defaulting to this node but it will be overwritten (possibly with the same value) later 
+rallyPrivateDNS="$nodePrivateDNS" #Defaulting to this node but it will be overwritten (possibly with the same value) later 
 nodePublicDNS=$(curl http://169.254.169.254/latest/meta-data/public-hostname) 
 rallyPublicDNS="$nodePublicDNS" #Defaulting to this node but it will be overwritten (possibly with the same value) later
 rallyInstanceID=$(getRallyInstanceID)
@@ -88,7 +88,7 @@ echo adminUsername \'"$adminUsername"\'
 echo adminPassword \'"$adminPassword"\'
 echo services \'"$services"\'
 echo stackName \'"$stackName"\'
-echo rallyPrivateIP \'"$rallyPrivateIP"\'
+echo rallyPrivateDNS \'"$rallyPrivateDNS"\'
 echo rallyPublicDNS \'"$rallyPublicDNS"\'
 echo region \'"$region"\'
 echo instanceID \'"$instanceID"\'
