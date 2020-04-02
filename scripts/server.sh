@@ -102,11 +102,11 @@ cd /opt/couchbase/bin/ || exit
 
 echo "Running couchbase-cli node-init"
 output=""
+# --node-init-hostname=$rallyPrivateDNS \ TODO: May not be needed retun to the node-init line if needed
 while [[ ! $output =~ "SUCCESS" ]]
 do
   output=$(./couchbase-cli node-init \ #TODO: Handle different services and their folders based on the running services
     --cluster="$rallyPrivateDNS" \
-  # --node-init-hostname=$rallyPrivateDNS \ TODO: May not be needed retun to the node-init line if needed
     --node-init-data-path=/mnt/datadisk/data \
     --node-init-index-path=/mnt/datadisk/index \
     -u="$adminUsername" \
@@ -127,13 +127,13 @@ then
   dataRAM=(40 * "$totalRAM" / 100000)
   indexRAM=(8 * "$totalRAM" / 100000)
 
+  #--index-storage-setting=memopt \ TODO: may not need to set memopt
   echo "Running couchbase-cli cluster-init"
   ./couchbase-cli cluster-init \
     --cluster="$rallyPrivateDNS" \
     --cluster-username="$adminUsername" \
     --cluster-password="$adminPassword" \
     --cluster-ramsize=$dataRAM \
-    #--index-storage-setting=memopt \ TODO: may not need to set memopt
     --cluster-index-ramsize=$indexRAM \
     --cluster-analytics-ramsize=$indexRAM \
     --cluster-fts-ramsize=$indexRAM \
