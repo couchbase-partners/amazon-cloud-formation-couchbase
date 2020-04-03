@@ -47,11 +47,11 @@ nodePrivateDNS=$(curl http://169.254.169.254/latest/meta-data/local-hostname)
 rallyPrivateDNS="$nodePrivateDNS" #Defaulting to this node but it will be overwritten (possibly with the same value) later 
 nodePublicDNS=$(curl http://169.254.169.254/latest/meta-data/public-hostname) 
 rallyPublicDNS="$nodePublicDNS" #Defaulting to this node but it will be overwritten (possibly with the same value) later
-rallyInstanceID=$(getRallyInstanceID)
+rallyInstanceId=$(getRallyInstanceId)
 rallyFlag=$?
 if [[ $rallyFlag -eq 0 ]] #exit 0 means it is the rally server (i.e. cluster initializing node)
 then
-  if [[ "$rallyInstanceID" == "$instanceId" ]] #If true this server is the cluster creator
+  if [[ "$rallyInstanceId" == "$instanceId" ]] #If true this server is the cluster creator
   then
     echo "This node is the cluster creator"
     rallyPrivateDNS="$nodePrivateDNS" 
@@ -59,7 +59,7 @@ then
   else
     #Found a rally but this node is not the rally
     rallyFlag=1
-    DNSResult=$(getDNS "$rallyInstanceID") 
+    DNSResult=$(getDNS "$rallyInstanceId") 
     DNSFlag=$?
     if [[ $? -eq 0 ]]
     then
@@ -72,8 +72,8 @@ then
     rallyPublicDNS=${DNSarr[1]}
   fi
 else
-  rallyInstanceID=$(getClusterInstance) #Any cluster with the $CB_RALLY_TAG tag
-  DNSResult=$(getDNS "$rallyInstanceID") 
+  rallyInstanceId=$(getClusterInstance) #Any cluster with the $CB_RALLY_TAG tag
+  DNSResult=$(getDNS "$rallyInstanceId") 
   DNSFlag=$?
   if [[ "$DNSFlag" -eq 0 ]]
   then
@@ -98,7 +98,7 @@ echo instanceId \'"$instanceId"\'
 echo nodePublicDNS \'"$nodePublicDNS"\'
 echo nodePrivateDNS \'"$nodePrivateDNS"\'
 echo rallyFlag \'$rallyFlag\'
-echo rallyInstanceID \'"$rallyInstanceID"\'
+echo rallyInstanceId \'"$rallyInstanceId"\'
 
 echo "Switching to couchbase installation directory"
 cd /opt/couchbase/bin/ || exit
@@ -124,7 +124,7 @@ then
   echo "Creating node tag for Rally (cluster initialization) Node Name"
   aws ec2 create-tags \
   --region "${region}" \
-  --resources "${rallyInstanceID}" \
+  --resources "${rallyInstanceId}" \
   --tags Key=Name,Value="${stackName}"-ServerRally
 
   totalRAM=$(grep MemTotal /proc/meminfo | awk '{print $2}')

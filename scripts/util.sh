@@ -27,7 +27,8 @@ getStackName ()
 {
   local region=$(getRegion)
   local instanceId=$(getInstanceId)
-  local stackName=$(aws cloudformation describe-stack-resources --physical-resource-id $instanceId --query 'StackResources[0].StackName' --output text --region $region)
+  local stackName=$(aws cloudformation describe-stack-resources --physical-resource-id $instanceId \
+        --query 'StackResources[0].StackName' --output text --region $region)
   echo $stackName
 }
 
@@ -64,16 +65,16 @@ isClusterCreator ()
   local instanceId=$1
   local region=$(getRegion)
   local stackName=$(getStackName)
-  local rallyInstanceID=$(getRallyInstanceID)
+  local rallyInstanceId=$(getRallyInstanceId)
   local getRallyReturnCode="$?"
   
   if [[ $getRallyReturnCode -eq 0 ]]
   then
-    if [[ $instanceId == $rallyInstanceID ]]
+    if [[ $instanceId == "$rallyInstanceId" ]]
     then
       echo "Creator node found"
       return 0
-    elif [[ $rallyInstanceID == $ERROR_RALLY_NOT_FOUND ]]
+    elif [[ $rallyInstanceId == $ERROR_RALLY_NOT_FOUND ]]
     then
       #TODO: handle this case where the rally check gave an error
       echo "Creator node not found"
@@ -101,7 +102,8 @@ getPublicIp ()
   #TODO: handle the above edge case that may be from the caller
   while [[ count -le $LOOP_COUNT_CREATOR ]] 
   do
-    local publicIp=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=instance-id,Values=$instanceId" "Name=instance-state-name,Values=running" --region $region --output text)
+    local publicIp=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' \
+          --filters "Name=instance-id,Values=$instanceId" "Name=instance-state-name,Values=running" --region "$region" --output text)
     if [[ -z "$publicIp" ]] || [[ "$publicIp" == "None" ]]
     then
       ((++count))
@@ -121,7 +123,7 @@ getDNS ()
 {
   local region=$(getRegion)
   local stackName=$(getStackName)
-  if [ -z $1 ]; then
+  if [ -z "$1" ]; then
     local instanceId=$(getInstanceId)
   else
     local instanceId="$1"
@@ -150,7 +152,7 @@ getPrivateIp ()
 {
   local region=$(getRegion)
   local stackName=$(getStackName)
-  if [ -z $1 ]; then
+  if [ -z "$1" ]; then
     local instanceId=$(getInstanceId)
   else
     local instanceId="$1"
@@ -167,7 +169,7 @@ getPrivateIp ()
       ((++count))
       sleep $GENERAL_SLEEP_TIMEOUT 
     else
-      echo $privateIp
+      echo "$privateIp"
       return 0
     fi
   done
@@ -177,20 +179,27 @@ getPrivateIp ()
 
 # Get the instance that is used to initialize the cluster.  This instance will be required at the initial startup of the cluster/stack where
 # potential members have to join a cluster. It is the first instance to be created based on the LaunchTime. 
-getRallyInstanceID ()
+getRallyInstanceId ()
 {
   local region=$(getRegion)
   local stackName=$(getStackName)
   local count=1
   while [[ count -le $LOOP_COUNT_CREATOR ]] 
   do
-    local rallyInstanceID=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --filters "Name=tag:aws:cloudformation:stack-name,Values=$stackName" "Name=instance-state-name,Values=running" --region $region --output text | tr '\t' '\n' | sort -n | head -1)
-    if [[ -z $rallyInstanceID ]]
+    #Return the LaunchTime of the Rally Instance by sorting
+    local rallyLaunchTime=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].LaunchTime' \
+          --filters "Name=tag:aws:cloudformation:stack-name,Values=$stackName" "Name=instance-state-name,Values=running" \
+          --region "$region" --output text | tr '\t' '\n' | sort -n | head -1)
+    #Now use that LaunchTime to get the InstanceId
+    local rallyInstanceId=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' \
+          --filters "Name=tag:aws:cloudformation:stack-name,Values=$stackName" "Name=launch-time,Values=$rallyLaunchTime" \
+          "Name=instance-state-name,Values=running" --region $region --output text)
+    if [[ -z $rallyInstanceId ]] || [[ $rallyInstanceId == "None" ]]
     then
       ((++count))
       sleep $GENERAL_SLEEP_TIMEOUT 
     else
-      echo $rallyInstanceID
+      echo $rallyInstanceId
       return 0
     fi
   done
@@ -207,7 +216,9 @@ getClusterInstance (){
   while
    [[ -z $cbInstanceID && count -le $LOOP_COUNT_CREATOR ]] 
   do
-    local cbInstanceID=$(aws ec2 describe-instances --query '(Reservations[*].Instances[*].InstanceId)[0]' --filters "Name=tag:aws:cloudformation:stack-name,Values=$stackName" "Name=instance-state-name,Values=running,Name=tag-key,Values=$CB_CLUSTER_TAG" --region $region --output text)
+    local cbInstanceID=$(aws ec2 describe-instances --query '(Reservations[*].Instances[*].InstanceId)[0]' \
+          --filters "Name=tag:aws:cloudformation:stack-name,Values=$stackName" \
+          "Name=instance-state-name,Values=running,Name=tag-key,Values=$CB_CLUSTER_TAG" --region $region --output text)
     if [[ $cbInstanceID == "None" ]]
     then
       ((++count))
@@ -258,8 +269,8 @@ getRallyPublicDNS ()
     #  | sed 's/^"\(.*\)"$/\1/' )
 
     rallyAutoScalingGroup=$(aws ec2 describe-instances \
-      --region ${region} \
-      --instance-ids ${instanceId})
+      --region "$region" \
+      --instance-ids "$instanceId")
      # \
      # | jq '.Reservations[0]|.Instances[0]|.Tags[] | select( .Key == "aws:autoscaling:groupName") | .Value' \
      # | sed 's/^"\(.*\)"$/\1/' )
@@ -273,23 +284,23 @@ getRallyPublicDNS ()
     --query 'AutoScalingGroups[*].Instances[*].InstanceId' \
     | grep "i-" | sed 's/ //g' | sed 's/"//g' |sed 's/,//g' | sort)
 
-  rallyInstanceID=$(echo ${rallyAutoscalingGroupInstanceIDs} | cut -d " " -f1)
+  rallyInstanceId=$(echo ${rallyAutoscalingGroupInstanceIDs} | cut -d " " -f1)
 
-  # Check if any IDs are already the rally point and overwrite rallyInstanceID if so
+  # Check if any IDs are already the rally point and overwrite rallyInstanceId if so
   rallyAutoscalingGroupInstanceIDsArray=$(echo $rallyAutoscalingGroupInstanceIDs)
   for instanceId in "${rallyAutoscalingGroupInstanceIDsArray[@]}"; do
-    tags=i$(aws ec2 describe-tags --region ${region}  --filter "Name=tag:Name,Values=*Rally" "Name=resource-id,Values=$instanceId")
+    tags=$(aws ec2 describe-tags --region "$region"  --filter "Name=tag:Name,Values=*Rally" "Name=resource-id,Values="$instanceId"")
 #    tags=`echo $tags # | jq '.Tags'`
     if [ "$tags" != "[]" ]
     then
-      rallyInstanceID=$instanceId
+      rallyInstanceId=$instanceId
     fi
   done
 
   rallyPublicDNS=$(aws ec2 describe-instances \
     --region ${region} \
     --query  'Reservations[0].Instances[0].NetworkInterfaces[0].Association.PublicDnsName' \
-    --instance-ids ${rallyInstanceID} \
+    --instance-ids ${rallyInstanceId} \
     --output text)
 
   echo ${rallyPublicDNS}
