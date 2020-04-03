@@ -42,7 +42,7 @@ sudo yum -y update
 #Initially there is one pre-defined rally server when the cluster is being initialized which is chosen based on the earliest LaunchTime node.
 
 region=$(getRegion)
-instanceID=$(getInstanceID)
+instanceId=$(getInstanceId)
 nodePrivateDNS=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
 rallyPrivateDNS="$nodePrivateDNS" #Defaulting to this node but it will be overwritten (possibly with the same value) later 
 nodePublicDNS=$(curl http://169.254.169.254/latest/meta-data/public-hostname) 
@@ -51,7 +51,7 @@ rallyInstanceID=$(getRallyInstanceID)
 rallyFlag=$?
 if [[ $rallyFlag -eq 0 ]] #exit 0 means it is the rally server (i.e. cluster initializing node)
 then
-  if [[ "$rallyInstanceID" == "$instanceID" ]] #If true this server is the cluster creator
+  if [[ "$rallyInstanceID" == "$instanceId" ]] #If true this server is the cluster creator
   then
     echo "This node is the cluster creator"
     rallyPrivateDNS="$nodePrivateDNS" 
@@ -94,7 +94,7 @@ echo stackName \'"$stackName"\'
 echo rallyPrivateDNS \'"$rallyPrivateDNS"\'
 echo rallyPublicDNS \'"$rallyPublicDNS"\'
 echo region \'"$region"\'
-echo instanceID \'"$instanceID"\'
+echo instanceId \'"$instanceId"\'
 echo nodePublicDNS \'"$nodePublicDNS"\'
 echo nodePrivateDNS \'"$nodePrivateDNS"\'
 echo rallyFlag \'$rallyFlag\'
@@ -149,7 +149,7 @@ else
   echo "Creating node tag for Node Name"
   aws ec2 create-tags \
     --region "${region}" \
-    --resources "${instanceID}" \
+    --resources "${instanceId}" \
     --tags Key=Name,Value="${stackName}"-Server
   echo "Running couchbase-cli server-add"
   output=""
