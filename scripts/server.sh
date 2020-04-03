@@ -43,7 +43,7 @@ sudo yum -y update
 
 region=$(getRegion)
 instanceId=$(getInstanceId)
-nodePrivateDNS=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
+nodePrivateDNS=$(curl http://169.254.169.254/latest/meta-data/local-hostname)
 rallyPrivateDNS="$nodePrivateDNS" #Defaulting to this node but it will be overwritten (possibly with the same value) later 
 nodePublicDNS=$(curl http://169.254.169.254/latest/meta-data/public-hostname) 
 rallyPublicDNS="$nodePublicDNS" #Defaulting to this node but it will be overwritten (possibly with the same value) later
