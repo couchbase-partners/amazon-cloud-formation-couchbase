@@ -49,7 +49,7 @@ nodePublicDNS=$(curl http://169.254.169.254/latest/meta-data/public-hostname)
 rallyPublicDNS="$nodePublicDNS" #Defaulting to this node but it will be overwritten (possibly with the same value) later
 rallyInstanceID=$(getRallyInstanceID)
 rallyFlag=$?
-if [[ $rallyFlag ]] #exit 0 means it is the rally server (i.e. cluster initializing node)
+if [[ $rallyFlag -eq 0 ]] #exit 0 means it is the rally server (i.e. cluster initializing node)
 then
   if [[ "$rallyInstanceID" == "$instanceID" ]] #If true this server is the cluster creator
   then
@@ -61,7 +61,7 @@ then
     rallyFlag=1
     DNSResult=$(getDNS "$rallyInstanceID") 
     DNSFlag=$?
-    if [[ $?  ]]
+    if [[ $? -eq 0 ]]
     then
       read -a DNSarr <<< "$DNSResult"  # privateDNS [0] publicDNS [1]
     else
@@ -75,7 +75,7 @@ else
   rallyInstanceID=$(getClusterInstance) #Any cluster with the $CB_RALLY_TAG tag
   DNSResult=$(getDNS "$rallyInstanceID") 
   DNSFlag=$?
-  if [[ "$DNSFlag" ]]
+  if [[ "$DNSFlag" -eq 0 ]]
   then
     read -a DNSarr <<< "$DNSResult"  # privateDNS [0] publicDNS [1]
   else
@@ -119,7 +119,7 @@ do
   sleep 10
 done
 
-if [[ $rallyFlag ]] #Rally
+if [[ $rallyFlag -eq 0 ]] #Rally
 then
   echo "Creating node tag for Rally (cluster initialization) Node Name"
   aws ec2 create-tags \

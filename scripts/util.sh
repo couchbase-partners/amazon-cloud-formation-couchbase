@@ -67,7 +67,7 @@ isClusterCreator ()
   local rallyInstanceID=$(getRallyInstanceID)
   local getRallyReturnCode="$?"
   
-  if [[ $getRallyReturnCode ]]
+  if [[ $getRallyReturnCode -eq 0 ]]
   then
     if [[ $instanceId == $rallyInstanceID ]]
     then
