@@ -53,9 +53,12 @@ if [[ $rallyFlag ]] #exit 0 means it is the rally server (i.e. cluster initializ
 then
   if [[ "$rallyInstanceID" == "$instanceID" ]] #If true this server is the cluster creator
   then
+    echo "This node is the cluster creator"
     rallyPrivateDNS="$nodePrivateDNS" 
     rallyPublicDNS="$nodePublicDNS"
   else
+    #Found a rally but this node is not the rally
+    rallyFlag=1
     DNSResult=$(getDNS "$rallyInstanceID") 
     DNSFlag=$?
     if [[ $?  ]]
