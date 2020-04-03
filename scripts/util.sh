@@ -96,7 +96,7 @@ getPublicIp ()
   else
     local instanceId="$1"
   fi
-  local count=4 #Loop less times than normal since this really shouldn't happen
+  local count=1 
   #There is an edge case when the server in question may be terminated right when this is called.  
   #This may lead to a problem since the instance Id may change when it restarted.
   #TODO: handle the above edge case that may be from the caller
@@ -128,7 +128,7 @@ getDNS ()
   else
     local instanceId="$1"
   fi
-  local count=1 #Loop less times than normal since this really shouldn't happen
+  local count=1 
   #There is an edge case when the server in question may be terminated right when this is called.  
   #This may lead to a problem since the InstanceId may change when it restarted.
   #TODO: handle the above edge case that may be from the caller
