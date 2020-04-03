@@ -6,7 +6,7 @@ TEMPLATE_BODY="file://couchbase-test.template"
 REGION=`aws configure get region`
 
 InstanceType="m5.xlarge"
-ServerInstanceCount="2"
+ServerInstanceCount="3"
 ServerDiskSize="100"
 SyncGatewayInstanceCount="0"
 SyncGatewayInstanceType="m5.large"

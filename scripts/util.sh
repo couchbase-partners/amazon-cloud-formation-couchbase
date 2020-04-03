@@ -190,8 +190,8 @@ getRallyInstanceId ()
     local rallyLaunchTime=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].LaunchTime' \
           --filters "Name=tag:aws:cloudformation:stack-name,Values=$stackName" "Name=instance-state-name,Values=running" \
           --region "$region" --output text | tr '\t' '\n' | sort -n | head -1)
-    #Now use that LaunchTime to get the InstanceId
-    local rallyInstanceId=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' \
+    #Now use that LaunchTime to get the InstanceId and select the first response because sometimes multiple instances have the same launch time
+    local rallyInstanceId=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId | [0]' \
           --filters "Name=tag:aws:cloudformation:stack-name,Values=$stackName" "Name=launch-time,Values=$rallyLaunchTime" \
           "Name=instance-state-name,Values=running" --region $region --output text)
     if [[ -z $rallyInstanceId ]] || [[ $rallyInstanceId == "None" ]]
@@ -324,7 +324,7 @@ turnOffTransparentHugepages ()
   " > /etc/init.d/disable-thp
   chmod 755 /etc/init.d/disable-thp
   service disable-thp start
-  chkconfig disable-thp on
+  update-rc.d disable-thp defaults
 }
 
 setSwappinessToZero ()
