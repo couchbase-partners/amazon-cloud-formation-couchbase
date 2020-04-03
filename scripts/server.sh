@@ -105,7 +105,8 @@ output=""
 # --node-init-hostname=$rallyPrivateDNS \ TODO: May not be needed retun to the node-init line if needed
 while [[ ! $output =~ "SUCCESS" ]]
 do
-  output=$(./couchbase-cli node-init \ #TODO: Handle different services and their folders based on the running services
+  #TODO: Handle different services and their folders based on the running services
+  output=$(./couchbase-cli node-init \
     --cluster="$rallyPrivateDNS" \
     --node-init-data-path=/mnt/datadisk/data \
     --node-init-index-path=/mnt/datadisk/index \
