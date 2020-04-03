@@ -135,11 +135,7 @@ getDNS ()
   while [[ count -le $LOOP_COUNT_CREATOR ]] 
   do
     local DNS=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].[PrivateDnsName,PublicDnsName]' --filters "Name=instance-id,Values=$instanceId" "Name=instance-state-name,Values=running" --region $region --output text)
-<<<<<<< HEAD
     if [[ -z "$DNS" ]] || [[ "$DNS" == "None" ]] || [[ "$DNS" =~ "Could" ]]
-=======
-    if [[ -z "$DNS" ]] || [[ "$DNS" == "None" ] || [[ "$DNS" =~ "Could"]]]
->>>>>>> 91633b487a3ab692c59c613dd02998ad64571874
     then
       ((++count))
       sleep $GENERAL_SLEEP_TIMEOUT 
