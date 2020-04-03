@@ -36,7 +36,7 @@ setSwappinessToZero
 
 echo "Formatting disk"
 formatDataDisk
-yum -y update
+sudo yum -y update
 #yum -y install jq #TODO: May need jq later
 #All servers that join the cluster successfully can allow others to be added the cluster using server-add.
 #Initially there is one pre-defined rally server when the cluster is being initialized which is chosen based on the earliest LaunchTime node.
@@ -125,10 +125,9 @@ then
   --tags Key=Name,Value="${stackName}"-ServerRally
 
   totalRAM=$(grep MemTotal /proc/meminfo | awk '{print $2}')
-  dataRAM=(40 * "$totalRAM" / 100000)
-  indexRAM=(8 * "$totalRAM" / 100000)
-
-  #--index-storage-setting=memopt \ TODO: may not need to set memopt
+  dataRAM=(40 * $totalRAM / 100000)
+  indexRAM=(8 * $totalRAM / 100000)
+  echo "Total: $totalRAM Data: $dataRAM index: $indexRaM"
   echo "Running couchbase-cli cluster-init"
   ./couchbase-cli cluster-init \
     --cluster="$rallyPrivateDNS" \
@@ -139,6 +138,7 @@ then
     --cluster-analytics-ramsize=$indexRAM \
     --cluster-fts-ramsize=$indexRAM \
     --cluster-eventing-ramsize=$indexRAM \
+    --index-storage-setting=memopt \
     --services="${services}"
 
   setCBRallyTag
