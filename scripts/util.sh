@@ -128,14 +128,18 @@ getDNS ()
   else
     local instanceId="$1"
   fi
-  local count=4 #Loop less times than normal since this really shouldn't happen
+  local count=1 #Loop less times than normal since this really shouldn't happen
   #There is an edge case when the server in question may be terminated right when this is called.  
   #This may lead to a problem since the InstanceId may change when it restarted.
   #TODO: handle the above edge case that may be from the caller
   while [[ count -le $LOOP_COUNT_CREATOR ]] 
   do
     local DNS=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].[PrivateDnsName,PublicDnsName]' --filters "Name=instance-id,Values=$instanceId" "Name=instance-state-name,Values=running" --region $region --output text)
-    if [[ -z "$DNS" ]] || [[ "$DNS" == "None" ]]
+<<<<<<< HEAD
+    if [[ -z "$DNS" ]] || [[ "$DNS" == "None" ]] || [[ "$DNS" =~ "Could" ]]
+=======
+    if [[ -z "$DNS" ]] || [[ "$DNS" == "None" ] || [[ "$DNS" =~ "Could"]]]
+>>>>>>> 91633b487a3ab692c59c613dd02998ad64571874
     then
       ((++count))
       sleep $GENERAL_SLEEP_TIMEOUT 
@@ -157,7 +161,7 @@ getPrivateIp ()
   else
     local instanceId="$1"
   fi
-  local count=4 #Loop less times than normal since this really shouldn't happen
+  local count=1 
   #There is an edge case when the server in question may be terminated right when this is called.  
   #This may lead to a problem since the InstanceId may change when it restarted.
   #TODO: handle the above edge case that may be from the caller
