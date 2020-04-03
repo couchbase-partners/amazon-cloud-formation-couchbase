@@ -324,7 +324,7 @@ turnOffTransparentHugepages ()
   " > /etc/init.d/disable-thp
   chmod 755 /etc/init.d/disable-thp
   service disable-thp start
-  update-rc.d disable-thp defaults
+  chkconfig disable-thp on
 }
 
 setSwappinessToZero ()
