@@ -125,8 +125,8 @@ then
   --tags Key=Name,Value="${stackName}"-ServerRally
 
   totalRAM=$(grep MemTotal /proc/meminfo | awk '{print $2}')
-  dataRAM=(40 * $totalRAM / 100000)
-  indexRAM=(8 * $totalRAM / 100000)
+  dataRAM=$((40 * $totalRAM / 100000))
+  indexRAM=$((8 * $totalRAM / 100000))
   echo "Total: $totalRAM Data: $dataRAM index: $indexRaM"
   echo "Running couchbase-cli cluster-init"
   ./couchbase-cli cluster-init \
