@@ -109,8 +109,8 @@ while [[ ! $output =~ "SUCCESS" ]]
 do
   #TODO: Handle different services and their folders based on the running services
   output=$(./couchbase-cli node-init \
-    --cluster="$rallyPrivateDNS" \
-    --node-init-hostname=$rallyPrivateDNS \
+    --cluster="$nodePrivateDNS" \
+    --node-init-hostname="$nodePrivateDNS" \
     --node-init-data-path=/mnt/datadisk/data \
     --node-init-index-path=/mnt/datadisk/index \
     -u="$adminUsername" \
