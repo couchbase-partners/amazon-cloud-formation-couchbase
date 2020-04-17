@@ -15,7 +15,7 @@ Password="foo123!"
 KeyName="couchbase-${REGION}"
 #Uncomment below if you want to edit the services running on the nodes.  The data service is a minimum requirement
 #Services"data,index,query,fts,eventing,analytics" 
-License=HourlyPricing #BYOL or HourlyPricing
+License=BYOL #BYOL or HourlyPricing
 
 
 aws cloudformation create-stack \
