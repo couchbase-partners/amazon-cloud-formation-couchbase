@@ -18,7 +18,7 @@
       "Default": 100
     },
     "ServerVersion": {
-      "Description": "Couchbase Server Version, if the version is above 6.0.0 add 6 to the end license found in deploy.sh",
+      "Description": "Couchbase Server Version",
       "Type": "String",
       "Default": "6.5.1",
       "AllowedValues": [
@@ -155,8 +155,13 @@
       "Description": "Name of an existing EC2 KeyPair",
       "Type": "AWS::EC2::KeyPair::KeyName"
     },
-    "License": {
-      "Description": "License model can be BYOL or HourlyPricing",
+    "ServerLicense": {
+      "Description": "Couchbase Server License model can be ANNUAL or HourlyPricing",
+      "Type": "String",
+      "Default": "BYOL"
+    },
+    "SGWLicense": {
+      "Description": "SGW License model can be BYOL or HourlyPricing",
       "Type": "String",
       "Default": "BYOL"
     }
@@ -164,70 +169,66 @@
   "Mappings":{  
     "CouchbaseServer": {
       "ap-northeast-1": {
-          "BYOL": "ami-0167ba3c266acfd63",
+          "ANNUAL": "ami-00a120477c08a8044",
           "HourlyPricing": "ami-0b40b05ad9d54cbc3"
       },
       "ap-northeast-2": {
-          "BYOL": "ami-048f48645e2fc112a",
+          "ANNUAL": "ami-0cd2fad2335659556",
           "HourlyPricing": "ami-03a3705fdda4b9436"
       },
       "ap-south-1": {
-          "BYOL": "ami-06fe2c3f72b82a4a3",
+          "ANNUAL": "ami-0fbe13bc5e900b0fb",
           "HourlyPricing": "ami-065d1a1771bb3a897"
       },
       "ap-southeast-1": {
-          "BYOL": "ami-04a3f9837dc9bae0d",
+          "ANNUAL": "ami-0ed233c4e72441693",
           "HourlyPricing": "ami-07c8a5c9daa5d378b"
       },
       "ap-southeast-2": {
-          "BYOL": "ami-08a684bfacbeb32cd",
+          "ANNUAL": "ami-0fd578acb20c9f03b",
           "HourlyPricing": "ami-0ed38d65d72290bce"
       },
       "ca-central-1": {
-          "BYOL": "ami-0cf562b37f8aba1a3",
+          "ANNUAL": "ami-04f73f35c8e321884",
           "HourlyPricing": "ami-01134c53172e1e6ff"
       },
       "eu-central-1": {
-          "BYOL": "ami-06bdd2efe3aa977f9",
+          "ANNUAL": "ami-081e739b8f8b7613f",
           "HourlyPricing": "ami-06bdd2efe3aa977f9"
       },
       "eu-west-1": {
-          "BYOL": "ami-09214027564070c45",
+          "ANNUAL": "ami-0f4d25672de14c596",
           "HourlyPricing": "ami-06937b6ae4710e42f"
       },
       "eu-west-2": {
-          "BYOL": "ami-0ba9accab1515252c",
+          "ANNUAL": "ami-045398dd122e9edde",
           "HourlyPricing": "ami-0516a8ccb788e0542"
       },
-      "eu-west-3": {
-          "BYOL": "ami-03bb90cb881172c51",
-          "HourlyPricing": "ami-0b7026377a8881250"
-      },
       "sa-east-1": {
-          "BYOL": "ami-07726ffcc71bbac59",
+          "ANNUAL": "ami-04c04c206abf152b7",
           "HourlyPricing": "ami-00dc52838b61f577f"
       },
       "us-east-1": {
-          "BYOL": "ami-0875b7c9f9efaafbd",
+          "ANNUAL": "ami-0fe684976d7e5bb38",
           "HourlyPricing": "ami-027e465eec366030a"
       },
       "us-east-2": {
-          "BYOL": "ami-01c42180217e37eb1",
+          "ANNUAL": "ami-0b38f80e40bff8b06",
           "HourlyPricing": "ami-04afd1f6579a29e1d"
       },
       "us-west-1": {
-          "BYOL": "ami-0794b581b4a10c0d1",
+          "ANNUAL": "ami-07ad998e4e5e71f2e",
           "HourlyPricing": "ami-0a80456c26588e950"
       },
       "us-west-2": {
-          "BYOL": "ami-027781b130e8252ff",
+          "ANNUAL": "ami-06e39589fa60007cf",
           "HourlyPricing": "ami-0e408a9a88a43609f"
       }
   },
   "CouchbaseSyncGateway":{  
     "ap-northeast-1":{  
       "BYOL":"ami-0eadc36b888816aca",
-      "HourlyPricing":"ami-0a75e5f223764c6b6"
+      "HourlyPricing":"ami-0a75e5f223764cl6b6"
     },
     "ap-northeast-2":{  
       "BYOL":"ami-0eb2231d0bdd4f8e0",
@@ -307,7 +308,7 @@
     "ServerLaunchConfiguration": {
       "Type": "AWS::AutoScaling::LaunchConfiguration",
       "Properties": {
-        "ImageId": { "Fn::FindInMap": [ "CouchbaseServer", { "Ref": "AWS::Region" }, { "Ref": "License" } ] },
+        "ImageId": { "Fn::FindInMap": [ "CouchbaseServer", { "Ref": "AWS::Region" }, { "Ref": "ServerLicense" } ] },
         "InstanceType": { "Ref": "InstanceType" },
         "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
         "KeyName": { "Ref": "KeyName" },
@@ -341,7 +342,7 @@
                 "services=", { "Ref": "Services" }, "\n",
                 "stackName=", { "Ref": "AWS::StackName" }, "\n",
                 "serverVersion=", { "Ref": "ServerVersion" }, "\n",
-                "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/6.5Test/scripts/\n",
+                "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                 "wget ${baseURL}server-60plus.sh\n",
                 "wget ${baseURL}utilAmzLnx2.sh\n",
                 "chmod +x *.sh\n",
@@ -365,7 +366,7 @@
     "SyncGatewayLaunchConfiguration": {
       "Type": "AWS::AutoScaling::LaunchConfiguration",
       "Properties": {
-        "ImageId": { "Fn::FindInMap": [ "CouchbaseSyncGateway", { "Ref": "AWS::Region" }, { "Ref": "License" } ] },
+        "ImageId": { "Fn::FindInMap": [ "CouchbaseSyncGateway", { "Ref": "AWS::Region" }, { "Ref": "SGWLicense" } ] },
         "InstanceType": { "Ref": "SyncGatewayInstanceType" },
         "SecurityGroups": [ { "Ref": "CouchbaseSecurityGroup" } ],
         "KeyName": { "Ref": "KeyName" },
@@ -448,6 +449,7 @@
           { "IpProtocol": "tcp", "FromPort": 4369, "ToPort": 4369, "CidrIp": "0.0.0.0/0" },
           { "IpProtocol": "tcp", "FromPort": 4984, "ToPort": 4985, "CidrIp": "0.0.0.0/0" },
           { "IpProtocol": "tcp", "FromPort": 8091, "ToPort": 8096, "CidrIp": "0.0.0.0/0" },
+          { "IpProtocol": "tcp", "FromPort": 18091, "ToPort": 18096, "CidrIp": "0.0.0.0/0" },
           { "IpProtocol": "tcp", "FromPort": 9100, "ToPort": 9105, "CidrIp": "0.0.0.0/0" },
           { "IpProtocol": "tcp", "FromPort": 9110, "ToPort": 9122, "CidrIp": "0.0.0.0/0" },
           { "IpProtocol": "tcp", "FromPort": 9130, "ToPort": 9130, "CidrIp": "0.0.0.0/0" },
