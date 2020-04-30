@@ -109,8 +109,8 @@ while [[ ! $output =~ "SUCCESS" ]]
 do
   #TODO: Handle different services and their folders based on the running services
   output=$(./couchbase-cli node-init \
-    --cluster="$nodePrivateDNS" \
-    --node-init-hostname="$nodePrivateDNS" \
+    --cluster="$nodePublicDNS" \
+    --node-init-hostname="$nodePublicDNS" \
     --node-init-data-path=/mnt/datadisk/data \
     --node-init-index-path=/mnt/datadisk/index \
     -u="$adminUsername" \
@@ -132,7 +132,7 @@ then
   indexRAM=$((8 * $totalRAM / 100000))
 
   ./couchbase-cli cluster-init \
-    --cluster="$rallyPrivateDNS" \
+    --cluster="$rallyPublicDNS" \
     --cluster-username="$adminUsername" \
     --cluster-password="$adminPassword" \
     --cluster-ramsize=$dataRAM \
@@ -153,13 +153,13 @@ else
     --tags Key=Name,Value="${stackName}"-Server
   echo "Running couchbase-cli server-add"
   output=""
-  while [[ $output != "Server $nodePrivateDNS:8091 added" && ! $output =~ 'Node is already part of cluster' ]]
+  while [[ $output != "Server $nodePublicDNS:8091 added" && ! $output =~ 'Node is already part of cluster' ]]
   do
     output=$(./couchbase-cli server-add \
-      --cluster="$rallyPrivateDNS" \
+      --cluster="$rallyPublicDNS" \
       -u="$adminUsername" \
       -p="$adminPassword" \
-      --server-add="$nodePrivateDNS" \
+      --server-add="$nodePublicDNS" \
       --server-add-username="$adminUsername" \
       --server-add-password="$adminPassword" \
       --services="${services}")
@@ -172,7 +172,7 @@ else
   while [[ ! $output =~ "SUCCESS" ]]
   do
     output=$(./couchbase-cli rebalance \
-    --cluster="$rallyPrivateDNS" \
+    --cluster="$rallyPublicDNS" \
     -u="$adminUsername" \
     -p="$adminPassword")
     echo rebalance output \'"$output"\'
@@ -180,5 +180,3 @@ else
   done
   setCBClusterTag
 fi
-
-

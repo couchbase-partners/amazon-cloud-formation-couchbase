@@ -158,7 +158,7 @@
     "ServerLicense": {
       "Description": "Couchbase Server License model can be ANNUAL or HourlyPricing",
       "Type": "String",
-      "Default": "BYOL"
+      "Default": "ANNUAL"
     },
     "SGWLicense": {
       "Description": "SGW License model can be BYOL or HourlyPricing",
@@ -300,7 +300,8 @@
         "Tags": [
           {
             "Key": "cb:services",
-            "Value":  { "Ref": "Services" }
+            "Value":  { "Ref": "Services" },
+            "PropagateAtLaunch": true
           }
         ]
       }
@@ -342,11 +343,11 @@
                 "services=", { "Ref": "Services" }, "\n",
                 "stackName=", { "Ref": "AWS::StackName" }, "\n",
                 "serverVersion=", { "Ref": "ServerVersion" }, "\n",
-                "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
-                "wget ${baseURL}server-60plus.sh\n",
-                "wget ${baseURL}utilAmzLnx2.sh\n",
+                "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/merge/scripts/\n",
+                "wget ${baseURL}server.sh\n",
+                "wget ${baseURL}util.sh\n",
                 "chmod +x *.sh\n",
-                "./server-60plus.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${serverVersion}\n"
+                "./server.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${serverVersion}\n"
               ]
             ]
           }
