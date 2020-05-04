@@ -18,7 +18,7 @@
       "Default": 100
     },
     "ServerVersion": {
-      "Description": "Couchbase Server Version, if the version is above 6.0.0 add 6 to the end license found in deploy.sh",
+      "Description": "Couchbase Server Version",
       "Type": "String",
       "Default": "6.5.1",
       "AllowedValues": [
@@ -33,7 +33,7 @@
     "SyncGatewayVersion": {
       "Description": "Couchbase Sync Gateway Version",
       "Type": "String",
-      "Default": "2.7.0",
+      "Default": "2.7.1",
       "AllowedValues": [
         "2.7.1",
         "2.7.0",
@@ -299,7 +299,8 @@
         "Tags": [
           {
             "Key": "cb:services",
-            "Value":  { "Ref": "Services" }
+            "Value":  { "Ref": "Services" },
+            "PropagateAtLaunch": true
           }
         ]
       }
@@ -341,11 +342,11 @@
                 "services=", { "Ref": "Services" }, "\n",
                 "stackName=", { "Ref": "AWS::StackName" }, "\n",
                 "serverVersion=", { "Ref": "ServerVersion" }, "\n",
-                "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/6.5Test/scripts/\n",
-                "wget ${baseURL}server-60plus.sh\n",
-                "wget ${baseURL}utilAmzLnx2.sh\n",
+                "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/merge/scripts/\n",
+                "wget ${baseURL}server.sh\n",
+                "wget ${baseURL}util.sh\n",
                 "chmod +x *.sh\n",
-                "./server-60plus.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${serverVersion}\n"
+                "./server.sh ${adminUsername} ${adminPassword} ${services} ${stackName} ${serverVersion}\n"
               ]
             ]
           }

@@ -33,7 +33,7 @@
     "SyncGatewayVersion": {
       "Description": "Couchbase Sync Gateway Version",
       "Type": "String",
-      "Default": "2.7.0",
+      "Default": "2.7.1",
       "AllowedValues": [
         "2.7.1",
         "2.7.0",
@@ -228,7 +228,7 @@
   "CouchbaseSyncGateway":{  
     "ap-northeast-1":{  
       "BYOL":"ami-0eadc36b888816aca",
-      "HourlyPricing":"ami-0a75e5f223764cl6b6"
+      "HourlyPricing":"ami-0a75e5f223764c6b6"
     },
     "ap-northeast-2":{  
       "BYOL":"ami-0eb2231d0bdd4f8e0",
@@ -450,7 +450,6 @@
           { "IpProtocol": "tcp", "FromPort": 4369, "ToPort": 4369, "CidrIp": "0.0.0.0/0" },
           { "IpProtocol": "tcp", "FromPort": 4984, "ToPort": 4985, "CidrIp": "0.0.0.0/0" },
           { "IpProtocol": "tcp", "FromPort": 8091, "ToPort": 8096, "CidrIp": "0.0.0.0/0" },
-          { "IpProtocol": "tcp", "FromPort": 18091, "ToPort": 18096, "CidrIp": "0.0.0.0/0" },
           { "IpProtocol": "tcp", "FromPort": 9100, "ToPort": 9105, "CidrIp": "0.0.0.0/0" },
           { "IpProtocol": "tcp", "FromPort": 9110, "ToPort": 9122, "CidrIp": "0.0.0.0/0" },
           { "IpProtocol": "tcp", "FromPort": 9130, "ToPort": 9130, "CidrIp": "0.0.0.0/0" },

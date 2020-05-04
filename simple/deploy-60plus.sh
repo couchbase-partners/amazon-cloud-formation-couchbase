@@ -5,18 +5,24 @@ STACK_NAME=$1
 TEMPLATE_BODY="file://couchbase-ee.60plus.template"
 REGION=`aws configure get region`
 
-InstanceType="m5.xlarge"
-ServerInstanceCount="1"
-ServerDiskSize="100"
-SyncGatewayInstanceCount="1"
-SyncGatewayInstanceType="m5.large"
-Username="couchbase"
-Password="foo123!"
-KeyName="couchbase-${REGION}"
-#Uncomment below if you want to edit the services running on the nodes.  The data service is a minimum requirement
-#Services"data,index,query,fts,eventing,analytics" 
-License=HourlyPricing #BYOL or HourlyPricing
+#Universal Settings
+Username="couchbase" #For the Couchbase Web Console
+Password="foo123!" #For the Couchbase Web Console
+KeyName="couchbase-${REGION}" #The ssh key that will be used to connect to the nodes
 
+#Couchbase Server Settings
+InstanceType="m5.xlarge" #Couchbase Server Instance Type
+ServerInstanceCount="3"
+ServerDiskSize="100"
+ServerVersion="6.5.0"
+Services="data" #seperate each service with \\, e.g data\\,index\\,query\\,fts\\,eventing\\,analytics
+ServerLicense=HourlyPricing #Couchbase Server license use: ANNUAL or HourlyPricing
+
+#Couchbase Sync Gateway Settings
+SyncGatewayVersion="2.7.1"
+SyncGatewayInstanceCount="0"
+SyncGatewayInstanceType="m5.large"
+SGWLicense=BYOL #Couchbase Sync Gateway license use: BYOL or HourlyPricing
 
 aws cloudformation create-stack \
 --capabilities CAPABILITY_IAM \
@@ -31,6 +37,7 @@ ParameterKey=InstanceType,ParameterValue=${InstanceType} \
 ParameterKey=Username,ParameterValue=${Username} \
 ParameterKey=Password,ParameterValue=${Password} \
 ParameterKey=KeyName,ParameterValue=${KeyName} \
-#Uncomment below you uncommented Services in the variable definitions
-#ParameterKey=KeyName,ParameterValue=${Services} \
+ParameterKey=Services,ParameterValue=${Services} \
+ParameterKey=ServerVersion,ParameterValue=${ServerVersion} \
+ParameterKey=SyncGatewayVersion,ParameterValue=${SyncGatewayVersion} \
 ParameterKey=License,ParameterValue=${License}

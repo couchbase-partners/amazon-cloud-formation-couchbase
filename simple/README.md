@@ -73,7 +73,19 @@ Then you'll want to clone this repo.  You can do that with the command:
 
 The AWS word for a deployment is a stack.  [deploy.sh](deploy.sh) is a helper script to deploy a stack.  Take a look at it and modify any variables, then run it as:
 
-    ./deploy.sh <STACK_NAME>
+For the **Public Marketplace versions 6.0 and above** use:
+
+    ./deploy-55orless.sh <STACK_NAME>
+
+For the **Public Marketplace versions under 6.0** use:
+
+    ./deploy-55orless.sh <STACK_NAME>
+
+For **Annual Private Offers** (only valid for 6.0 and above) use:
+
+    ./deploy-ee-private-offer-annual1-6-plus.sh <STACK_NAME>
+
+>Note: The corresponding .sh file contains several variables that can be tweak the deployment.
 
 When complete you can access the Couchbase web administrator tool on port 8091 of any Server node.
 
