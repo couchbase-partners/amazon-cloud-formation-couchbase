@@ -9,7 +9,7 @@ def main():
 
     print('Using parameter file: ' + filename)
     with open(filename, 'r')as stream:
-        parameters = yaml.load(stream)
+        parameters = yaml.load(stream, Loader=yaml.FullLoader)
     print('Parameters: ' + str(parameters))
 
     template = {
@@ -38,7 +38,8 @@ def main():
     syncGatewayVersion = parameters['syncGatewayVersion']
     cluster = parameters['cluster']
 
-    template['Mappings'] = dict(list(template['Mappings'].items()) + list(generateMappings().items()))
+    template['Mappings'] = generateMappings()[0]
+    #template['Mappings'] = dict(list(template['Mappings'].items()) + list(generateMappings().items()))
     template['Resources'] = dict(list(template['Resources'].items()) + list(generateMiscResources().items()))
     template['Resources'] = dict(
         list(template['Resources'].items()) + list(generateCluster(serverVersion, syncGatewayVersion, cluster).items()))
@@ -127,7 +128,7 @@ def generateMappings():
             },
             "ap-southeast-1": {
                 "BYOL": "ami-0000b43155df8abf1",
-                "HourlyPricing": "ami-0000b43155df8abf1"
+                "HourlyPricing": "ami-0f125993270dd6fd8"
             },
             "ap-southeast-2": {
                 "BYOL": "ami-02c75b30b05671c1f",
@@ -344,7 +345,7 @@ def generateServer(license, serverVersion, group, rallyAutoScalingGroup):
         "serverVersion=" + serverVersion + "\n",
         "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
         "wget ${baseURL}server.sh\n",
-        "wget ${baseURL}utilAmzLnx2.sh\n",
+        "wget ${baseURL}util.sh\n",
         "chmod +x *.sh\n",
     ]
     if groupName == rallyAutoScalingGroup:
