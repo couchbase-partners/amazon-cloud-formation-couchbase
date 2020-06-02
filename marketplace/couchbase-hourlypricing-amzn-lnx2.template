@@ -108,8 +108,9 @@
       "ServerVersion": {
           "Description": "Couchbase Server Version",
           "Type": "String",
-          "Default": "6.5.0",
+          "Default": "6.5.1",
           "AllowedValues": [
+              "6.5.1",
               "6.5.0",
               "6.0.3",
               "6.0.2",
@@ -125,8 +126,10 @@
       "SyncGatewayVersion": {
           "Description": "Couchbase Sync Gateway Version",
           "Type": "String",
-          "Default": "2.7.1",
+          "Default": "2.7.3",
           "AllowedValues": [
+              "2.7.3",
+              "2.7.2",
               "2.7.1",
               "2.7.0",
               "2.6.0",
