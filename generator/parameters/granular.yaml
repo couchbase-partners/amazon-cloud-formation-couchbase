@@ -1,5 +1,5 @@
 serverVersion: 6.5.1
-syncGatewayVersion: 2.7.1
+syncGatewayVersion: 2.7.3
 cluster:
   - group: data
     license: HourlyPricing

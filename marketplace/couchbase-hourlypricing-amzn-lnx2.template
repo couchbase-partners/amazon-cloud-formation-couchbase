@@ -330,7 +330,7 @@
                       "Fn::Join": [
                           "",
                           [
-                              "#!/bin/bash/env bash\n",
+                              "#!usr/bin/env bash\n",
                               "echo 'Running startup script...'\n",
                               "adminUsername=",
                               {

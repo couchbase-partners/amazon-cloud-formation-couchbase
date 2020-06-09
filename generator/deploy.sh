@@ -3,8 +3,8 @@
 PARAMETERS_FILE=$1
 STACK_NAME=$2
 
-# create generatedTemplate.json
-python generator.py parameters/${PARAMETERS_FILE}.yaml
+# creates generatedTemplate.json
+python3 generator.py parameters/${PARAMETERS_FILE}.yaml
 
  TEMPLATE_BODY="file://generated.template"
  REGION=`aws configure get region`
@@ -12,7 +12,6 @@ python generator.py parameters/${PARAMETERS_FILE}.yaml
  Username="couchbase"
  Password="foo123!"
  KeyName="couchbase-${REGION}"
- License="BYOL"
 
  aws cloudformation create-stack \
  --capabilities CAPABILITY_IAM \
