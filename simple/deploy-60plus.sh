@@ -15,8 +15,8 @@ License=BYOL #Couchbase Server license use: BYOL or HourlyPricing
 InstanceType="m5.xlarge" #Couchbase Server Instance Type
 ServerInstanceCount="3"
 ServerDiskSize="100"
-ServerVersion="6.5.1"
-Services="data" #seperate each service with \\, e.g data\\,index\\,query\\,fts\\,eventing\\,analytics
+ServerVersion="6.6.0"
+Services="data" #separate each service with \\, e.g data\\,index\\,query\\,fts\\,eventing\\,analytics
 
 
 #Couchbase Sync Gateway Settings

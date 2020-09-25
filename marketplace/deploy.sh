@@ -2,7 +2,8 @@
 
 STACK_NAME=$1
 PRICING_TYPE=$2 #byol or hourlypricing
-TEMPLATE_BODY="file://couchbase-$2.template"
+TEMPLATE_BODY="file://couchbase-$2-amzn-lnx2.template"
+#TEMPLATE_BODY="file://couchbase-$2.template"
 REGION=`aws configure get region`
 
 Username="couchbase"

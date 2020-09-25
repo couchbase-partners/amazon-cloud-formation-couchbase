@@ -287,7 +287,7 @@
                 "echo 'Running startup script...'\n",
                 "stackName=", { "Ref": "AWS::StackName" }, "\n",
                 "syncGatewayVersion=", { "Ref": "SyncGatewayVersion" }, "\n",
-                "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/6.5Test/scripts/\n",
+                "baseURL=https://raw.githubusercontent.com/couchbase-partners/amazon-cloud-formation-couchbase/master/scripts/\n",
                 "wget ${baseURL}syncGateway.sh\n",
                 "chmod +x *.sh\n",
                 "./syncGateway.sh ${stackName} ${syncGatewayVersion}\n"
